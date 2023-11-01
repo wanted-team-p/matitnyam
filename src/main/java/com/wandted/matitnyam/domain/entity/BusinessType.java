@@ -2,6 +2,7 @@ package com.wandted.matitnyam.domain.entity;
 
 
 import java.io.Serial;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -35,7 +36,7 @@ public class BusinessType extends AbstractEntity{
     @Serial
     private static final long serialVersionUID = -945535781439389369L;
 
-
+    @Column(name = "name")
     private String name;
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "restaurant_seq", nullable = false)

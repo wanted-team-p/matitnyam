@@ -1,6 +1,7 @@
 package com.wandted.matitnyam.domain.entity;
 
 import java.io.Serial;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -34,13 +35,21 @@ public class Restaurant extends AbstractEntity {
     private static final long serialVersionUID = -5712344700397496929L;
 
 
+    @Column(name = "name")
     private String name;
+    @Column(name = "license_number")
     private String licenseNumber;
+    @Column(name = "out_of_business")
     private Boolean outOfBusiness;
+    @Column(name = "address")
     private String address;
+    @Column(name = "road_name_address")
     private String roadNameAddress;
+    @Column(name = "zip_code")
     private String zipCode;
+    @Column(name = "longitude")
     private Float longitude;
+    @Column(name = "latitude")
     private Float latitude;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")

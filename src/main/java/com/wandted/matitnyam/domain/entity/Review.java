@@ -2,6 +2,7 @@ package com.wandted.matitnyam.domain.entity;
 
 
 import java.io.Serial;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
@@ -36,7 +37,9 @@ public class Review extends AbstractEntity{
     private static final long serialVersionUID = -8306631523913350006L;
 
 
+    @Column(name = "rating")
     private Integer rating;
+    @Column(name = "content")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
