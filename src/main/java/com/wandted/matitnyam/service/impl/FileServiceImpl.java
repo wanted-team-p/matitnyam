@@ -5,7 +5,6 @@ import com.wandted.matitnyam.domain.vo.FileVo.Create;
 import com.wandted.matitnyam.service.FileService;
 import com.wandted.matitnyam.service.RegionService;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import lombok.RequiredArgsConstructor;
@@ -46,17 +45,14 @@ public class FileServiceImpl implements FileService {
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                System.out.println("data[0] = " + data[0]);
-                System.out.println("data[1] = " + data[1]);
-                System.out.println("data[2] = " + data[2]);
-                System.out.println("data[3] = " + data[3]);
 
-                Region build = Region.builder().city(data[0]).district(data[1]).longitude(Double.parseDouble(data[2])).latitude(Double.parseDouble(data[3])).build();
+                Region build = Region.builder().city(data[0]).district(data[1]).longitude(Double.parseDouble(data[2]))
+                        .latitude(Double.parseDouble(data[3])).build();
                 service.set(build);
             }
 
         } catch (Exception ex) {
-            throw new IllegalArgumentException("Failed to parse CSV file: " + ex.getMessage());
+            throw new IllegalArgumentException("파일 처리중 오류가 발생했습니다.: " + ex.getMessage());
         }
     }
 
