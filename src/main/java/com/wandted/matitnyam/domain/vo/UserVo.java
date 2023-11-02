@@ -26,9 +26,11 @@ public class UserVo implements Serializable {
 
         private String id;
         private String password;
+        private Boolean suggestAlarm;
+        private String address;
 
         public User toEntity() {
-            return User.builder().id(id).password(password).build();
+            return User.builder().id(id).password(password).suggestAlarm(suggestAlarm).address(address).build();
         }
     }
 
@@ -50,6 +52,10 @@ public class UserVo implements Serializable {
     @Setter
     @NoArgsConstructor
     public static class Update {
+
+        private Float longitude;
+        private Float latitude;
+        private Boolean suggestAlarm;
 
     }
 
