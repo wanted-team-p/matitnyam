@@ -25,11 +25,11 @@ public class UserDto extends AbstractDto {
     private String id;
     private String password;
     private String address;
-    private Float longitude;
-    private Float latitude;
+    private Double longitude;
+    private Double latitude;
     private Boolean suggestAlarm;
 
-    public UserDto(String id, String password, String address, Float longitude, Float latitude, Boolean suggestAlarm) {
+    public UserDto(String id, String password, String address, Double longitude, Double latitude, Boolean suggestAlarm) {
         this.id = id;
         this.password = password;
         this.address = address;

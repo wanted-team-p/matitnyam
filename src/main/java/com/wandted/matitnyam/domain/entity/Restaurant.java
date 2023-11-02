@@ -3,13 +3,13 @@ package com.wandted.matitnyam.domain.entity;
 import java.io.Serial;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -51,9 +51,9 @@ public class Restaurant extends AbstractEntity {
     @Column(name = "zip_code")
     private String zipCode;
     @Column(name = "longitude")
-    private Float longitude;
+    private Double longitude;
     @Column(name = "latitude")
-    private Float latitude;
+    private Double latitude;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BusinessType> businessType;
@@ -64,7 +64,7 @@ public class Restaurant extends AbstractEntity {
 
     @Builder
     public Restaurant(String name, String licenseNumber, Boolean outOfBusiness, String address, String roadNameAddress,
-                      String zipCode, Float longitude, Float latitude, Set<BusinessType> businessType) {
+                      String zipCode, Double longitude, Double latitude, Set<BusinessType> businessType) {
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.outOfBusiness = outOfBusiness;

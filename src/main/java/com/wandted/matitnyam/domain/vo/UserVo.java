@@ -53,8 +53,8 @@ public class UserVo implements Serializable {
     @NoArgsConstructor
     public static class Update {
 
-        private Float longitude;
-        private Float latitude;
+        private Double longitude;
+        private Double latitude;
         private Boolean suggestAlarm;
 
     }

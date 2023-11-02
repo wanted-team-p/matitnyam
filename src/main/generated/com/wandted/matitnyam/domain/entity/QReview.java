@@ -28,6 +28,8 @@ public class QReview extends EntityPathBase<Review> {
 
     public final NumberPath<Integer> rating = createNumber("rating", Integer.class);
 
+    public final QRestaurant restaurant;
+
     //inherited
     public final NumberPath<Long> seq = _super.seq;
 
@@ -51,6 +53,7 @@ public class QReview extends EntityPathBase<Review> {
 
     public QReview(Class<? extends Review> type, PathMetadata metadata, PathInits inits) {
         super(type, metadata, inits);
+        this.restaurant = inits.isInitialized("restaurant") ? new QRestaurant(forProperty("restaurant")) : null;
         this.user = inits.isInitialized("user") ? new QUser(forProperty("user")) : null;
     }
 

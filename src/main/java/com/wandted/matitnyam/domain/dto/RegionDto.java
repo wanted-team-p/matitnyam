@@ -24,10 +24,10 @@ public class RegionDto extends AbstractDto {
 
     private String city;
     private String district;
-    private Float longitude;
-    private Float latitude;
+    private Double longitude;
+    private Double latitude;
 
-    public RegionDto(String city, String district, Float longitude, Float latitude) {
+    public RegionDto(String city, String district, Double longitude, Double latitude) {
         this.city = city;
         this.district = district;
         this.longitude = longitude;

@@ -27,12 +27,12 @@ public class RestaurantDto extends AbstractDto {
     private String address;
     private String roadNameAddress;
     private String zipCode;
-    private Float longitude;
-    private Float latitude;
+    private Double longitude;
+    private Double latitude;
 
     public RestaurantDto(String name, String licenseNumber, Boolean outOfBusiness, String address,
                          String roadNameAddress,
-                         String zipCode, Float longitude, Float latitude) {
+                         String zipCode, Double longitude, Double latitude) {
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.outOfBusiness = outOfBusiness;

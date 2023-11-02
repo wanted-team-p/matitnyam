@@ -25,14 +25,16 @@ public class QUser extends EntityPathBase<User> {
 
     public final StringPath id = createString("id");
 
-    public final NumberPath<Float> latitude = createNumber("latitude", Float.class);
+    public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
-    public final NumberPath<Float> longitude = createNumber("longitude", Float.class);
+    public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
 
     public final StringPath password = createString("password");
 
     //inherited
     public final NumberPath<Long> seq = _super.seq;
+
+    public final BooleanPath suggestAlarm = createBoolean("suggestAlarm");
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));

@@ -2,10 +2,10 @@ package com.wandted.matitnyam.domain.entity;
 
 
 import java.io.Serial;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -39,12 +39,12 @@ public class Region extends AbstractEntity{
     @Column(name = "district", nullable = false)
     private String district;
     @Column(name = "longitude", nullable = false)
-    private Float longitude;
+    private Double longitude;
     @Column(name = "latitude", nullable = false)
-    private Float latitude;
+    private Double latitude;
 
     @Builder
-    public Region(String city, String district, Float longitude, Float latitude) {
+    public Region(String city, String district, Double longitude, Double latitude) {
         this.city = city;
         this.district = district;
         this.longitude = longitude;
