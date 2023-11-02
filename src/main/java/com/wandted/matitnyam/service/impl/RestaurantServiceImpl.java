@@ -1,5 +1,7 @@
 package com.wandted.matitnyam.service.impl;
 
+import com.wandted.matitnyam.domain.entity.Restaurant;
+import com.wandted.matitnyam.repository.RestaurantRepository;
 import com.wandted.matitnyam.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +15,15 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements RestaurantService {
 
-    @Override
-    public void get() {
+    private final RestaurantRepository repository;
 
+    @Override
+    public Restaurant get(Long seq) {
+        return repository.findById(seq).orElseThrow(() -> new IllegalArgumentException("식당을 찾을 수 없습니다."));
     }
 
     @Override
-    public void get(Long seq) {
+    public void get() {
 
     }
 

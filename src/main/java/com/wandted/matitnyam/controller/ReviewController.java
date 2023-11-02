@@ -1,5 +1,6 @@
 package com.wandted.matitnyam.controller;
 
+import com.wandted.matitnyam.domain.vo.ReviewVo;
 import com.wandted.matitnyam.domain.vo.UserVo;
 import com.wandted.matitnyam.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class ReviewController {
     private final ReviewService service;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(UserVo.Create create) {
+    public ResponseEntity<Void> create(ReviewVo.Create create) {
         service.set(create);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }

@@ -4,6 +4,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.wandted.matitnyam.common.configuration.jpa.querydsl.support.QueryDslRepositoryPaginationSupport;
 import com.wandted.matitnyam.domain.entity.Review;
 import com.wandted.matitnyam.repository.querydsl.ReviewRepositoryQueryDsl;
+import java.util.Optional;
 
 /**
  * @author 민경수
@@ -14,6 +15,11 @@ public class ReviewRepositoryImpl extends QueryDslRepositoryPaginationSupport im
 
     public ReviewRepositoryImpl(JPAQueryFactory queryFactory) {
         super(Review.class, queryFactory);
+    }
+
+    @Override
+    public Optional<Review> findBy(Long userSeq, Long restaurantSeq) {
+        return null;
     }
 
 }

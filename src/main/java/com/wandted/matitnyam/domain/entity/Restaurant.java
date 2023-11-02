@@ -1,6 +1,9 @@
 package com.wandted.matitnyam.domain.entity;
 
 import java.io.Serial;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -52,12 +55,16 @@ public class Restaurant extends AbstractEntity {
     @Column(name = "latitude")
     private Float latitude;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    private BusinessType businessType;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BusinessType> businessType;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Review> reviews = new LinkedHashSet<>();
+
 
     @Builder
     public Restaurant(String name, String licenseNumber, Boolean outOfBusiness, String address, String roadNameAddress,
-                      String zipCode, Float longitude, Float latitude, BusinessType businessType) {
+                      String zipCode, Float longitude, Float latitude, Set<BusinessType> businessType) {
         this.name = name;
         this.licenseNumber = licenseNumber;
         this.outOfBusiness = outOfBusiness;

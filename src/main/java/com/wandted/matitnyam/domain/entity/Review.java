@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -46,10 +47,17 @@ public class Review extends AbstractEntity {
     @JoinColumn(name = "user_seq", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "restaurant_seq", nullable = false)
+    private Restaurant restaurant;
+
+
+
     @Builder
-    public Review(Integer rating, String content, User user) {
+    public Review(Integer rating, String content, User user, Restaurant restaurant) {
         this.rating = rating;
         this.content = content;
         this.user = user;
+        this.restaurant = restaurant;
     }
 }

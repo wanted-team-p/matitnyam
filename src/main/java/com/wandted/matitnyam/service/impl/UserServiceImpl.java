@@ -1,5 +1,6 @@
 package com.wandted.matitnyam.service.impl;
 
+import com.wandted.matitnyam.domain.entity.User;
 import com.wandted.matitnyam.domain.vo.UserVo.Create;
 import com.wandted.matitnyam.domain.vo.UserVo.Read;
 import com.wandted.matitnyam.domain.vo.UserVo.SignIn;
@@ -29,6 +30,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void signIn(SignIn signIn) {
 
+    }
+
+    @Override
+    public User get(Long seq) {
+        return repository.findById(seq).orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
     }
 
     @Override
