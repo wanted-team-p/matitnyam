@@ -19,6 +19,8 @@ public class QRegion extends EntityPathBase<Region> {
 
     public static final QRegion region = new QRegion("region");
 
+    public final QAbstractEntity _super = new QAbstractEntity(this);
+
     public final StringPath city = createString("city");
 
     public final StringPath district = createString("district");
@@ -26,6 +28,9 @@ public class QRegion extends EntityPathBase<Region> {
     public final NumberPath<Double> latitude = createNumber("latitude", Double.class);
 
     public final NumberPath<Double> longitude = createNumber("longitude", Double.class);
+
+    //inherited
+    public final NumberPath<Long> seq = _super.seq;
 
     public QRegion(String variable) {
         super(Region.class, forVariable(variable));

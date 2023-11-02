@@ -1,12 +1,14 @@
 package com.wandted.matitnyam.service.impl;
 
-import com.wandted.matitnyam.domain.entity.Region;
+import com.opencsv.CSVReader;
+import com.opencsv.bean.CsvToBeanBuilder;
 import com.wandted.matitnyam.domain.vo.FileVo.Create;
+import com.wandted.matitnyam.domain.vo.RegionVo;
 import com.wandted.matitnyam.service.FileService;
 import com.wandted.matitnyam.service.RegionService;
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,19 +38,19 @@ public class FileServiceImpl implements FileService {
     }
 
     public void saveLocationsFromCsv(MultipartFile file) {
-        try (InputStream is = file.getInputStream()) {
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line;
 
-            // Skip the header
-            br.readLine();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+             CSVReader csvReader = new CSVReader(reader)) {
 
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
+            List<RegionVo.Data> parse = new CsvToBeanBuilder<RegionVo.Data>(reader)
+                    .withType(RegionVo.Data.class)
+                    .build()
+                    .parse();
 
-                Region build = Region.builder().city(data[0]).district(data[1]).longitude(Double.parseDouble(data[2]))
-                        .latitude(Double.parseDouble(data[3])).build();
-                service.set(build);
+            for (RegionVo.Data data : parse) {
+                data.validateData();
+
+                service.set(data.toEntity());
             }
 
         } catch (Exception ex) {
