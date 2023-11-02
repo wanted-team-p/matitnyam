@@ -44,14 +44,17 @@ public class User extends AbstractEntity{
     private Float longitude;
     @Column(name = "latitude", nullable = false)
     private Float latitude;
+    @Column(name = "suggest_alarm", nullable = false)
+    private Boolean suggestAlarm;
 
     @Builder
-    public User(String id, String password, String address, Float longitude, Float latitude) {
+    public User(String id, String password, String address, Float longitude, Float latitude, Boolean suggestAlarm) {
         this.id = id;
         this.password = password;
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.suggestAlarm = suggestAlarm;
     }
 
 }
