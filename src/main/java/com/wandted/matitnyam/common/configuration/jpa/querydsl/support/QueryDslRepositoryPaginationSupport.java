@@ -59,7 +59,8 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
         return this.queryFactory;
     }
 
-    protected int saveAllNativeQuery(@NonNull String tableName, @NonNull List<String> columnNames, @NonNull List<List<Object>> values) {
+    protected int saveAllNativeQuery(@NonNull String tableName, @NonNull List<String> columnNames,
+                                     @NonNull List<List<Object>> values) {
         // @formatter:off
         String marker = columnNames.stream().map(v -> "?").collect(Collectors.joining(", "));
 
@@ -180,7 +181,9 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
 
     @SuppressWarnings({"rawtypes", "unchecked", "java:S3740"})
     private OrderSpecifier toOrderSpecifier(@NonNull Sort.Order order) {
-        return new OrderSpecifier(order.isAscending() ? com.querydsl.core.types.Order.ASC : com.querydsl.core.types.Order.DESC, buildOrderPropertyPathFrom(order),
+        return new OrderSpecifier(
+                order.isAscending() ? com.querydsl.core.types.Order.ASC : com.querydsl.core.types.Order.DESC,
+                buildOrderPropertyPathFrom(order),
                 toQueryDslNullHandling(order.getNullHandling()));
     }
 
@@ -202,9 +205,11 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
 
         while (path != null) {
             if (!path.hasNext() && order.isIgnoreCase()) {
-                sortPropertyExpression = Expressions.stringPath((Path<?>) sortPropertyExpression, path.getSegment()).lower();
+                sortPropertyExpression = Expressions.stringPath((Path<?>) sortPropertyExpression, path.getSegment())
+                        .lower();
             } else {
-                sortPropertyExpression = Expressions.path(path.getType(), (Path<?>) sortPropertyExpression, path.getSegment());
+                sortPropertyExpression = Expressions.path(path.getType(), (Path<?>) sortPropertyExpression,
+                        path.getSegment());
             }
 
             path = path.next();
@@ -226,7 +231,8 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
     }
 
     protected BooleanExpression getBooleanExpression(String value, StringPath stringPath) {
-        return Optional.ofNullable(value).filter(StringUtils::isNotBlank).map(String::trim).map(String::toLowerCase).map(stringPath::containsIgnoreCase).orElse(null);
+        return Optional.ofNullable(value).filter(StringUtils::isNotBlank).map(String::trim).map(String::toLowerCase)
+                .map(stringPath::containsIgnoreCase).orElse(null);
     }
 
     protected BooleanExpression getBooleanExpression(String value, NumberPath<Long> numberPath) {
@@ -241,7 +247,8 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
         return numberPath.eq(-1L);
     }
 
-    protected BooleanExpression getBooleanExpression(LocalDate startDate, LocalDate endDate, DateTimePath<LocalDateTime> dateTimePath) {
+    protected BooleanExpression getBooleanExpression(LocalDate startDate, LocalDate endDate,
+                                                     DateTimePath<LocalDateTime> dateTimePath) {
         if (null == startDate || null == endDate) {
             return null;
         }
@@ -249,7 +256,8 @@ public class QueryDslRepositoryPaginationSupport extends QuerydslRepositorySuppo
         return dateTimePath.between(startDate.atStartOfDay(), endDate.atTime(23, 59, 59, 9999));
     }
 
-    protected <T extends Number & Comparable<?>> NumberOperation<T> avg(Class<? extends T> type, Expression<?>... args) {
+    protected <T extends Number & Comparable<?>> NumberOperation<T> avg(Class<? extends T> type,
+                                                                        Expression<?>... args) {
         return Expressions.numberOperation(type, Ops.AggOps.AVG_AGG, args);
     }
 

@@ -28,7 +28,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "tb_user")
-public class User extends AbstractEntity{
+public class User extends AbstractEntity {
 
     @Serial
     private static final long serialVersionUID = 513834638556181945L;

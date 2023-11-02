@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BusinessTypeDto extends AbstractDto{
+public class BusinessTypeDto extends AbstractDto {
     @Serial
     private static final long serialVersionUID = -8944682556013645258L;
 

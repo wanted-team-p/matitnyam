@@ -1,7 +1,6 @@
 package com.wandted.matitnyam.domain.dto;
 
 import java.io.Serial;
-import javax.persistence.Column;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -17,7 +16,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserDto extends AbstractDto{
+public class UserDto extends AbstractDto {
 
     @Serial
     private static final long serialVersionUID = -8808530353445716566L;

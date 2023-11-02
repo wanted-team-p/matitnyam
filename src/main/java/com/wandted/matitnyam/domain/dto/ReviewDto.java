@@ -16,7 +16,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(callSuper = true, onlyExplicitlyIncluded = true)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewDto extends AbstractDto{
+public class ReviewDto extends AbstractDto {
     @Serial
     private static final long serialVersionUID = 2381396295295088569L;
 
