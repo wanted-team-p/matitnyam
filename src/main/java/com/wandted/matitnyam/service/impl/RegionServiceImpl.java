@@ -3,6 +3,7 @@ package com.wandted.matitnyam.service.impl;
 import com.wandted.matitnyam.domain.entity.Region;
 import com.wandted.matitnyam.repository.RegionRepository;
 import com.wandted.matitnyam.service.RegionService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,8 @@ public class RegionServiceImpl implements RegionService {
     private final RegionRepository repository;
 
     @Override
-    public void get() {
+    public List<Region> get() {
+        return repository.findAll();
 
     }
 

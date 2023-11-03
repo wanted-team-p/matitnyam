@@ -24,6 +24,15 @@ public class RegionVo {
     @Getter
     @Setter
     @NoArgsConstructor
+    public static class Response {
+
+        public static Response toVo(Region region) {
+            return null;
+        }
+    }
+    @Getter
+    @Setter
+    @NoArgsConstructor
     public static class Data {
 
         @CsvBindByName(column = "city")
@@ -46,7 +55,12 @@ public class RegionVo {
         }
 
         public Region toEntity() {
-            return Region.builder().city(city).district(district).longitude(longitude).latitude(latitude).build();
+            return Region.builder()
+                    .city(city)
+                    .district(district)
+                    .longitude(longitude)
+                    .latitude(latitude)
+                    .build();
         }
 
         public void validateData() {

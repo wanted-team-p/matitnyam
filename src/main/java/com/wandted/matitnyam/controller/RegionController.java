@@ -1,6 +1,10 @@
 package com.wandted.matitnyam.controller;
 
+import com.wandted.matitnyam.domain.vo.RegionVo;
+import com.wandted.matitnyam.domain.vo.RegionVo.Response;
 import com.wandted.matitnyam.service.RegionService;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -27,10 +31,10 @@ public class RegionController {
     public static final String RESOURCE_URI = "/regions";
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> read() {
+    public ResponseEntity<List<Response>> read() {
         service.get();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(service.get().stream().map(RegionVo.Response::toVo).collect(Collectors.toList()));
     }
 
 }

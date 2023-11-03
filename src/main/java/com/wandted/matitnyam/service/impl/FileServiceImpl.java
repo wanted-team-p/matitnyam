@@ -27,7 +27,6 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void set(Create create) {
-
         MultipartFile file = create.getFile();
 
         if (file.isEmpty()) {
@@ -39,8 +38,7 @@ public class FileServiceImpl implements FileService {
 
     public void saveLocationsFromCsv(MultipartFile file) {
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-             CSVReader csvReader = new CSVReader(reader)) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
             List<RegionVo.Data> parse = new CsvToBeanBuilder<RegionVo.Data>(reader)
                     .withType(RegionVo.Data.class)
@@ -52,7 +50,6 @@ public class FileServiceImpl implements FileService {
 
                 service.set(data.toEntity());
             }
-
         } catch (Exception ex) {
             throw new IllegalArgumentException("파일 처리중 오류가 발생했습니다.: " + ex.getMessage());
         }

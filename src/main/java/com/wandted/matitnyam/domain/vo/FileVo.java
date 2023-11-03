@@ -2,6 +2,7 @@ package com.wandted.matitnyam.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import javax.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -22,7 +23,10 @@ public class FileVo {
     @Setter
     @NoArgsConstructor
     public static class Create {
+
+        @NotEmpty(message = "파일을 업로드해 주세요.")
         private MultipartFile file;
+
     }
 
 }
