@@ -6,6 +6,9 @@ import com.opencsv.bean.CsvBindAndSplitByName;
 import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 import com.wandted.matitnyam.domain.entity.Region;
+import java.util.List;
+import java.util.Map.Entry;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,10 +29,41 @@ public class RegionVo {
     @NoArgsConstructor
     public static class Response {
 
-        public static Response toVo(Region region) {
-            return null;
+        private String city;
+        private List<String> districts;
+
+        @Builder
+        public Response(String city, List<String> districts) {
+            this.city = city;
+            this.districts = districts;
+        }
+
+        public static Response toVo(Entry<String, List<String>> e) {
+            return Response.builder().city(e.getKey()).districts(e.getValue()).build();
         }
     }
+
+    @Getter
+    @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(value = JsonInclude.Include.NON_ABSENT, content = JsonInclude.Include.NON_EMPTY)
+    public static class Search {
+        private String city;
+        private String district;
+
+        public Search() {
+            district = "";
+            city = "";
+        }
+
+        @Override
+        public String toString() {
+            return city + " " + district;
+        }
+
+    }
+
+
     @Getter
     @Setter
     @NoArgsConstructor

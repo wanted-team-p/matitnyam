@@ -11,7 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -31,10 +33,8 @@ public class RegionController {
     public static final String RESOURCE_URI = "/regions";
 
     @GetMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Response>> read() {
-        service.get();
-
-        return ResponseEntity.ok(service.get().stream().map(RegionVo.Response::toVo).collect(Collectors.toList()));
+    public ResponseEntity<List<Response>> read(@ModelAttribute RegionVo.Search search) {
+        return ResponseEntity.ok(service.get(search).entrySet().stream().map(e -> RegionVo.Response.toVo(e)).toList());
     }
 
 }

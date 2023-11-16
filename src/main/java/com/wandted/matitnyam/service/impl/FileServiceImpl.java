@@ -37,7 +37,6 @@ public class FileServiceImpl implements FileService {
     }
 
     public void saveLocationsFromCsv(MultipartFile file) {
-
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
 
             List<RegionVo.Data> parse = new CsvToBeanBuilder<RegionVo.Data>(reader)
