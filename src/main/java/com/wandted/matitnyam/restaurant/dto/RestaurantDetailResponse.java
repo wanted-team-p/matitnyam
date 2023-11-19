@@ -7,7 +7,7 @@ public record RestaurantDetailResponse(
     String name,
     District district,
     String address,
-    Long latitude,
-    Long longitude
+    Double latitude,
+    Double longitude
 ) {
 }

@@ -16,8 +16,11 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import java.util.List;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
+@NoArgsConstructor
 @Table(
         name = "tb_restaurant",
         uniqueConstraints = {
@@ -47,11 +50,11 @@ public class Restaurant {
 
     @Column(nullable = false)
     @Comment("위도")
-    private Long latitude;
+    private Double latitude;
 
     @Column(nullable = false)
     @Comment("경도")
-    private Long longitude;
+    private Double longitude;
 
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews;

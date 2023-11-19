@@ -27,7 +27,7 @@ public class Review {
 
     @Comment("평점")
     @Column(nullable = false)
-    private int rate;
+    private Double rate;
 
     @Comment("후기 내용")
     @Column(nullable = false)
