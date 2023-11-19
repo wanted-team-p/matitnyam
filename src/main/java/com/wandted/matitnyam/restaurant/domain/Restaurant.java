@@ -14,10 +14,18 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.List;
 import org.hibernate.annotations.Comment;
 
-@Table(name = "tb_restaurant")
+@Table(
+        name = "tb_restaurant",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        columnNames = {"name", "address"}
+                )
+        }
+)
 @Entity
 public class Restaurant {
 
