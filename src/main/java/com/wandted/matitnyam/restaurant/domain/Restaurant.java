@@ -59,6 +59,15 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant")
     List<Review> reviews;
 
+    @Builder
+    public Restaurant(String name, District district, String address, Double latitude, Double longitude){
+        this.name = name;
+        this.district = district;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public RestaurantDetailResponse toDetailResponse(){
         return new RestaurantDetailResponse(id, name, district, address, latitude, longitude);
     }

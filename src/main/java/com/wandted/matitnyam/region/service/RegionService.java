@@ -33,4 +33,8 @@ public class RegionService {
                 .map(District::toListResponse)
                 .collect(Collectors.toList());
     }
+
+    public District findDistrict(String districtName, Long cityId){
+        return districtRepository.findByNameAndCity_Id(districtName , cityId);
+    }
 }
