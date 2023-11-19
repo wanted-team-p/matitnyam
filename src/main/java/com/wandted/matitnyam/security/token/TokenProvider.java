@@ -72,7 +72,7 @@ public class TokenProvider {
                         Instant
                                 .now()
                                 .plus( isAccessToken? TokenProperties.ACCESS_TOKEN_DURATION: TokenProperties.REFRESH_TOKEN_DURATION,
-                                        ChronoUnit.MINUTES)
+                                        ChronoUnit.HOURS)
                 ));
 
         if(isAccessToken){
