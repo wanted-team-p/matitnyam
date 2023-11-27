@@ -1,7 +1,13 @@
 package com.wandted.matitnyam.repository;
 
+import com.wandted.matitnyam.dto.MemberRequest;
+import com.wandted.matitnyam.dto.PrincipalDto;
+import java.util.Optional;
+
 public interface MemberCustomRepository {
 
-    Long findIdByName(String name);
+    boolean hasDuplicatedName(String userName);
+
+    Optional<PrincipalDto> findByNameAndPassword(MemberRequest memberRequest);
 
 }

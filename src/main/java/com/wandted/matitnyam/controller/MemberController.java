@@ -1,11 +1,14 @@
 package com.wandted.matitnyam.controller;
 
 import com.wandted.matitnyam.domain.Member;
+import com.wandted.matitnyam.dto.MemberRequest;
+import com.wandted.matitnyam.dto.TokenResponse;
 import com.wandted.matitnyam.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +22,17 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping(path = "/")
-    public ResponseEntity<Member> createMember(@Valid @ModelAttribute Member member) {
+    public ResponseEntity<Member> signUp(@Valid @ModelAttribute MemberRequest memberRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(memberService.set(member));
+                .body(memberService.set(memberRequest));
+    }
+
+    @GetMapping(path = "/")
+    public ResponseEntity<TokenResponse> signIn(@Valid @ModelAttribute MemberRequest memberRequest) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(memberService.signIn(memberRequest));
     }
 
 }
