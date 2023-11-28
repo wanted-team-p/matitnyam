@@ -9,10 +9,14 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class AuthTokenService {
+
+    @Value("${spring.config.jwt.secret-key}")
+    private String secretKey;
 
     public String createToken(PrincipalDto principal) {
         final long TOKEN_DURATION_IN_MILLIS = 30 * 60 * 1000L;
@@ -49,10 +53,9 @@ public class AuthTokenService {
     }
 
     public SecretKey getSecretKey() {
-        final String SECRET_KEY = "IsThereAnyProblemToImplementThis";
-        final String SECRET_ALGORITHM = "HmacSHA256";
-        byte[] secretKeyAsBytes = SECRET_KEY.getBytes(StandardCharsets.UTF_8);
-        return new SecretKeySpec(secretKeyAsBytes, SECRET_ALGORITHM);
+        final String secretAlgorithm = "HmacSHA256";
+        byte[] secretKeyAsBytes = secretKey.getBytes(StandardCharsets.UTF_8);
+        return new SecretKeySpec(secretKeyAsBytes, secretAlgorithm);
     }
 
 }
