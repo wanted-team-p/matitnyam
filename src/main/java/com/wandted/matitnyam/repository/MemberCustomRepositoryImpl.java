@@ -17,12 +17,12 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final EntityManager entityManager;
 
     @Override
-    public boolean hasDuplicatedName(String name) {
+    public boolean hasDuplicatedName(String username) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<String> query = builder.createQuery(String.class);
         Root<Member> member = query.from(Member.class);
         query.select(member.get("name"));
-        query.where(builder.equal(builder.literal(name), member.get("name")));
+        query.where(builder.equal(builder.literal(username), member.get("name")));
 
         Optional<String> mayBeFoundMember = entityManager
                 .createQuery(query)
@@ -43,6 +43,22 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         Predicate predicateForName = builder.equal(builder.literal(name), member.get("name"));
         Predicate predicateForPassword = builder.equal(builder.literal(password), member.get("password"));
         query.where(builder.and(predicateForName, predicateForPassword));
+
+        return entityManager
+                .createQuery(query)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<Member> findByUsername(String username) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Member> query = builder.createQuery(Member.class);
+        Root<Member> member = query.from(Member.class);
+        query.select(member);
+
+        Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));
+        query.where(predicateForName);
 
         return entityManager
                 .createQuery(query)

@@ -1,6 +1,7 @@
 package com.wandted.matitnyam.service;
 
 import com.wandted.matitnyam.domain.Member;
+import com.wandted.matitnyam.dto.CoordinatesRequest;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import com.wandted.matitnyam.dto.TokenResponse;
@@ -17,15 +18,15 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AuthTokenService authTokenService;
 
-    public Member set(MemberRequest memberRequest) {
+    public void set(MemberRequest memberRequest) {
         // TODO: memberRequest의 유효한 비밀번호 검증 로직
         checkDuplicatedName(memberRequest.name());
 
-        Member newMember = Member.builder()
+        Member member = Member.builder()
                 .name(memberRequest.name())
                 .password(memberRequest.password())
                 .build();
-        return memberRepository.save(newMember);
+        memberRepository.save(member);
     }
 
     public TokenResponse signIn(MemberRequest memberRequest) {
@@ -38,8 +39,18 @@ public class MemberService {
                 .build();
     }
 
-    private void checkDuplicatedName(String name) {
-        boolean hasDuplicatedName = memberRepository.hasDuplicatedName(name);
+    public void update(CoordinatesRequest coordinatesRequest, String username) {
+        Optional<Member> mayBeFoundMember  = memberRepository.findByUsername(username);
+        if (mayBeFoundMember.isEmpty()) {
+            throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
+        }
+        Member foundMember = mayBeFoundMember.get();
+        foundMember.setCoordinates(coordinatesRequest);
+        memberRepository.save(foundMember);
+    }
+
+    private void checkDuplicatedName(String username) {
+        boolean hasDuplicatedName = memberRepository.hasDuplicatedName(username);
         if (hasDuplicatedName) {
             throw new IllegalArgumentException("동일한 이름의 사용자가 존재합니다.");
         }
