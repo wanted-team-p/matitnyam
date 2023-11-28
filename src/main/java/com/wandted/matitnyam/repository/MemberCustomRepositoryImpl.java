@@ -1,6 +1,7 @@
 package com.wandted.matitnyam.repository;
 
 import com.wandted.matitnyam.domain.Member;
+import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import jakarta.persistence.EntityManager;
@@ -56,6 +57,23 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         CriteriaQuery<Member> query = builder.createQuery(Member.class);
         Root<Member> member = query.from(Member.class);
         query.select(member);
+
+        Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));
+        query.where(predicateForName);
+
+        return entityManager
+                .createQuery(query)
+                .getResultStream()
+                .findFirst();
+    }
+
+    @Override
+    public Optional<MemberDetails> findDetails(String username) {
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<MemberDetails> query = builder.createQuery(MemberDetails.class);
+        Root<Member> member = query.from(Member.class);
+        query.select(builder.construct(MemberDetails.class, member.get("name"), member.get("authority"),
+                member.get("latitude"), member.get("longitude")));
 
         Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));
         query.where(predicateForName);

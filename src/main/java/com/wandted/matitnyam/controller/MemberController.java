@@ -2,6 +2,7 @@ package com.wandted.matitnyam.controller;
 
 import com.wandted.matitnyam.domain.Member;
 import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.Principal;
 import com.wandted.matitnyam.dto.PrincipalDto;
@@ -42,11 +43,18 @@ public class MemberController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<Void> update(@Valid @ModelAttribute CoordinatesRequest coordinatesRequest,
-                                       @Principal PrincipalDto principalDto) {
-        memberService.update(coordinatesRequest, principalDto.name());
+                                       @Principal PrincipalDto principal) {
+        memberService.update(coordinatesRequest, principal.name());
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .build();
+    }
+
+    @GetMapping(path = "/details")
+    public ResponseEntity<MemberDetails> getDetails(@Principal PrincipalDto principal) {
+        return ResponseEntity
+                .status(HttpStatus.ACCEPTED)
+                .body(memberService.getDetails(principal));
     }
 
 }

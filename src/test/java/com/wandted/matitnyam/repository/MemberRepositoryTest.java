@@ -1,6 +1,9 @@
 package com.wandted.matitnyam.repository;
 
+import com.wandted.matitnyam.domain.Authority;
 import com.wandted.matitnyam.domain.Member;
+import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import java.util.Optional;
@@ -67,9 +70,34 @@ class MemberRepositoryTest {
                 .password(password)
                 .build();
         memberRepository.save(member);
-        Optional<Member> mayBeFoundUser = memberRepository.findByUsername(username);
-        Assertions.assertThat(mayBeFoundUser.isPresent()).isTrue();
-        Member foundMember = mayBeFoundUser.get();
+        Optional<Member> mayBeFoundMember = memberRepository.findByUsername(username);
+        Assertions.assertThat(mayBeFoundMember.isPresent()).isTrue();
+        Member foundMember = mayBeFoundMember.get();
+    }
+
+    @Test
+    void findDetailsTest() {
+        Double latitude = 3.14;
+        Double longitude = 1.592;
+        Member member = Member.builder()
+                .name(username)
+                .password(password)
+                .build();
+        CoordinatesRequest coordinatesRequest = CoordinatesRequest.builder()
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+        member.setCoordinates(coordinatesRequest);
+        memberRepository.save(member);
+
+        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
+        Assertions.assertThat(mayBeFoundMemberDetails.isPresent()).isTrue();
+        MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+
+        Assertions.assertThat(foundMemberDetails.latitude()).isEqualTo(latitude);
+        Assertions.assertThat(foundMemberDetails.longitude()).isEqualTo(longitude);
+        Assertions.assertThat(foundMemberDetails.name()).isEqualTo(username);
+        Assertions.assertThat(foundMemberDetails.authority()).isEqualTo(Authority.USER);
     }
 
 }

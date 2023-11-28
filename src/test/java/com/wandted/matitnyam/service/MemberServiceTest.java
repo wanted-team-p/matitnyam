@@ -2,6 +2,7 @@ package com.wandted.matitnyam.service;
 
 import com.wandted.matitnyam.domain.Member;
 import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.TokenResponse;
 import com.wandted.matitnyam.repository.MemberRepository;
@@ -85,6 +86,40 @@ class MemberServiceTest {
                 .isEqualTo(latitude);
         Assertions
                 .assertThat(foundMember.getLongitude())
+                .isEqualTo(longitude);
+        Assertions
+                .assertThat(memberRepository.findAll().size())
+                .isEqualTo(1);
+    }
+
+    @DisplayName("getDetails 테스트")
+    @Test
+    void getDetailsTest() {
+        String username = "kim-jeonghyun";
+        String password = "1234";
+        Double latitude = 3.14;
+        Double longitude = 1.592;
+
+        MemberRequest memberRequest = MemberRequest.builder()
+                .name(username)
+                .password(password)
+                .build();
+        memberService.set(memberRequest);
+
+        CoordinatesRequest coordinatesRequest = CoordinatesRequest.builder()
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
+        memberService.update(coordinatesRequest, username);
+
+        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
+        Assert.isTrue(mayBeFoundMemberDetails.isPresent());
+        MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+        Assertions
+                .assertThat(foundMemberDetails.latitude())
+                .isEqualTo(latitude);
+        Assertions
+                .assertThat(foundMemberDetails.longitude())
                 .isEqualTo(longitude);
         Assertions
                 .assertThat(memberRepository.findAll().size())

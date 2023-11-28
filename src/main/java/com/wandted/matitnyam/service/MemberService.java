@@ -2,6 +2,7 @@ package com.wandted.matitnyam.service;
 
 import com.wandted.matitnyam.domain.Member;
 import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import com.wandted.matitnyam.dto.TokenResponse;
@@ -47,6 +48,14 @@ public class MemberService {
         Member foundMember = mayBeFoundMember.get();
         foundMember.setCoordinates(coordinatesRequest);
         memberRepository.save(foundMember);
+    }
+
+    public MemberDetails getDetails(PrincipalDto principal) {
+        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(principal.name());
+        if (mayBeFoundMemberDetails.isEmpty()) {
+            throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
+        }
+        return mayBeFoundMemberDetails.get();
     }
 
     private void checkDuplicatedName(String username) {
