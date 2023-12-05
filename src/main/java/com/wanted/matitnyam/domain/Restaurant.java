@@ -1,4 +1,4 @@
-package com.wanted.matitnyam.domain.xmlparser;
+package com.wanted.matitnyam.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -28,6 +28,9 @@ public class Restaurant {
 
     @XmlElement(name = "BIZPLC_NM")
     private String restaurantName;
+
+    @XmlElement(name = "BIZPLC_NM")
+    private Integer license;
 
     @XmlElement(name = "BSN_STATE_NM")
     private String closeOrOpen;

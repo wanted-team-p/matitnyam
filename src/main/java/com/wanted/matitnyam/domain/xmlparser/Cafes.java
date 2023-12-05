@@ -1,7 +1,6 @@
-package com.wanted.matitnyam.domain;
+package com.wanted.matitnyam.domain.xmlparser;
 
-import com.wanted.matitnyam.domain.xmlparser.MetaInformation;
-import com.wanted.matitnyam.domain.xmlparser.Restaurant;
+import com.wanted.matitnyam.domain.Restaurant;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -11,10 +10,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Genrestrtjpnfood")
+@XmlRootElement(name = "Genrestrtcate")
 @Getter
 @NoArgsConstructor
-public class JapaneseRestaurants implements RestaurantsData {
+public class Cafes implements RestaurantsData {
 
     @XmlElement(name = "head")
     private MetaInformation metaInformation;

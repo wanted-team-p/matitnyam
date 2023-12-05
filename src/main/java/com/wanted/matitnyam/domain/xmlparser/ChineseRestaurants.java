@@ -1,20 +1,19 @@
-package com.wanted.matitnyam.domain;
+package com.wanted.matitnyam.domain.xmlparser;
 
-import com.wanted.matitnyam.domain.xmlparser.MetaInformation;
-import com.wanted.matitnyam.domain.xmlparser.Restaurant;
+import com.wanted.matitnyam.domain.Restaurant;
+import java.util.List;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement(name = "Genrestrtcate")
+@XmlRootElement(name = "Genrestrtchifood")
 @Getter
 @NoArgsConstructor
-public class Cafes implements RestaurantsData {
+public class ChineseRestaurants implements RestaurantsData {
 
     @XmlElement(name = "head")
     private MetaInformation metaInformation;

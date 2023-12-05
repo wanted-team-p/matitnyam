@@ -1,9 +1,9 @@
 package com.wanted.matitnyam.scheduler;
 
-import com.wanted.matitnyam.domain.Cafes;
-import com.wanted.matitnyam.domain.ChineseRestaurants;
-import com.wanted.matitnyam.domain.JapaneseRestaurants;
-import com.wanted.matitnyam.domain.RestaurantsData;
+import com.wanted.matitnyam.domain.xmlparser.Cafes;
+import com.wanted.matitnyam.domain.xmlparser.ChineseRestaurants;
+import com.wanted.matitnyam.domain.xmlparser.JapaneseRestaurants;
+import com.wanted.matitnyam.domain.xmlparser.RestaurantsData;
 import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,7 +50,6 @@ public class Scheduler {
         RestaurantsData cafes = restaurantsDataParser
                 .parse(Cafes.class, cafeFileUrl)
                 .preprocess();
-        // TODO: 파싱한 데이터 저장 기능 구현.
     }
 
 }
