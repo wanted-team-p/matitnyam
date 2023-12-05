@@ -5,51 +5,49 @@ import com.wandted.matitnyam.domain.xmlparser.ChineseRestaurants;
 import com.wandted.matitnyam.domain.xmlparser.JapaneseRestaurants;
 import com.wandted.matitnyam.domain.xmlparser.RestaurantsData;
 import com.wandted.matitnyam.domain.xmlparser.RestaurantsDataParser;
+import jakarta.xml.bind.JAXBException;
+import java.io.IOException;
+import java.io.InputStream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class Scheduler {
 
-    private final OpenApiCollector openApiCollector;
+    private final OpenApiStreamGetter openApiStreamGetter;
 
     private final RestaurantsDataParser restaurantsDataParser;
+
+    private final RestaurantsDataUploader restaurantsDataUploader;
+
+    @Value("${open-api.key-url}")
+    private String keyUrl;
 
     @Value("${open-api.chinese-restaurant.api-url}")
     private String chineseRestaurantUrl;
 
-    @Value("${open-api.chinese-restaurant.file}")
-    private String chineseRestaurantFileUrl;
-
     @Value("${open-api.japanese-restaurant.api-url}")
     private String japaneseRestaurantUrl;
-
-    @Value("${open-api.japanese-restaurant.file}")
-    private String japaneseRestaurantFileUrl;
 
     @Value("${open-api.cafe.api-url}")
     private String cafeUrl;
 
-    @Value("${open-api.cafe.file}")
-    private String cafeFileUrl;
+    @Scheduled(cron = "0 0 * * * *")
+    public void collect() throws IOException, JAXBException {
+        collect(ChineseRestaurants.class, chineseRestaurantUrl + keyUrl);
+        collect(JapaneseRestaurants.class, japaneseRestaurantUrl + keyUrl);
+        collect(Cafes.class, cafeUrl + keyUrl);
+    }
 
-    @Scheduled(cron = "*/10 * * * * *")
-    public void run() {
-        openApiCollector.collect(chineseRestaurantUrl, chineseRestaurantFileUrl);
-        openApiCollector.collect(japaneseRestaurantUrl, japaneseRestaurantFileUrl);
-        openApiCollector.collect(cafeUrl, cafeFileUrl);
-        RestaurantsData chineseRestaurants = restaurantsDataParser
-                .parse(ChineseRestaurants.class, chineseRestaurantFileUrl)
+    private void collect(Class<?> restaurantsDataClass, String openApiUrlAndKeyInString) throws IOException, JAXBException {
+        InputStream restaurantsInputStream = openApiStreamGetter.get(openApiUrlAndKeyInString);
+        RestaurantsData restaurantsData = restaurantsDataParser
+                .parse(restaurantsDataClass, restaurantsInputStream)
                 .preprocess();
-        RestaurantsData japaneseRestaurants = restaurantsDataParser
-                .parse(JapaneseRestaurants.class, japaneseRestaurantFileUrl)
-                .preprocess();
-        RestaurantsData cafes = restaurantsDataParser
-                .parse(Cafes.class, cafeFileUrl)
-                .preprocess();
+        restaurantsDataUploader.upload(restaurantsData);
     }
 
 }

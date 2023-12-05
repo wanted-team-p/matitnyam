@@ -49,16 +49,16 @@ public class Restaurant {
 
     @Builder
     public Restaurant(final String city, final String name, final String closeOrOpen, final String typeOfFoods,
-                      final String addressAsLocationName, final String addressAsRoadName, final String longitude,
-                      final String latitude) {
+                      final String addressAsLocationName, final String addressAsRoadName, final String latitude,
+                      final String longitude) {
         this.city = city;
         this.name = name;
         this.closeOrOpen = closeOrOpen;
         this.typeOfFoods = typeOfFoods;
         this.addressAsLocationName = addressAsLocationName;
         this.addressAsRoadName = addressAsRoadName;
-        this.longitude = longitude;
         this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public Restaurant(final Long seq, final Restaurant restaurant) {
@@ -69,8 +69,8 @@ public class Restaurant {
         this.typeOfFoods = restaurant.getTypeOfFoods();
         this.addressAsLocationName = restaurant.getAddressAsLocationName();
         this.addressAsRoadName = restaurant.getAddressAsRoadName();
-        this.longitude = restaurant.getLongitude();
         this.latitude = restaurant.getLatitude();
+        this.longitude = restaurant.getLongitude();
     }
 
 }
