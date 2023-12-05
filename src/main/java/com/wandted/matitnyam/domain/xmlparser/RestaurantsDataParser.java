@@ -1,4 +1,4 @@
-package com.wanted.matitnyam.domain.xmlparser;
+package com.wandted.matitnyam.domain.xmlparser;
 
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;

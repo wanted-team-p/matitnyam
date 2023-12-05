@@ -1,10 +1,10 @@
-package com.wanted.matitnyam.scheduler;
+package com.wandted.matitnyam.scheduler;
 
-import com.wanted.matitnyam.domain.xmlparser.Cafes;
-import com.wanted.matitnyam.domain.xmlparser.ChineseRestaurants;
-import com.wanted.matitnyam.domain.xmlparser.JapaneseRestaurants;
-import com.wanted.matitnyam.domain.xmlparser.RestaurantsData;
-import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
+import com.wandted.matitnyam.domain.xmlparser.Cafes;
+import com.wandted.matitnyam.domain.xmlparser.ChineseRestaurants;
+import com.wandted.matitnyam.domain.xmlparser.JapaneseRestaurants;
+import com.wandted.matitnyam.domain.xmlparser.RestaurantsData;
+import com.wandted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;

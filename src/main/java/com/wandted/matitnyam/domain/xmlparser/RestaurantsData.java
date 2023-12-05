@@ -1,6 +1,6 @@
-package com.wanted.matitnyam.domain.xmlparser;
+package com.wandted.matitnyam.domain.xmlparser;
 
-import com.wanted.matitnyam.domain.Restaurant;
+import com.wandted.matitnyam.domain.Restaurant;
 import java.util.List;
 
 public interface RestaurantsData {

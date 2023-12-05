@@ -1,4 +1,4 @@
-package com.wanted.matitnyam.domain;
+package com.wandted.matitnyam.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,13 +24,10 @@ public class Restaurant {
     private Long seq;
 
     @XmlElement(name = "SIGUN_NM")
-    private String cityName;
+    private String city;
 
     @XmlElement(name = "BIZPLC_NM")
-    private String restaurantName;
-
-    @XmlElement(name = "BIZPLC_NM")
-    private Integer license;
+    private String name;
 
     @XmlElement(name = "BSN_STATE_NM")
     private String closeOrOpen;
@@ -45,23 +42,35 @@ public class Restaurant {
     private String addressAsRoadName;
 
     @XmlElement(name = "REFINE_WGS84_LAT")
-    private Double latitude;
+    private String latitude;
 
     @XmlElement(name = "REFINE_WGS84_LOGT")
-    private Double longitude;
+    private String longitude;
 
     @Builder
-    public Restaurant(final String cityName, final String restaurantName, final String closeOrOpen,
-                      final String typeOfFoods, final String addressAsLocationName, final String addressAsRoadName,
-                      final Double longitude, final Double latitude) {
-        this.cityName = cityName;
-        this.restaurantName = restaurantName;
+    public Restaurant(final String city, final String name, final String closeOrOpen, final String typeOfFoods,
+                      final String addressAsLocationName, final String addressAsRoadName, final String longitude,
+                      final String latitude) {
+        this.city = city;
+        this.name = name;
         this.closeOrOpen = closeOrOpen;
         this.typeOfFoods = typeOfFoods;
         this.addressAsLocationName = addressAsLocationName;
         this.addressAsRoadName = addressAsRoadName;
         this.longitude = longitude;
         this.latitude = latitude;
+    }
+
+    public Restaurant(final Long seq, final Restaurant restaurant) {
+        this.seq = seq;
+        this.city = restaurant.getCity();
+        this.name = restaurant.getName();
+        this.closeOrOpen = restaurant.getCloseOrOpen();
+        this.typeOfFoods = restaurant.getTypeOfFoods();
+        this.addressAsLocationName = restaurant.getAddressAsLocationName();
+        this.addressAsRoadName = restaurant.getAddressAsRoadName();
+        this.longitude = restaurant.getLongitude();
+        this.latitude = restaurant.getLatitude();
     }
 
 }

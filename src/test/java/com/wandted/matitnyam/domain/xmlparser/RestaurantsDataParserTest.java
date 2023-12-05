@@ -1,4 +1,4 @@
-package com.wanted.matitnyam.domain.xmlparser;
+package com.wandted.matitnyam.domain.xmlparser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
