@@ -10,6 +10,6 @@ public interface RestaurantsData {
 
     List<Restaurant> getRestaurants();
 
-    void preprocess();
+    RestaurantsData preprocess();
 
 }

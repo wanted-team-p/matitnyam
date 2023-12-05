@@ -2,9 +2,12 @@ package com.wanted.matitnyam.domain.xmlparser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.wanted.matitnyam.domain.Cafes;
 import com.wanted.matitnyam.domain.ChineseRestaurants;
+import com.wanted.matitnyam.domain.JapaneseRestaurants;
 import com.wanted.matitnyam.domain.RestaurantsData;
 import java.io.IOException;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,10 +20,29 @@ class RestaurantsDataParserTest {
 
     private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
+    @DisplayName("중식 음식점 파싱 테스트")
     @Test
-    void parseTest() throws IOException {
-        String testFilePath = "data/xml-test-data.xml";
+    void chineseRestaurantDataParseTest() throws IOException {
+        String testFilePath = "data/chinese-restaurant-test.xml";
         RestaurantsData restaurantsData = restaurantsDataParser.parse(ChineseRestaurants.class, testFilePath);
+        String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);
+        System.out.println(restaurantDataInJson);
+    }
+
+    @DisplayName("일식 음식점 파싱 테스트")
+    @Test
+    void japaneseRestaurantDataParseTest() throws IOException {
+        String testFilePath = "data/japanese-restaurant-test.xml";
+        RestaurantsData restaurantsData = restaurantsDataParser.parse(JapaneseRestaurants.class, testFilePath);
+        String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);
+        System.out.println(restaurantDataInJson);
+    }
+
+    @DisplayName("카페 파싱 테스트")
+    @Test
+    void cafesDataParseTest() throws IOException {
+        String testFilePath = "data/cafe-test.xml";
+        RestaurantsData restaurantsData = restaurantsDataParser.parse(Cafes.class, testFilePath);
         String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);
         System.out.println(restaurantDataInJson);
     }

@@ -1,6 +1,8 @@
 package com.wanted.matitnyam.scheduler;
 
+import com.wanted.matitnyam.domain.Cafes;
 import com.wanted.matitnyam.domain.ChineseRestaurants;
+import com.wanted.matitnyam.domain.JapaneseRestaurants;
 import com.wanted.matitnyam.domain.RestaurantsData;
 import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,16 @@ public class Scheduler {
         openApiCollector.collect(chineseRestaurantUrl, chineseRestaurantFileUrl);
         openApiCollector.collect(japaneseRestaurantUrl, japaneseRestaurantFileUrl);
         openApiCollector.collect(cafeUrl, cafeFileUrl);
+        RestaurantsData chineseRestaurants = restaurantsDataParser
+                .parse(ChineseRestaurants.class, chineseRestaurantFileUrl)
+                .preprocess();
+        RestaurantsData japaneseRestaurants = restaurantsDataParser
+                .parse(JapaneseRestaurants.class, japaneseRestaurantFileUrl)
+                .preprocess();
+        RestaurantsData cafes = restaurantsDataParser
+                .parse(Cafes.class, cafeFileUrl)
+                .preprocess();
+        // TODO: 파싱한 데이터 저장 기능 구현.
     }
 
 }
