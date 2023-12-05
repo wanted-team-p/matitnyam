@@ -1,6 +1,6 @@
-package com.wandted.matitnyam.domain;
+package com.wanted.matitnyam.domain;
 
-import com.wandted.matitnyam.domain.xmlparser.RestaurantsDataParser;
+import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

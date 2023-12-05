@@ -1,9 +1,9 @@
-package com.wandted.matitnyam.domain.xmlparser;
+package com.wanted.matitnyam.domain.xmlparser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wandted.matitnyam.domain.ChineseRestaurants;
-import com.wandted.matitnyam.domain.RestaurantsData;
+import com.wanted.matitnyam.domain.ChineseRestaurants;
+import com.wanted.matitnyam.domain.RestaurantsData;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

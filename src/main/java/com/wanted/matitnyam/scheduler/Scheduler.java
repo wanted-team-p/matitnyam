@@ -1,7 +1,8 @@
-package com.wandted.matitnyam.scheduler;
+package com.wanted.matitnyam.scheduler;
 
-import com.wandted.matitnyam.domain.RestaurantsDataPreprocessor;
-import com.wandted.matitnyam.domain.xmlparser.RestaurantsDataParser;
+import com.wanted.matitnyam.domain.ChineseRestaurants;
+import com.wanted.matitnyam.domain.RestaurantsData;
+import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -14,8 +15,6 @@ public class Scheduler {
     private final OpenApiCollector openApiCollector;
 
     private final RestaurantsDataParser restaurantsDataParser;
-
-    private final RestaurantsDataPreprocessor restaurantsDataPreprocessor;
 
     @Value("${open-api.chinese-restaurant.api-url}")
     private String chineseRestaurantUrl;

@@ -1,6 +1,6 @@
-package com.wandted.matitnyam.domain;
+package com.wanted.matitnyam.domain;
 
-import com.wandted.matitnyam.domain.xmlparser.Restaurant;
+import com.wanted.matitnyam.domain.xmlparser.Restaurant;
 
 public class RestaurantsDataPreprocessor {
 

@@ -1,4 +1,4 @@
-package com.wandted.matitnyam.domain.xmlparser;
+package com.wanted.matitnyam.domain.xmlparser;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

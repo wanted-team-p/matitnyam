@@ -1,6 +1,6 @@
-package com.wandted.matitnyam.domain.xmlparser;
+package com.wanted.matitnyam.domain.xmlparser;
 
-import com.wandted.matitnyam.domain.RestaurantsData;
+import com.wanted.matitnyam.domain.RestaurantsData;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.Unmarshaller;

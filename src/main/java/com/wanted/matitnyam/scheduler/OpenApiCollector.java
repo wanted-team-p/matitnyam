@@ -1,4 +1,4 @@
-package com.wandted.matitnyam.scheduler;
+package com.wanted.matitnyam.scheduler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;

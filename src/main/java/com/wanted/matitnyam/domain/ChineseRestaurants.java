@@ -1,7 +1,7 @@
-package com.wandted.matitnyam.domain;
+package com.wanted.matitnyam.domain;
 
-import com.wandted.matitnyam.domain.xmlparser.Restaurant;
-import com.wandted.matitnyam.domain.xmlparser.MetaInformation;
+import com.wanted.matitnyam.domain.xmlparser.Restaurant;
+import com.wanted.matitnyam.domain.xmlparser.MetaInformation;
 import java.util.List;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

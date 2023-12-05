@@ -1,4 +1,4 @@
-package com.wandted.matitnyam.domain.xmlparser;
+package com.wanted.matitnyam.domain.xmlparser;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

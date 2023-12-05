@@ -1,4 +1,4 @@
-package com.wandted.matitnyam;
+package com.wanted.matitnyam;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
