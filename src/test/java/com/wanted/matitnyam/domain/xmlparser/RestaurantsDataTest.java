@@ -1,11 +1,8 @@
-package com.wanted.matitnyam.domain;
+package com.wanted.matitnyam.domain.xmlparser;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wanted.matitnyam.domain.xmlparser.ChineseRestaurants;
-import com.wanted.matitnyam.domain.xmlparser.RestaurantsData;
-import com.wanted.matitnyam.domain.xmlparser.RestaurantsDataParser;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

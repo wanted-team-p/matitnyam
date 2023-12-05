@@ -2,10 +2,6 @@ package com.wanted.matitnyam.domain.xmlparser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wanted.matitnyam.domain.Cafes;
-import com.wanted.matitnyam.domain.ChineseRestaurants;
-import com.wanted.matitnyam.domain.JapaneseRestaurants;
-import com.wanted.matitnyam.domain.RestaurantsData;
 import java.io.IOException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
