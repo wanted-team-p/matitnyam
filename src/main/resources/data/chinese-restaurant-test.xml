@@ -10,9 +10,9 @@
         <api_version>1.0v</api_version>
     </head>
     <row>
-        <SIGUN_NM>의정부시</SIGUN_NM>
+        <SIGUN_NM></SIGUN_NM>
         <SIGUN_CD></SIGUN_CD>
-        <BIZPLC_NM>쌍홍루</BIZPLC_NM>
+        <BIZPLC_NM>시 정보가 없는 음식점</BIZPLC_NM>
         <LICENSG_DE>20000718</LICENSG_DE>
         <BSN_STATE_NM>영업</BSN_STATE_NM>
         <CLSBIZ_DE></CLSBIZ_DE>
