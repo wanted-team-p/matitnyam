@@ -3,7 +3,10 @@ package com.wandted.matitnyam.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.wandted.matitnyam.domain.Region;
 import com.wandted.matitnyam.domain.Restaurant;
+import java.io.IOException;
+import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +49,30 @@ class RestaurantServiceTest {
         System.out.println(changedRestaurantInformationAsString);
 
         Assertions.assertThat(restaurant.getSeq()).isEqualTo(returnedRestaurant.getSeq());
+    }
+
+    @Test
+    void findRegionByDosiTest() throws IOException {
+        String gyeonggi = "경기";
+        Region region = Region.builder()
+                .dosi(gyeonggi)
+                .build();
+        List<String> sggList = restaurantService.findRegion(region);
+        for (String sgg : sggList) {
+            System.out.print(sgg + ' ');
+        }
+    }
+
+    @Test
+    void findRegionBySggTest() throws IOException {
+        String dongu = "동구";
+        Region region = Region.builder()
+                .sgg(dongu)
+                .build();
+        List<String> dosiList = restaurantService.findRegion(region);
+        for (String dosi : dosiList) {
+            System.out.print(dosi + ' ');
+        }
     }
 
 }
