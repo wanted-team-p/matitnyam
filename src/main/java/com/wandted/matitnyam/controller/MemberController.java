@@ -44,7 +44,7 @@ public class MemberController {
     @PutMapping(path = "/update")
     public ResponseEntity<Void> update(@Valid @ModelAttribute CoordinatesRequest coordinatesRequest,
                                        @Principal PrincipalDto principal) {
-        memberService.update(coordinatesRequest, principal.getName());
+        memberService.update(coordinatesRequest, principal.name());
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
                 .build();

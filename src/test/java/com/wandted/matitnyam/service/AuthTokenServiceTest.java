@@ -39,8 +39,8 @@ class AuthTokenServiceTest {
         System.out.println("token = " + token);
 
         PrincipalDto parsedPrincipal = authTokenService.parseToken(token);
-        Assertions.assertThat(parsedPrincipal.getName()).isEqualTo(name);
-        Assertions.assertThat(parsedPrincipal.getAuthority()).isEqualTo(Authority.USER);
+        Assertions.assertThat(parsedPrincipal.name()).isEqualTo(name);
+        Assertions.assertThat(parsedPrincipal.authority()).isEqualTo(Authority.USER);
     }
 
     @DisplayName("유효하지 않은 토큰 파싱 테스트")
