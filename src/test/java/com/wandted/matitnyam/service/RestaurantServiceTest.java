@@ -5,12 +5,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wandted.matitnyam.domain.Region;
 import com.wandted.matitnyam.domain.Restaurant;
+import com.wandted.matitnyam.dto.RestaurantDetailDto;
 import java.io.IOException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class RestaurantServiceTest {
@@ -20,11 +23,12 @@ class RestaurantServiceTest {
 
     final static ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
+    @Transactional
     @Test
     void uploadTest() throws JsonProcessingException {
         String name = "삼국지";
-        String latitude = "37.2539499121";
-        String longitude = "127.1119282508";
+        Double latitude = 37.2539499121;
+        Double longitude = 127.1119282508;
         String isOpen = "영업";
         String isClose = "폐업";
 
@@ -74,5 +78,15 @@ class RestaurantServiceTest {
             System.out.print(dosi + ' ');
         }
     }
+
+    @Transactional
+    @Test
+    @Sql(value = "classpath:test/h2.sql")
+    void searchTest() throws JsonProcessingException {
+        RestaurantDetailDto restaurantDetailDto = restaurantService.getDetailById(1L);
+        String valueAsString = objectWriter.writeValueAsString(restaurantDetailDto);
+        System.out.println(valueAsString);
+    }
+
 
 }
