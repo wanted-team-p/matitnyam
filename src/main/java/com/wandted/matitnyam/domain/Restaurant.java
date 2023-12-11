@@ -1,5 +1,6 @@
 package com.wandted.matitnyam.domain;
 
+import com.wandted.matitnyam.dto.RestaurantDetailDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,6 +9,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlTransient;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +22,7 @@ import lombok.NoArgsConstructor;
 public class Restaurant {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
     @XmlElement(name = "SIGUN_NM")
@@ -42,15 +44,24 @@ public class Restaurant {
     private String addressAsRoadName;
 
     @XmlElement(name = "REFINE_WGS84_LAT")
-    private String latitude;
+    private Double latitude;
 
     @XmlElement(name = "REFINE_WGS84_LOGT")
-    private String longitude;
+    private Double longitude;
+
+    @XmlTransient
+    private Long numberOfReviews = 0L;
+
+    @XmlTransient
+    private Long totalRatings = 0L;
+
+    @XmlTransient
+    private Double rating = 0.0;
 
     @Builder
     public Restaurant(final String city, final String name, final String closeOrOpen, final String typeOfFoods,
-                      final String addressAsLocationName, final String addressAsRoadName, final String latitude,
-                      final String longitude) {
+                      final String addressAsLocationName, final String addressAsRoadName, final Double latitude,
+                      final Double longitude) {
         this.city = city;
         this.name = name;
         this.closeOrOpen = closeOrOpen;
@@ -63,14 +74,30 @@ public class Restaurant {
 
     public Restaurant(final Long seq, final Restaurant restaurant) {
         this.seq = seq;
-        this.city = restaurant.getCity();
-        this.name = restaurant.getName();
-        this.closeOrOpen = restaurant.getCloseOrOpen();
-        this.typeOfFoods = restaurant.getTypeOfFoods();
-        this.addressAsLocationName = restaurant.getAddressAsLocationName();
-        this.addressAsRoadName = restaurant.getAddressAsRoadName();
-        this.latitude = restaurant.getLatitude();
-        this.longitude = restaurant.getLongitude();
+        this.city = restaurant.city;
+        this.name = restaurant.name;
+        this.closeOrOpen = restaurant.closeOrOpen;
+        this.typeOfFoods = restaurant.typeOfFoods;
+        this.addressAsLocationName = restaurant.addressAsLocationName;
+        this.addressAsRoadName = restaurant.addressAsRoadName;
+        this.latitude = restaurant.latitude;
+        this.longitude = restaurant.longitude;
+        this.numberOfReviews = restaurant.numberOfReviews;
+        this.totalRatings = restaurant.totalRatings;
+        this.rating = restaurant.rating;
+    }
+
+    public RestaurantDetailDto toDetailDtoWithDistance() {
+        return RestaurantDetailDto.builder()
+                .city(this.city)
+                .name(this.name)
+                .closeOrOpen(this.closeOrOpen)
+                .typeOfFoods(this.typeOfFoods)
+                .addressAsLocationName(this.addressAsLocationName)
+                .addressAsRoadName(this.addressAsRoadName)
+                .numberOfReviews(this.numberOfReviews)
+                .rating(this.rating)
+                .build();
     }
 
 }

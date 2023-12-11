@@ -17,10 +17,10 @@ public class RestaurantsDataPreprocessor {
         if (restaurant.getAddressAsLocationName().isBlank() && restaurant.getAddressAsRoadName().isBlank()) {
             return false;
         }
-        if (restaurant.getLatitude().isBlank()) {
+        if (restaurant.getLatitude() == null) {
             return false;
         }
-        if (restaurant.getLongitude().isBlank()) {
+        if (restaurant.getLongitude() == null) {
             return false;
         }
         return true;
