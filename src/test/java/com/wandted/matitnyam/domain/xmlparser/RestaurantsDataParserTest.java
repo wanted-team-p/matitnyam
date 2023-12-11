@@ -21,7 +21,7 @@ class RestaurantsDataParserTest {
     @DisplayName("중식 음식점 파싱 테스트")
     @Test
     void chineseRestaurantDataParseTest() throws IOException, JAXBException {
-        String testFilePath = "data/chinese-restaurant-test.xml";
+        String testFilePath = "test/chinese-restaurant-test.xml";
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testFilePath);
         RestaurantsData restaurantsData = restaurantsDataParser.parse(ChineseRestaurants.class, inputStream);
         String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);
@@ -31,7 +31,7 @@ class RestaurantsDataParserTest {
     @DisplayName("일식 음식점 파싱 테스트")
     @Test
     void japaneseRestaurantDataParseTest() throws IOException, JAXBException {
-        String testFilePath = "data/japanese-restaurant-test.xml";
+        String testFilePath = "test/japanese-restaurant-test.xml";
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testFilePath);
         RestaurantsData restaurantsData = restaurantsDataParser.parse(JapaneseRestaurants.class, inputStream);
         String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);
@@ -41,7 +41,7 @@ class RestaurantsDataParserTest {
     @DisplayName("카페 파싱 테스트")
     @Test
     void cafesDataParseTest() throws IOException, JAXBException {
-        String testFilePath = "data/cafe-test.xml";
+        String testFilePath = "test/cafe-test.xml";
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testFilePath);
         RestaurantsData restaurantsData = restaurantsDataParser.parse(Cafes.class, inputStream);
         String restaurantDataInJson = objectWriter.writeValueAsString(restaurantsData);

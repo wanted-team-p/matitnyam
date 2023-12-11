@@ -20,7 +20,7 @@ class RestaurantsDataTest {
 
     @Test
     void preprocessTest() throws JsonProcessingException, JAXBException {
-        String testFilePath = "data/chinese-restaurant-test.xml";
+        String testFilePath = "test/chinese-restaurant-test.xml";
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream(testFilePath);
         RestaurantsData restaurantsData = restaurantsDataParser
                 .parse(ChineseRestaurants.class, inputStream);
