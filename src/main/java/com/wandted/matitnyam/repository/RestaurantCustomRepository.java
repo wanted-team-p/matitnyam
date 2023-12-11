@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface RestaurantCustomRepository {
 
-    Optional<Restaurant> findByNameAndCoordinates(String name, Double latitude, Double longitude);
+    Optional<Restaurant> findByNameAndAddressAsRoadName(String name, String addressAsRoadName);
 
     List<RestaurantDto> findAllRestaurantsByRequest(RestaurantRequest restaurantRequest);
 

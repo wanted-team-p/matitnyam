@@ -22,15 +22,15 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
     double radiusOfEarthInKiloMeter = 6371;
 
     @Override
-    public Optional<Restaurant> findByNameAndCoordinates(String name, Double latitude, Double longitude) {
+    public Optional<Restaurant> findByNameAndAddressAsRoadName(String name, String addressAsRoadName) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Restaurant> query = builder.createQuery(Restaurant.class);
         Root<Restaurant> restaurant = query.from(Restaurant.class);
 
         Predicate hasSameName = builder.equal(restaurant.get("name"), builder.literal(name));
-        Predicate hasSameLatitude = builder.equal(restaurant.get("latitude"), builder.literal(latitude));
-        Predicate hasSameLongitude = builder.equal(restaurant.get("longitude"), builder.literal(longitude));
-        query.where(builder.and(hasSameName, hasSameLatitude, hasSameLongitude));
+        Predicate hasSameAddress = builder.equal(restaurant.get("addressAsRoadName"),
+                builder.literal(addressAsRoadName));
+        query.where(builder.and(hasSameName, hasSameAddress));
 
         return entityManager
                 .createQuery(query)

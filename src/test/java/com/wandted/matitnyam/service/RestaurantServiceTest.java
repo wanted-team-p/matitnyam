@@ -31,12 +31,14 @@ class RestaurantServiceTest {
         Double longitude = 127.1119282508;
         String isOpen = "영업";
         String isClose = "폐업";
+        String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
 
         Restaurant restaurant = Restaurant.builder()
                 .name(name)
                 .latitude(latitude)
                 .longitude(longitude)
                 .closeOrOpen(isOpen)
+                .addressAsRoadName(addressAsRoadName)
                 .build();
         restaurantService.upload(restaurant);
         String restaurantInformationAsString = objectWriter.writeValueAsString(restaurant);
@@ -47,6 +49,7 @@ class RestaurantServiceTest {
                 .latitude(latitude)
                 .longitude(longitude)
                 .closeOrOpen(isClose)
+                .addressAsRoadName(addressAsRoadName)
                 .build();
         Restaurant returnedRestaurant = restaurantService.upload(changedRestaurant);
         String changedRestaurantInformationAsString = objectWriter.writeValueAsString(returnedRestaurant);

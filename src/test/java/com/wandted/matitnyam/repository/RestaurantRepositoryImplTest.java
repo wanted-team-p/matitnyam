@@ -25,12 +25,12 @@ class RestaurantRepositoryImplTest {
     private RestaurantRepository restaurantRepository;
 
     @Test
-    void findByNameLatitudeAndLongitudeTest() {
+    void findByNameAndAddressAsRoadNameTest() {
         String name = "삼국지";
+        String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
         Double latitude = 37.2539499121;
         Double longitude = 127.1119282508;
-        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndCoordinates(name, latitude,
-                longitude);
+        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(name, addressAsRoadName);
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
         Assertions.assertThat(foundRestaurant.getName()).isEqualTo(name);
         Assertions.assertThat(foundRestaurant.getLatitude()).isEqualTo(latitude);

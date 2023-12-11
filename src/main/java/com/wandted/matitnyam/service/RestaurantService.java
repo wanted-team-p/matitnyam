@@ -25,8 +25,8 @@ public class RestaurantService {
     private final DosiSggFinder dosiSggFinder;
 
     public Restaurant upload(Restaurant restaurant) {
-        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndCoordinates(restaurant.getName(),
-                restaurant.getLatitude(), restaurant.getLongitude());
+        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(
+                restaurant.getName(), restaurant.getAddressAsRoadName());
         if (mayBeFoundRestaurant.isEmpty()) {
             return restaurantRepository.save(restaurant);
         }
