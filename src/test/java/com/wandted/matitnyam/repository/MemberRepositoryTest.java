@@ -44,7 +44,7 @@ class MemberRepositoryTest {
                 .build();
         Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findByNameAndPassword(memberRequest);
         Assertions.assertThat(mayBeFoundPrincipal.isPresent()).isTrue();
-        Assertions.assertThat(mayBeFoundPrincipal.get().name()).isEqualTo(username);
+        Assertions.assertThat(mayBeFoundPrincipal.get().getName()).isEqualTo(username);
     }
 
     @Test

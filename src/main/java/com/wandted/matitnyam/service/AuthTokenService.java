@@ -23,10 +23,10 @@ public class AuthTokenService {
         Date now = new Date();
 
         Claims claims = Jwts.claims()
-                .subject(principal.name())
+                .subject(principal.getName())
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + TOKEN_DURATION_IN_MILLIS))
-                .add("auth", principal.authority())
+                .add("auth", principal.getAuthority())
                 .build();
 
         return Jwts.builder()

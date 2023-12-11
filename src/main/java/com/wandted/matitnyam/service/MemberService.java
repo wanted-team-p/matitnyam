@@ -51,7 +51,7 @@ public class MemberService {
     }
 
     public MemberDetails getDetails(PrincipalDto principal) {
-        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(principal.name());
+        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(principal.getName());
         if (mayBeFoundMemberDetails.isEmpty()) {
             throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
         }
