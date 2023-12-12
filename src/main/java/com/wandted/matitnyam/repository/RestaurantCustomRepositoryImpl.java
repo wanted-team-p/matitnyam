@@ -52,9 +52,9 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
                 arcLengthExpression));
         query.where(builder.lessThanOrEqualTo(arcLengthExpression, rangeAsExpression));
         if (restaurantRequest.getSortType().equals(RestaurantSortType.RATE)) {
-            query.orderBy(builder.asc(arcLengthExpression));
-        } else {
             query.orderBy(builder.desc(restaurant.get("rating")));
+        } else {
+            query.orderBy(builder.asc(arcLengthExpression));
         }
 
         return entityManager

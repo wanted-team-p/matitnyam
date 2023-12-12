@@ -51,21 +51,21 @@ class RestaurantRepositoryImplTest {
                 .isEqualTo(longitude);
     }
 
-    @DisplayName("맛집 요청 테스트를 통해 해당하는 모든 맛집을 리스트로 조회하는 메소드 테스트")
+    @DisplayName("맛집 요청 테스트를 통해 해당하는 모든 맛집을 리스트로 조회하는 메소드 테스트(정렬 기준: 거리순)")
     @Test
-    void findAllRestaurantsByRequestTest() throws JsonProcessingException {
+    void findAllRestaurantsByRequestTest1() throws JsonProcessingException {
         double latitude = 37.2040;
         double longitude = 127.07596008849987;
         double range = 6.5;
 
+        Coordinates source = Coordinates.builder()
+                .latitudeInDegrees(latitude)
+                .longitudeInDegrees(longitude)
+                .build();
+
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> restaurantsWithinRange = allRestaurants.stream()
                 .filter(restaurant -> {
-                    Coordinates source = Coordinates.builder()
-                            .latitudeInDegrees(latitude)
-                            .longitudeInDegrees(longitude)
-                            .build();
-
                     Coordinates destination = Coordinates.builder()
                             .latitudeInDegrees(restaurant.getLatitude())
                             .longitudeInDegrees(restaurant.getLongitude())
@@ -83,9 +83,62 @@ class RestaurantRepositoryImplTest {
                 .range(range)
                 .build();
         List<RestaurantDto> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
+        double previousDistance = 0;
         for (RestaurantDto restaurantDto : resultList) {
             String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantDto);
             System.out.println(restaurantDtoInJsonString);
+            Assertions
+                    .assertThat(restaurantDto.distance())
+                    .isGreaterThan(previousDistance);
+            previousDistance = restaurantDto.distance();
+        }
+
+        Assertions
+                .assertThat(restaurantsWithinRange.size())
+                .isEqualTo(resultList.size());
+    }
+
+    @DisplayName("맛집 요청 테스트를 통해 해당하는 모든 맛집을 리스트로 조회하는 메소드 테스트(정렬 기준: 평점순)")
+    @Test
+    void findAllRestaurantsByRequestTest2() throws JsonProcessingException {
+        double latitude = 37.2040;
+        double longitude = 127.07596008849987;
+        double range = 6.5;
+
+        Coordinates source = Coordinates.builder()
+                .latitudeInDegrees(latitude)
+                .longitudeInDegrees(longitude)
+                .build();
+
+        List<Restaurant> allRestaurants = restaurantRepository.findAll();
+        List<Restaurant> restaurantsWithinRange = allRestaurants.stream()
+                .filter(restaurant -> {
+                    Coordinates destination = Coordinates.builder()
+                            .latitudeInDegrees(restaurant.getLatitude())
+                            .longitudeInDegrees(restaurant.getLongitude())
+                            .build();
+                    double distance = Coordinates.calculateDistance(source, destination);
+                    System.out.print("맛집 이름:" + restaurant.getName() + ", ");
+                    System.out.println("거리: " + distance + " km");
+                    return distance <= range;
+                })
+                .toList();
+
+        RestaurantRequest restaurantRequest = RestaurantRequest.builder()
+                .latitude(latitude)
+                .longitude(longitude)
+                .range(range)
+                .sortType("평점순")
+                .build();
+        List<RestaurantDto> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
+        double previousRating = 5.0;
+        for (RestaurantDto restaurantDto : resultList) {
+            String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantDto);
+            System.out.println(restaurantDtoInJsonString);
+            Assertions
+                    .assertThat(restaurantDto.rating())
+                    .isLessThanOrEqualTo(previousRating);
+            previousRating = restaurantDto.rating();
         }
 
         Assertions
