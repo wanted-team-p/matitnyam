@@ -56,7 +56,7 @@ class RestaurantRepositoryImplTest {
     void findAllRestaurantsByRequestTest() throws JsonProcessingException {
         double latitude = 37.2040;
         double longitude = 127.07596008849987;
-        String range = "6.5";
+        double range = 6.5;
 
         List<Restaurant> allRestaurants = restaurantRepository.findAll();
         List<Restaurant> restaurantsWithinRange = allRestaurants.stream()
@@ -73,7 +73,7 @@ class RestaurantRepositoryImplTest {
                     double distance = Coordinates.calculateDistance(source, destination);
                     System.out.print("맛집 이름:" + restaurant.getName() + ", ");
                     System.out.println("거리: " + distance + " km");
-                    return distance <= Double.parseDouble(range);
+                    return distance <= range;
                 })
                 .toList();
 

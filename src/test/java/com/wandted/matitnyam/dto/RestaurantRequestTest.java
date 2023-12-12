@@ -15,7 +15,7 @@ class RestaurantRequestTest {
 
     private final Double longitude = 128.8784972;
 
-    private final String range = "3.0";
+    private final Double range = 3.0;
 
     @DisplayName("정렬 기준이 없는 경우 맛집 리스트 조회 요청 테스트: 정렬 기준이 거리순으로 설정된다.")
     @Test

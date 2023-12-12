@@ -35,7 +35,7 @@ public class Scheduler {
     @Value("${open-api.cafe.api-url}")
     private String cafeUrl;
 
-    @Scheduled(cron = "0 0 * * * *")
+    @Scheduled(cron = "*/10 * * * * *")
     public void collect() throws IOException, JAXBException {
         collect(ChineseRestaurants.class, chineseRestaurantUrl + keyUrl);
         collect(JapaneseRestaurants.class, japaneseRestaurantUrl + keyUrl);
