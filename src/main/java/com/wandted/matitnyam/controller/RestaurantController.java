@@ -29,7 +29,7 @@ public class RestaurantController {
     @GetMapping("/find-region")
     List<String> findRegion(@ModelAttribute Region region,
                             @Principal PrincipalDto principal) throws IOException {
-        if (region.getSgg() == null && region.getDosi() == null) {
+        if (region.sgg() == null && region.dosi() == null) {
             throw new IllegalArgumentException("시군구 또는 시도 정보를 입력해주세요.");
         }
         return ResponseEntity

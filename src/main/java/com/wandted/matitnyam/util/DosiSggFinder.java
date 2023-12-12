@@ -48,33 +48,33 @@ public class DosiSggFinder {
     }
 
     private void updateSggList(Region region) {
-        List<String> sggList = dosiToSgg.get(region.getDosi());
+        List<String> sggList = dosiToSgg.get(region.dosi());
         if (sggList == null) {
             sggList = new ArrayList<>();
         }
         Optional<String> mayBeFoundSgg = sggList.stream()
-                .filter(sgg -> sgg.equals(region.getSgg()))
+                .filter(sgg -> sgg.equals(region.sgg()))
                 .findFirst();
         if (mayBeFoundSgg.isPresent()) {
             return;
         }
-        sggList.add(region.getSgg());
-        dosiToSgg.put(region.getDosi(), sggList);
+        sggList.add(region.sgg());
+        dosiToSgg.put(region.dosi(), sggList);
     }
 
     private void updateDosiList(Region region) {
-        List<String> dosiList = sggToDosi.get(region.getSgg());
+        List<String> dosiList = sggToDosi.get(region.sgg());
         if (dosiList == null) {
             dosiList = new ArrayList<>();
         }
         Optional<String> mayBeFoundDosi = dosiList.stream()
-                .filter(dosi -> dosi.equals(region.getDosi()))
+                .filter(dosi -> dosi.equals(region.dosi()))
                 .findFirst();
         if (mayBeFoundDosi.isPresent()) {
             return;
         }
-        dosiList.add(region.getDosi());
-        sggToDosi.put(region.getSgg(), dosiList);
+        dosiList.add(region.dosi());
+        sggToDosi.put(region.sgg(), dosiList);
     }
 
 }
