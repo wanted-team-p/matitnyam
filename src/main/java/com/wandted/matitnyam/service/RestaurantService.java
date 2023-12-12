@@ -38,10 +38,10 @@ public class RestaurantService {
     }
 
     public List<String> findRegion(Region region) throws IOException {
-        if (region.getSgg() != null) {
-            return dosiSggFinder.findDosiList(region.getSgg());
+        if (region.sgg() != null) {
+            return dosiSggFinder.findDosiList(region.sgg());
         }
-        return dosiSggFinder.findSggList(region.getDosi());
+        return dosiSggFinder.findSggList(region.dosi());
     }
 
     public List<RestaurantDto> search(RestaurantRequest restaurantRequest) {

@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.FORBIDDEN)
 public class UnauthorizedException extends SecurityException {
 
-    public UnauthorizedException(String message) {
+    public UnauthorizedException(final String message) {
         super(message);
     }
 }

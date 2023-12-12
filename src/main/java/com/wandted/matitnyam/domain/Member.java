@@ -19,20 +19,20 @@ public class Member {
 
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
-    Long seq;
+    private Long seq;
 
     @NotBlank
-    String name;
+    private String name;
 
     @NotBlank
-    String password;
+    private String password;
 
     @Enumerated(EnumType.STRING)
-    Authority authority;
+    private Authority authority;
 
-    Double latitude;
+    private Double latitude;
 
-    Double longitude;
+    private Double longitude;
 
     @Builder
     public Member(final String name, final String password) {
