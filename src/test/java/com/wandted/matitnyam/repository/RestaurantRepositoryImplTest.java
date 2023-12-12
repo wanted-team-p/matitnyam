@@ -10,6 +10,7 @@ import com.wandted.matitnyam.dto.RestaurantRequest;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -24,19 +25,33 @@ class RestaurantRepositoryImplTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
+    @DisplayName("음식점 이름과 도로명 주소로 맛집을 찾는 메소드 테스트")
     @Test
     void findByNameAndAddressAsRoadNameTest() {
         String name = "삼국지";
         String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
         Double latitude = 37.2539499121;
         Double longitude = 127.1119282508;
-        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(name, addressAsRoadName);
+
+        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(name,
+                addressAsRoadName);
+
+        Assertions
+                .assertThat(mayBeFoundRestaurant.isPresent())
+                .isTrue();
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
-        Assertions.assertThat(foundRestaurant.getName()).isEqualTo(name);
-        Assertions.assertThat(foundRestaurant.getLatitude()).isEqualTo(latitude);
-        Assertions.assertThat(foundRestaurant.getLongitude()).isEqualTo(longitude);
+        Assertions
+                .assertThat(foundRestaurant.getName())
+                .isEqualTo(name);
+        Assertions
+                .assertThat(foundRestaurant.getLatitude())
+                .isEqualTo(latitude);
+        Assertions
+                .assertThat(foundRestaurant.getLongitude())
+                .isEqualTo(longitude);
     }
 
+    @DisplayName("맛집 요청 테스트를 통해 해당하는 모든 맛집을 리스트로 조회하는 메소드 테스트")
     @Test
     void findAllRestaurantsByRequestTest() throws JsonProcessingException {
         double latitude = 37.2040;
@@ -73,7 +88,9 @@ class RestaurantRepositoryImplTest {
             System.out.println(restaurantDtoInJsonString);
         }
 
-        Assertions.assertThat(restaurantsWithinRange.size()).isEqualTo(resultList.size());
+        Assertions
+                .assertThat(restaurantsWithinRange.size())
+                .isEqualTo(resultList.size());
     }
 
 }

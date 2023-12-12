@@ -11,10 +11,13 @@ public class RestaurantsDataPreprocessor {
         if (restaurant.getName().isBlank()) {
             return false;
         }
+        if (restaurant.getCloseOrOpen().isBlank()) {
+            return false;
+        }
         if (restaurant.getTypeOfFoods().isBlank()) {
             return false;
         }
-        if (restaurant.getAddressAsLocationName().isBlank() && restaurant.getAddressAsRoadName().isBlank()) {
+        if (restaurant.getAddressAsRoadName().isBlank()) {
             return false;
         }
         if (restaurant.getLatitude() == null) {

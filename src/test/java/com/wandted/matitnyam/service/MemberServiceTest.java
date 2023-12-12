@@ -79,7 +79,10 @@ class MemberServiceTest {
         memberService.update(coordinatesRequest, username);
 
         Optional<Member> mayBeFoundMember = memberRepository.findByUsername(username);
-        Assert.isTrue(mayBeFoundMember.isPresent());
+        Assertions
+                .assertThat(mayBeFoundMember.isPresent())
+                .isTrue();
+
         Member foundMember = mayBeFoundMember.get();
         Assertions
                 .assertThat(foundMember.getLatitude())
@@ -113,7 +116,10 @@ class MemberServiceTest {
         memberService.update(coordinatesRequest, username);
 
         Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
-        Assert.isTrue(mayBeFoundMemberDetails.isPresent());
+        Assertions
+                .assertThat(mayBeFoundMemberDetails.isPresent())
+                .isTrue();
+
         MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
         Assertions
                 .assertThat(foundMemberDetails.latitude())

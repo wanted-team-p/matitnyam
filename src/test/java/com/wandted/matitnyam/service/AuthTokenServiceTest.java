@@ -39,8 +39,12 @@ class AuthTokenServiceTest {
         System.out.println("token = " + token);
 
         PrincipalDto parsedPrincipal = authTokenService.parseToken(token);
-        Assertions.assertThat(parsedPrincipal.name()).isEqualTo(name);
-        Assertions.assertThat(parsedPrincipal.authority()).isEqualTo(Authority.USER);
+        Assertions
+                .assertThat(parsedPrincipal.name())
+                .isEqualTo(name);
+        Assertions
+                .assertThat(parsedPrincipal.authority())
+                .isEqualTo(Authority.USER);
     }
 
     @DisplayName("유효하지 않은 토큰 파싱 테스트")
@@ -50,7 +54,8 @@ class AuthTokenServiceTest {
                 + ".eyJzdWIiOiJuZXBwaW5lc3MiLCJpYXQiOjE3MDA5ODQ4NjEsImV4cCI6MTcwMDk4NjY2MSwiYXV0aCI6IlVTRVIifQ"
                 + ".u5wOyEeDh-68d10XeAmGwnbsLbVjSUu1ICpxe0o6tLP";
 
-        Assertions.assertThatThrownBy(() -> authTokenService.parseToken(invalidToken))
+        Assertions
+                .assertThatThrownBy(() -> authTokenService.parseToken(invalidToken))
                 .isInstanceOf(SignatureException.class);
     }
 
@@ -65,7 +70,8 @@ class AuthTokenServiceTest {
                 + ".eyJzdWIiOiJuZXBwaW5lc3MiLCJpYXQiOjE1MDA5ODQ4NjEsImV4cCI6MTUwMDk4NjY2MSwiYXV0aCI6IlVTRVIifQ"
                 + ".ozmVVI40aidztXYkjefxAomvUXIs1eJesqXu_RYUTIU";
 
-        Assertions.assertThatThrownBy(() -> authTokenService.parseToken(expiredToken))
+        Assertions
+                .assertThatThrownBy(() -> authTokenService.parseToken(expiredToken))
                 .isInstanceOf(ExpiredJwtException.class);
     }
 

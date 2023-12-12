@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import jakarta.xml.bind.JAXBException;
 import java.io.InputStream;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ class RestaurantsDataTest {
 
     private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
+    @DisplayName("xml 전처리 테스트: 시 정보가 없는 음식점은 제외된다.")
     @Test
     void preprocessTest() throws JsonProcessingException, JAXBException {
         String testFilePath = "test/chinese-restaurant-test.xml";
