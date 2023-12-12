@@ -45,16 +45,16 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
         Root<Restaurant> restaurant = query.from(Restaurant.class);
 
         Expression<Double> arcLengthExpression = getArcLengthExpression(builder, restaurant, restaurantRequest);
-        Expression<Double> rangeAsExpression = builder.literal(Double.parseDouble(restaurantRequest.getRange()));
+        Expression<Double> rangeAsExpression = builder.literal(restaurantRequest.getRange());
 
         query.select(builder.construct(RestaurantDto.class, restaurant.get("name"), restaurant.get("closeOrOpen"),
                 restaurant.get("typeOfFoods"), restaurant.get("addressAsRoadName"), restaurant.get("rating"),
                 arcLengthExpression));
         query.where(builder.lessThanOrEqualTo(arcLengthExpression, rangeAsExpression));
         if (restaurantRequest.getSortType().equals(RestaurantSortType.RATE)) {
-            query.orderBy(builder.asc(arcLengthExpression));
-        } else {
             query.orderBy(builder.desc(restaurant.get("rating")));
+        } else {
+            query.orderBy(builder.asc(arcLengthExpression));
         }
 
         return entityManager

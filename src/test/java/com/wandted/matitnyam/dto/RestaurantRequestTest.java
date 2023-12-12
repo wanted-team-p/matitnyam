@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class RestaurantRequestTest {
@@ -14,8 +15,9 @@ class RestaurantRequestTest {
 
     private final Double longitude = 128.8784972;
 
-    private final String range = "3.0";
+    private final Double range = 3.0;
 
+    @DisplayName("정렬 기준이 없는 경우 맛집 리스트 조회 요청 테스트: 정렬 기준이 거리순으로 설정된다.")
     @Test
     void nullInputForSortTypeTest() throws JsonProcessingException {
         RestaurantRequest restaurantRequest = RestaurantRequest.builder()
@@ -30,6 +32,7 @@ class RestaurantRequestTest {
         System.out.println(restaurantRequestInJson);
     }
 
+    @DisplayName("맛집 리스트 조회 시 정렬 기준이 '평점순'인 경우 맛집 리스트 조회 요청 테스트: 정렬 기준은 평점순으로 설정된다.")
     @Test
     void ExpectedBehaviorTest() throws JsonProcessingException {
         RestaurantRequest restaurantRequest = RestaurantRequest.builder()

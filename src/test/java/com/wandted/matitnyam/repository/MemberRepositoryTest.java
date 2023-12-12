@@ -8,6 +8,7 @@ import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -21,6 +22,7 @@ class MemberRepositoryTest {
     private final String username = "kim-jeonghyun";
     private final String password = "1234";
 
+    @DisplayName("동일한 유저 이름이 있는 경우에 대한 테스트")
     @Test
     void hasDuplicatedNameTest() {
         Member member = Member.builder()
@@ -28,9 +30,13 @@ class MemberRepositoryTest {
                 .password(password)
                 .build();
         memberRepository.save(member);
-        Assertions.assertThat(memberRepository.hasDuplicatedName(username)).isTrue();
+
+        Assertions
+                .assertThat(memberRepository.hasDuplicatedName(username))
+                .isTrue();
     }
 
+    @DisplayName("유저 이름과 패스워드로 유저를 찾는 메소드 테스트")
     @Test
     void findIdByUsernameAndPasswordTest() {
         Member member = Member.builder()
@@ -38,15 +44,22 @@ class MemberRepositoryTest {
                 .password(password)
                 .build();
         memberRepository.save(member);
+
         MemberRequest memberRequest = MemberRequest.builder()
                 .name(username)
                 .password(password)
                 .build();
         Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findByNameAndPassword(memberRequest);
-        Assertions.assertThat(mayBeFoundPrincipal.isPresent()).isTrue();
-        Assertions.assertThat(mayBeFoundPrincipal.get().name()).isEqualTo(username);
+
+        Assertions
+                .assertThat(mayBeFoundPrincipal.isPresent())
+                .isTrue();
+        Assertions
+                .assertThat(mayBeFoundPrincipal.get().name())
+                .isEqualTo(username);
     }
 
+    @DisplayName("유저 이름과 패스워드로 유저를 찾는 메소드 예외 테스트")
     @Test
     void findIdByNameAndPasswordExceptionTest() {
         Member member = Member.builder()
@@ -54,15 +67,20 @@ class MemberRepositoryTest {
                 .password(password)
                 .build();
         memberRepository.save(member);
+
         String wrongPassword = "1235";
         MemberRequest memberRequest = MemberRequest.builder()
                 .name(username)
                 .password(wrongPassword)
                 .build();
+
         Optional<PrincipalDto> mayBeFoundMember = memberRepository.findByNameAndPassword(memberRequest);
-        Assertions.assertThat(mayBeFoundMember.isEmpty()).isTrue();
+        Assertions
+                .assertThat(mayBeFoundMember.isEmpty())
+                .isTrue();
     }
 
+    @DisplayName("유저 이름으로 해당 유저를 찾는 메소드 테스트")
     @Test
     void findByUsernameTest() {
         Member member = Member.builder()
@@ -70,11 +88,15 @@ class MemberRepositoryTest {
                 .password(password)
                 .build();
         memberRepository.save(member);
+
         Optional<Member> mayBeFoundMember = memberRepository.findByUsername(username);
-        Assertions.assertThat(mayBeFoundMember.isPresent()).isTrue();
-        Member foundMember = mayBeFoundMember.get();
+
+        Assertions
+                .assertThat(mayBeFoundMember.isPresent())
+                .isTrue();
     }
 
+    @DisplayName("유저 상세 정보 조회 메소드 테스트")
     @Test
     void findDetailsTest() {
         Double latitude = 3.14;
@@ -91,13 +113,23 @@ class MemberRepositoryTest {
         memberRepository.save(member);
 
         Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
-        Assertions.assertThat(mayBeFoundMemberDetails.isPresent()).isTrue();
-        MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+        Assertions
+                .assertThat(mayBeFoundMemberDetails.isPresent())
+                .isTrue();
 
-        Assertions.assertThat(foundMemberDetails.latitude()).isEqualTo(latitude);
-        Assertions.assertThat(foundMemberDetails.longitude()).isEqualTo(longitude);
-        Assertions.assertThat(foundMemberDetails.name()).isEqualTo(username);
-        Assertions.assertThat(foundMemberDetails.authority()).isEqualTo(Authority.USER);
+        MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+        Assertions
+                .assertThat(foundMemberDetails.latitude())
+                .isEqualTo(latitude);
+        Assertions
+                .assertThat(foundMemberDetails.longitude())
+                .isEqualTo(longitude);
+        Assertions
+                .assertThat(foundMemberDetails.name())
+                .isEqualTo(username);
+        Assertions
+                .assertThat(foundMemberDetails.authority())
+                .isEqualTo(Authority.USER);
     }
 
 }

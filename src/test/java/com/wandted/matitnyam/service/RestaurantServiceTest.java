@@ -9,6 +9,7 @@ import com.wandted.matitnyam.dto.RestaurantDetailDto;
 import java.io.IOException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,6 +24,7 @@ class RestaurantServiceTest {
 
     final static ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
+    @DisplayName("맛집 정보 업로드 테스트")
     @Transactional
     @Test
     void uploadTest() throws JsonProcessingException {
@@ -55,9 +57,12 @@ class RestaurantServiceTest {
         String changedRestaurantInformationAsString = objectWriter.writeValueAsString(returnedRestaurant);
         System.out.println(changedRestaurantInformationAsString);
 
-        Assertions.assertThat(restaurant.getSeq()).isEqualTo(returnedRestaurant.getSeq());
+        Assertions
+                .assertThat(restaurant.getSeq())
+                .isEqualTo(returnedRestaurant.getSeq());
     }
 
+    @DisplayName("시도 정보를 통한 시군구 리스트 조회 테스트")
     @Test
     void findRegionByDosiTest() throws IOException {
         String gyeonggi = "경기";
@@ -70,6 +75,7 @@ class RestaurantServiceTest {
         }
     }
 
+    @DisplayName("시군구 정보를 통한 시도 리스트 조회 테스트")
     @Test
     void findRegionBySggTest() throws IOException {
         String dongu = "동구";
@@ -82,6 +88,7 @@ class RestaurantServiceTest {
         }
     }
 
+    @DisplayName("맛집 상세 정보 조회 테스트")
     @Transactional
     @Test
     @Sql(value = "classpath:test/h2.sql")

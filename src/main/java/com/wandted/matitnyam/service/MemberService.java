@@ -20,7 +20,7 @@ public class MemberService {
     private final AuthTokenService authTokenService;
 
     public void set(MemberRequest memberRequest) {
-        // TODO: memberRequest의 유효한 비밀번호 검증 로직
+        // TODO: memberRequest의 비밀번호 유효성 검증 로직
         checkDuplicatedName(memberRequest.name());
 
         Member member = Member.builder()
