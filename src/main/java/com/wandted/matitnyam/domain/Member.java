@@ -1,6 +1,6 @@
 package com.wandted.matitnyam.domain;
 
-import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.dto.MemberResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -41,9 +41,18 @@ public class Member {
         this.authority = Authority.USER;
     }
 
-    public void setCoordinates(final CoordinatesRequest coordinatesRequest) {
-        this.latitude = coordinatesRequest.getLatitude();
-        this.longitude = coordinatesRequest.getLongitude();
+    public void setCoordinates(final Coordinates coordinates) {
+        this.latitude = coordinates.latitudeInDegrees();
+        this.longitude = coordinates.longitudeInDegrees();
+    }
+
+    public MemberResponse toResponse() {
+        return MemberResponse.builder()
+                .name(this.name)
+                .authority(this.authority)
+                .latitude(latitude)
+                .longitude(longitude)
+                .build();
     }
 
 }

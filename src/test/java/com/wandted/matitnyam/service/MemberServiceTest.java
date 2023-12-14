@@ -1,7 +1,7 @@
 package com.wandted.matitnyam.service;
 
+import com.wandted.matitnyam.domain.Coordinates;
 import com.wandted.matitnyam.domain.Member;
-import com.wandted.matitnyam.dto.CoordinatesRequest;
 import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.TokenResponse;
@@ -75,11 +75,11 @@ class MemberServiceTest {
                 .build();
         memberService.set(memberRequest);
 
-        CoordinatesRequest coordinatesRequest = CoordinatesRequest.builder()
-                .latitude(latitude)
-                .longitude(longitude)
+        Coordinates coordinates = Coordinates.builder()
+                .latitudeInDegrees(latitude)
+                .longitudeInDegrees(longitude)
                 .build();
-        memberService.update(coordinatesRequest, username);
+        memberService.updateCoordinates(coordinates, username);
 
         Optional<Member> mayBeFoundMember = memberRepository.findByUsername(username);
         Assertions
@@ -113,11 +113,11 @@ class MemberServiceTest {
                 .build();
         memberService.set(memberRequest);
 
-        CoordinatesRequest coordinatesRequest = CoordinatesRequest.builder()
-                .latitude(latitude)
-                .longitude(longitude)
+        Coordinates coordinates = Coordinates.builder()
+                .latitudeInDegrees(latitude)
+                .longitudeInDegrees(longitude)
                 .build();
-        memberService.update(coordinatesRequest, username);
+        memberService.updateCoordinates(coordinates, username);
 
         Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
         Assertions

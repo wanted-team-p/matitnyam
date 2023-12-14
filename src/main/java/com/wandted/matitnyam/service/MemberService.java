@@ -1,9 +1,10 @@
 package com.wandted.matitnyam.service;
 
+import com.wandted.matitnyam.domain.Coordinates;
 import com.wandted.matitnyam.domain.Member;
-import com.wandted.matitnyam.dto.CoordinatesRequest;
 import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
+import com.wandted.matitnyam.dto.MemberResponse;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import com.wandted.matitnyam.dto.TokenResponse;
 import com.wandted.matitnyam.exception.ResourceNotFoundException;
@@ -19,7 +20,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AuthTokenService authTokenService;
 
-    public void set(MemberRequest memberRequest) {
+    public MemberResponse set(MemberRequest memberRequest) {
         // TODO: memberRequest의 비밀번호 유효성 검증 로직
         checkDuplicatedName(memberRequest.name());
 
@@ -27,7 +28,8 @@ public class MemberService {
                 .name(memberRequest.name())
                 .password(memberRequest.password())
                 .build();
-        memberRepository.save(member);
+        Member createdMember = memberRepository.save(member);
+        return createdMember.toResponse();
     }
 
     public TokenResponse signIn(MemberRequest memberRequest) {
@@ -40,14 +42,15 @@ public class MemberService {
                 .build();
     }
 
-    public void update(CoordinatesRequest coordinatesRequest, String username) {
+    public MemberResponse updateCoordinates(Coordinates coordinates, String username) {
         Optional<Member> mayBeFoundMember  = memberRepository.findByUsername(username);
         if (mayBeFoundMember.isEmpty()) {
             throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
         }
         Member foundMember = mayBeFoundMember.get();
-        foundMember.setCoordinates(coordinatesRequest);
-        memberRepository.save(foundMember);
+        foundMember.setCoordinates(coordinates);
+        Member updatedMember = memberRepository.save(foundMember);
+        return updatedMember.toResponse();
     }
 
     public MemberDetails getDetails(PrincipalDto principal) {

@@ -27,32 +27,29 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/find-region")
-    List<String> findRegion(@ModelAttribute Region region,
+    ResponseEntity<List<String>> findRegion(@ModelAttribute Region region,
                             @Principal PrincipalDto principal) throws IOException {
         if (region.sgg() == null && region.dosi() == null) {
             throw new IllegalArgumentException("시군구 또는 시도 정보를 입력해주세요.");
         }
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.findRegion(region))
-                .getBody();
+                .body(restaurantService.findRegion(region));
     }
 
     @GetMapping("/search")
-    List<RestaurantDto> search(@ModelAttribute @Valid RestaurantRequest restaurantRequest,
+    ResponseEntity<List<RestaurantDto>> search(@ModelAttribute @Valid RestaurantRequest restaurantRequest,
                                @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.search(restaurantRequest))
-                .getBody();
+                .body(restaurantService.search(restaurantRequest));
     }
 
     @GetMapping("/detail/{id}")
-    RestaurantDetailDto getDetail(@PathVariable Long id, @Principal PrincipalDto principal) {
+    ResponseEntity<RestaurantDetailDto> getDetail(@PathVariable Long id, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(restaurantService.getDetailById(id))
-                .getBody();
+                .body(restaurantService.getDetailById(id));
     }
 
 }

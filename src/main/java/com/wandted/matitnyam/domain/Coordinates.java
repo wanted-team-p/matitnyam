@@ -1,10 +1,12 @@
 package com.wandted.matitnyam.domain;
 
+import java.beans.ConstructorProperties;
 import lombok.Builder;
 
 public record Coordinates(Double latitudeInDegrees, Double longitudeInDegrees) {
 
     @Builder
+    @ConstructorProperties({"latitude", "longitude"})
     public Coordinates {
     }
 

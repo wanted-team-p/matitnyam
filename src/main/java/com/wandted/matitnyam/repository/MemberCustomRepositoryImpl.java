@@ -72,7 +72,7 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<MemberDetails> query = builder.createQuery(MemberDetails.class);
         Root<Member> member = query.from(Member.class);
-        query.select(builder.construct(MemberDetails.class, member.get("name"), member.get("authority"),
+        query.select(builder.construct(MemberDetails.class, member.get("seq"), member.get("name"), member.get("authority"),
                 member.get("latitude"), member.get("longitude")));
 
         Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));
