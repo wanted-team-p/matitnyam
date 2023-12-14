@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Member {
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long seq;
 

@@ -6,13 +6,13 @@ import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.TokenResponse;
 import com.wandted.matitnyam.repository.MemberRepository;
-import io.jsonwebtoken.lang.Assert;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
@@ -25,6 +25,7 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
+    @Rollback
     @DisplayName("set 중복 요청 테스트")
     @Test
     void duplicatedMemberTest() {
@@ -42,6 +43,7 @@ class MemberServiceTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
+    @Rollback
     @DisplayName("signIn 테스트")
     @Test
     void signInTest() {
@@ -58,6 +60,7 @@ class MemberServiceTest {
         System.out.println(response.token());
     }
 
+    @Rollback
     @DisplayName("update 테스트")
     @Test
     void updateTest() {
@@ -95,6 +98,7 @@ class MemberServiceTest {
                 .isEqualTo(1);
     }
 
+    @Rollback
     @DisplayName("getDetails 테스트")
     @Test
     void getDetailsTest() {
