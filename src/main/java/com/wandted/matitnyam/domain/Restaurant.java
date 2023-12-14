@@ -87,6 +87,12 @@ public class Restaurant {
         this.rating = restaurant.rating;
     }
 
+    public void updateRatings(long totalRatings, long numberOfReviews) {
+        this.totalRatings = totalRatings;
+        this.numberOfReviews = numberOfReviews;
+        this.rating = (double) totalRatings / numberOfReviews;
+    }
+
     public RestaurantDetailDto toDetailDtoWithDistance() {
         return RestaurantDetailDto.builder()
                 .city(this.city)
