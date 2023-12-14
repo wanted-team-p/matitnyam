@@ -1,9 +1,10 @@
-package com.wandted.matitnyam.repository;
+package com.wandted.matitnyam.repository.impl;
 
 import com.wandted.matitnyam.domain.Member;
 import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
+import com.wandted.matitnyam.repository.MemberCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;

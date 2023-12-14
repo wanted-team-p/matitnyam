@@ -1,9 +1,10 @@
-package com.wandted.matitnyam.repository;
+package com.wandted.matitnyam.repository.impl;
 
 import com.wandted.matitnyam.domain.Restaurant;
 import com.wandted.matitnyam.dto.RestaurantDto;
 import com.wandted.matitnyam.dto.RestaurantRequest;
 import com.wandted.matitnyam.dto.RestaurantSortType;
+import com.wandted.matitnyam.repository.RestaurantCustomRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
