@@ -13,19 +13,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 class RestaurantServiceTest {
 
+    final static ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     @Autowired
     private RestaurantService restaurantService;
 
-    final static ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
     @DisplayName("맛집 정보 업로드 테스트")
-    @Transactional
+    @Rollback
     @Test
     void uploadTest() throws JsonProcessingException {
         String name = "삼국지";
@@ -35,16 +35,17 @@ class RestaurantServiceTest {
         String isClose = "폐업";
         String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
 
-        Restaurant restaurant = Restaurant.builder()
+        Restaurant initialRestaurant = Restaurant.builder()
                 .name(name)
                 .latitude(latitude)
                 .longitude(longitude)
                 .closeOrOpen(isOpen)
                 .addressAsRoadName(addressAsRoadName)
                 .build();
-        restaurantService.upload(restaurant);
-        String restaurantInformationAsString = objectWriter.writeValueAsString(restaurant);
-        System.out.println(restaurantInformationAsString);
+        Restaurant returnedInitialRestaurant = restaurantService.upload(initialRestaurant);
+        String uploadedInitialRestaurantAsString = objectWriter.writeValueAsString(
+                returnedInitialRestaurant);
+        System.out.println(uploadedInitialRestaurantAsString);
 
         Restaurant changedRestaurant = Restaurant.builder()
                 .name(name)
@@ -53,13 +54,13 @@ class RestaurantServiceTest {
                 .closeOrOpen(isClose)
                 .addressAsRoadName(addressAsRoadName)
                 .build();
-        Restaurant returnedRestaurant = restaurantService.upload(changedRestaurant);
-        String changedRestaurantInformationAsString = objectWriter.writeValueAsString(returnedRestaurant);
-        System.out.println(changedRestaurantInformationAsString);
+        Restaurant returnedChangedRestaurant = restaurantService.upload(changedRestaurant);
+        String returnedRestaurantInformationAsString = objectWriter.writeValueAsString(returnedChangedRestaurant);
+        System.out.println(returnedRestaurantInformationAsString);
 
         Assertions
-                .assertThat(restaurant.getSeq())
-                .isEqualTo(returnedRestaurant.getSeq());
+                .assertThat(returnedInitialRestaurant.getSeq())
+                .isEqualTo(returnedChangedRestaurant.getSeq());
     }
 
     @DisplayName("시도 정보를 통한 시군구 리스트 조회 테스트")
@@ -89,7 +90,7 @@ class RestaurantServiceTest {
     }
 
     @DisplayName("맛집 상세 정보 조회 테스트")
-    @Transactional
+    @Rollback
     @Test
     @Sql(value = "classpath:test/h2.sql")
     void searchTest() throws JsonProcessingException {
