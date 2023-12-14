@@ -1,8 +1,8 @@
 package com.wandted.matitnyam.repository;
 
 import com.wandted.matitnyam.domain.Authority;
+import com.wandted.matitnyam.domain.Coordinates;
 import com.wandted.matitnyam.domain.Member;
-import com.wandted.matitnyam.dto.CoordinatesRequest;
 import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
 import com.wandted.matitnyam.dto.PrincipalDto;
@@ -105,12 +105,12 @@ class MemberRepositoryTest {
                 .name(username)
                 .password(password)
                 .build();
-        CoordinatesRequest coordinatesRequest = CoordinatesRequest.builder()
-                .latitude(latitude)
-                .longitude(longitude)
+        Coordinates coordinates = Coordinates.builder()
+                .latitudeInDegrees(latitude)
+                .longitudeInDegrees(longitude)
                 .build();
-        member.setCoordinates(coordinatesRequest);
-        memberRepository.save(member);
+        member.setCoordinates(coordinates);
+        Member createdMember = memberRepository.save(member);
 
         Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
         Assertions
@@ -118,6 +118,9 @@ class MemberRepositoryTest {
                 .isTrue();
 
         MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+        Assertions
+                .assertThat(foundMemberDetails.seq())
+                .isEqualTo(createdMember.getSeq());
         Assertions
                 .assertThat(foundMemberDetails.latitude())
                 .isEqualTo(latitude);

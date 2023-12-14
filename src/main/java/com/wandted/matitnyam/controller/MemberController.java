@@ -1,9 +1,9 @@
 package com.wandted.matitnyam.controller;
 
-import com.wandted.matitnyam.domain.Member;
-import com.wandted.matitnyam.dto.CoordinatesRequest;
+import com.wandted.matitnyam.domain.Coordinates;
 import com.wandted.matitnyam.dto.MemberDetails;
 import com.wandted.matitnyam.dto.MemberRequest;
+import com.wandted.matitnyam.dto.MemberResponse;
 import com.wandted.matitnyam.dto.Principal;
 import com.wandted.matitnyam.dto.PrincipalDto;
 import com.wandted.matitnyam.dto.TokenResponse;
@@ -27,11 +27,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping(path = "/")
-    public ResponseEntity<Member> signUp(@Valid @ModelAttribute MemberRequest memberRequest) {
-        memberService.set(memberRequest);
+    public ResponseEntity<MemberResponse> signUp(@Valid @ModelAttribute MemberRequest memberRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .build();
+                .body(memberService.set(memberRequest));
     }
 
     @GetMapping(path = "/")
@@ -42,18 +41,17 @@ public class MemberController {
     }
 
     @PutMapping(path = "/update")
-    public ResponseEntity<Void> update(@Valid @ModelAttribute CoordinatesRequest coordinatesRequest,
-                                       @Principal PrincipalDto principal) {
-        memberService.update(coordinatesRequest, principal.name());
+    public ResponseEntity<MemberResponse> update(@Valid @ModelAttribute Coordinates coordinates,
+                                                 @Principal PrincipalDto principal) {
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
-                .build();
+                .status(HttpStatus.OK)
+                .body(memberService.updateCoordinates(coordinates, principal.name()));
     }
 
     @GetMapping(path = "/details")
     public ResponseEntity<MemberDetails> getDetails(@Principal PrincipalDto principal) {
         return ResponseEntity
-                .status(HttpStatus.ACCEPTED)
+                .status(HttpStatus.OK)
                 .body(memberService.getDetails(principal));
     }
 
