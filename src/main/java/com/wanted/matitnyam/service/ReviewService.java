@@ -30,44 +30,44 @@ public class ReviewService {
 
     public Review create(ReviewRequest reviewRequest, String username) {
         Member foundMember = findMemberByUsername(username);
-        Restaurant foundRestaurant = findRestaurantById(reviewRequest.getRestaurantId());
+        Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
-        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.getRating();
+        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating();
         long noOfReviews = foundRestaurant.getNumberOfReviews() + 1;
         Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, noOfReviews);
 
         Review review = Review.builder()
-                .seq(reviewRequest.getReviewId())
+                .seq(reviewRequest.reviewId())
                 .member(foundMember)
                 .restaurant(updatedRestaurant)
-                .rating(reviewRequest.getRating())
-                .opinion(reviewRequest.getOpinion())
+                .rating(reviewRequest.rating())
+                .opinion(reviewRequest.opinion())
                 .build();
         return reviewRepository.save(review);
     }
 
     public Review update(ReviewRequest reviewRequest, String username) throws JsonProcessingException {
         Member foundMember = findMemberByUsername(username);
-        Review foundReview = findReviewById(reviewRequest.getReviewId());
+        Review foundReview = findReviewById(reviewRequest.reviewId());
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 수정할 권한이 업습니다.");
         }
-        Restaurant foundRestaurant = findRestaurantById(reviewRequest.getRestaurantId());
+        Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
         ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
         String foundRestaurantAsString = objectWriter.writeValueAsString(foundRestaurant);
         System.out.println(foundRestaurantAsString);
 
-        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.getRating() - foundReview.getRating();
+        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
         long numberOfReviews = foundRestaurant.getNumberOfReviews();
         Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, numberOfReviews);
 
         Review review = Review.builder()
-                .seq(reviewRequest.getReviewId())
+                .seq(reviewRequest.reviewId())
                 .member(foundMember)
                 .restaurant(updatedRestaurant)
-                .rating(reviewRequest.getRating())
-                .opinion(reviewRequest.getOpinion())
+                .rating(reviewRequest.rating())
+                .opinion(reviewRequest.opinion())
                 .build();
         return reviewRepository.save(review);
     }

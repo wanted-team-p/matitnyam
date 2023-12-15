@@ -3,20 +3,8 @@ package com.wanted.matitnyam.dto;
 import jakarta.validation.constraints.NotNull;
 import java.beans.ConstructorProperties;
 import lombok.Builder;
-import lombok.Getter;
 
-@Getter
-public class ReviewRequest {
-
-    private final Long reviewId;
-
-    @NotNull
-    private final Long restaurantId;
-
-    @NotNull
-    private final Integer rating;
-
-    private final String opinion;
+public record ReviewRequest(Long reviewId, @NotNull Long restaurantId, @NotNull Integer rating, String opinion) {
 
     @Builder
     @ConstructorProperties({"id", "restaurant-id", "rating", "opinion"})
@@ -27,7 +15,8 @@ public class ReviewRequest {
         this.opinion = opinion;
     }
 
-    public static ReviewRequest createReviewRequestByReviewIdAndRequest(final Long reviewId, final ReviewRequest reviewRequest) {
+    public static ReviewRequest createReviewRequestByReviewIdAndRequest(final Long reviewId,
+                                                                        final ReviewRequest reviewRequest) {
         return ReviewRequest.builder()
                 .reviewId(reviewId)
                 .restaurantId(reviewRequest.restaurantId)
