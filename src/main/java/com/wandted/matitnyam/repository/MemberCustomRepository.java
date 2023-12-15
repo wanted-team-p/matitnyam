@@ -10,7 +10,7 @@ public interface MemberCustomRepository {
 
     boolean hasDuplicatedName(String username);
 
-    Optional<PrincipalDto> findByNameAndPassword(MemberRequest memberRequest);
+    Optional<PrincipalDto> findPrincipalByNameAndPassword(MemberRequest memberRequest);
 
     Optional<Member> findByUsername(String username);
 

@@ -33,7 +33,7 @@ public class MemberService {
     }
 
     public TokenResponse signIn(MemberRequest memberRequest) {
-        Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findByNameAndPassword(memberRequest);
+        Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findPrincipalByNameAndPassword(memberRequest);
         if (mayBeFoundPrincipal.isEmpty()) {
             throw new ResourceNotFoundException("잘못된 계정 또는 잘못된 비밀번호입니다.");
         }
@@ -42,7 +42,7 @@ public class MemberService {
                 .build();
     }
 
-    public MemberResponse updateCoordinates(Coordinates coordinates, String username) {
+    public TokenResponse updateCoordinates(Coordinates coordinates, String username) {
         Optional<Member> mayBeFoundMember  = memberRepository.findByUsername(username);
         if (mayBeFoundMember.isEmpty()) {
             throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
@@ -50,7 +50,10 @@ public class MemberService {
         Member foundMember = mayBeFoundMember.get();
         foundMember.setCoordinates(coordinates);
         Member updatedMember = memberRepository.save(foundMember);
-        return updatedMember.toResponse();
+
+        return TokenResponse.builder()
+                .token(authTokenService.createToken(updatedMember.toPrincipalDto()))
+                .build();
     }
 
     public MemberDetails getDetails(PrincipalDto principal) {

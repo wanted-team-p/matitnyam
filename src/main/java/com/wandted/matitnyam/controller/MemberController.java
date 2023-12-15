@@ -41,7 +41,7 @@ public class MemberController {
     }
 
     @PutMapping(path = "/update")
-    public ResponseEntity<MemberResponse> update(@Valid @ModelAttribute Coordinates coordinates,
+    public ResponseEntity<TokenResponse> update(@Valid @ModelAttribute Coordinates coordinates,
                                                  @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)

@@ -27,6 +27,8 @@ public class AuthTokenService {
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + TOKEN_DURATION_IN_MILLIS))
                 .add("auth", principal.authority())
+                .add("latitude", principal.latitude())
+                .add("longitude", principal.longitude())
                 .build();
 
         return Jwts.builder()
