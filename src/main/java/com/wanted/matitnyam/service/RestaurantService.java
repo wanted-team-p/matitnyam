@@ -1,7 +1,6 @@
 package com.wanted.matitnyam.service;
 
 import com.wanted.matitnyam.domain.Coordinates;
-import com.wanted.matitnyam.domain.Region;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.dto.Mobility;
 import com.wanted.matitnyam.dto.PrincipalDto;
@@ -39,13 +38,6 @@ public class RestaurantService {
         Restaurant restaurantToBeUploaded = new Restaurant(seq, restaurant);
 
         return restaurantRepository.save(restaurantToBeUploaded);
-    }
-
-    public List<String> findRegion(Region region) throws IOException {
-        if (region.sgg() != null) {
-            return dosiSggFinder.findDosiList(region.sgg());
-        }
-        return dosiSggFinder.findSggList(region.dosi());
     }
 
     public List<RestaurantDto> search(RestaurantRequest restaurantRequest) {

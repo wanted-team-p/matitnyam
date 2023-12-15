@@ -3,7 +3,6 @@ package com.wanted.matitnyam.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wanted.matitnyam.domain.Region;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailDto;
@@ -89,32 +88,6 @@ class RestaurantServiceTest {
         RestaurantDetailDto restaurantDetailDto = restaurantService.getDetailById(1L);
         String valueAsString = objectWriter.writeValueAsString(restaurantDetailDto);
         System.out.println(valueAsString);
-    }
-
-    @DisplayName("시도 정보를 통한 시군구 리스트 조회 테스트")
-    @Test
-    void findRegionByDosiTest() throws IOException {
-        String gyeonggi = "경기";
-        Region region = Region.builder()
-                .dosi(gyeonggi)
-                .build();
-        List<String> sggList = restaurantService.findRegion(region);
-        for (String sgg : sggList) {
-            System.out.print(sgg + ' ');
-        }
-    }
-
-    @DisplayName("시군구 정보를 통한 시도 리스트 조회 테스트")
-    @Test
-    void findRegionBySggTest() throws IOException {
-        String dongu = "동구";
-        Region region = Region.builder()
-                .sgg(dongu)
-                .build();
-        List<String> dosiList = restaurantService.findRegion(region);
-        for (String dosi : dosiList) {
-            System.out.print(dosi + ' ');
-        }
     }
 
 }

@@ -1,6 +1,5 @@
 package com.wanted.matitnyam.controller;
 
-import com.wanted.matitnyam.domain.Region;
 import com.wanted.matitnyam.dto.Principal;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.RegionRequest;
@@ -27,17 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class RestaurantController {
 
     private final RestaurantService restaurantService;
-
-    @GetMapping("/find-region")
-    ResponseEntity<List<String>> findRegion(@ModelAttribute Region region,
-                                            @Principal PrincipalDto principal) throws IOException {
-        if (region.sgg() == null && region.dosi() == null) {
-            throw new IllegalArgumentException("시군구 또는 시도 정보를 입력해주세요.");
-        }
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(restaurantService.findRegion(region));
-    }
 
     @GetMapping("/search")
     ResponseEntity<List<RestaurantDto>> search(@ModelAttribute @Valid RestaurantRequest restaurantRequest,
