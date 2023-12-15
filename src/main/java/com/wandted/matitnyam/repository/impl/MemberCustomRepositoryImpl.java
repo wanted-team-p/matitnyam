@@ -34,11 +34,12 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     }
 
     @Override
-    public Optional<PrincipalDto> findByNameAndPassword(MemberRequest memberRequest) {
+    public Optional<PrincipalDto> findPrincipalByNameAndPassword(MemberRequest memberRequest) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<PrincipalDto> query = builder.createQuery(PrincipalDto.class);
         Root<Member> member = query.from(Member.class);
-        query.select(builder.construct(PrincipalDto.class, member.get("name"), member.get("authority")));
+        query.select(builder.construct(PrincipalDto.class, member.get("name"), member.get("authority"),
+                member.get("latitude"), member.get("longitude")));
 
         String name = memberRequest.name();
         String password = memberRequest.password();
@@ -73,8 +74,9 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<MemberDetails> query = builder.createQuery(MemberDetails.class);
         Root<Member> member = query.from(Member.class);
-        query.select(builder.construct(MemberDetails.class, member.get("seq"), member.get("name"), member.get("authority"),
-                member.get("latitude"), member.get("longitude")));
+        query.select(
+                builder.construct(MemberDetails.class, member.get("seq"), member.get("name"), member.get("authority"),
+                        member.get("latitude"), member.get("longitude")));
 
         Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));
         query.where(predicateForName);

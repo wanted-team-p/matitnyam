@@ -17,6 +17,8 @@ class AuthTokenServiceTest {
     AuthTokenService authTokenService;
 
     private final String name = "neppiness";
+    private final Double latitude = 37.146192955;
+    private final Double longitude = 127.0693630667;
 
     @DisplayName("토큰 생성 테스트")
     @Test
@@ -24,6 +26,8 @@ class AuthTokenServiceTest {
         PrincipalDto principal = PrincipalDto.builder()
                 .name(name)
                 .authority(Authority.USER)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
         System.out.println(authTokenService.createToken(principal));
     }
@@ -34,6 +38,8 @@ class AuthTokenServiceTest {
         PrincipalDto givenPrincipal = PrincipalDto.builder()
                 .name(name)
                 .authority(Authority.USER)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
         String token = authTokenService.createToken(givenPrincipal);
         System.out.println("token = " + token);

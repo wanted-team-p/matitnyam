@@ -49,7 +49,7 @@ class MemberRepositoryTest {
                 .name(username)
                 .password(password)
                 .build();
-        Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findByNameAndPassword(memberRequest);
+        Optional<PrincipalDto> mayBeFoundPrincipal = memberRepository.findPrincipalByNameAndPassword(memberRequest);
 
         Assertions
                 .assertThat(mayBeFoundPrincipal.isPresent())
@@ -74,7 +74,7 @@ class MemberRepositoryTest {
                 .password(wrongPassword)
                 .build();
 
-        Optional<PrincipalDto> mayBeFoundMember = memberRepository.findByNameAndPassword(memberRequest);
+        Optional<PrincipalDto> mayBeFoundMember = memberRepository.findPrincipalByNameAndPassword(memberRequest);
         Assertions
                 .assertThat(mayBeFoundMember.isEmpty())
                 .isTrue();

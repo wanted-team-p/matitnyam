@@ -48,8 +48,8 @@ public class SggDataParser {
         return Region.builder()
                 .dosi(dosi)
                 .sgg(sgg)
-                .lon(lon)
-                .lat(lat)
+                .lon(Double.parseDouble(lon))
+                .lat(Double.parseDouble(lat))
                 .build();
     }
 

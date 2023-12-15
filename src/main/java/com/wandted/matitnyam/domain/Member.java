@@ -1,6 +1,7 @@
 package com.wandted.matitnyam.domain;
 
 import com.wandted.matitnyam.dto.MemberResponse;
+import com.wandted.matitnyam.dto.PrincipalDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -50,8 +51,15 @@ public class Member {
         return MemberResponse.builder()
                 .name(this.name)
                 .authority(this.authority)
-                .latitude(latitude)
-                .longitude(longitude)
+                .build();
+    }
+
+    public PrincipalDto toPrincipalDto() {
+        return PrincipalDto.builder()
+                .name(this.name)
+                .authority(this.authority)
+                .latitude(this.latitude)
+                .longitude(this.longitude)
                 .build();
     }
 
