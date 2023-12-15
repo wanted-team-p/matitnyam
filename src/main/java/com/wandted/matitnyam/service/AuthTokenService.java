@@ -46,10 +46,15 @@ public class AuthTokenService {
                 .build()
                 .parseSignedClaims(token);
 
-        String authorityInString = claimsJws.getPayload().get("auth").toString();
-        Authority authority = Authority.convertFromString(authorityInString);
+        String authorityAsString = claimsJws.getPayload().get("auth").toString();
+        Authority authority = Authority.convertFromString(authorityAsString);
+        String name = claimsJws.getPayload().get("sub").toString();
+        Double latitude = Double.parseDouble(claimsJws.getPayload().get("latitude").toString());
+        Double longitude = Double.parseDouble(claimsJws.getPayload().get("longitude").toString());
         return PrincipalDto.builder()
-                .name(claimsJws.getPayload().get("sub").toString())
+                .name(name)
+                .latitude(latitude)
+                .longitude(longitude)
                 .authority(authority)
                 .build();
     }

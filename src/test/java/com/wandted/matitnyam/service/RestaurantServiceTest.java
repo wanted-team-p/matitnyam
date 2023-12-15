@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wandted.matitnyam.domain.Region;
 import com.wandted.matitnyam.domain.Restaurant;
+import com.wandted.matitnyam.dto.RegionRequest;
 import com.wandted.matitnyam.dto.RestaurantDetailDto;
+import com.wandted.matitnyam.dto.RestaurantDto;
 import java.io.IOException;
 import java.util.List;
 import org.assertj.core.api.Assertions;
@@ -63,6 +65,32 @@ class RestaurantServiceTest {
                 .isEqualTo(returnedChangedRestaurant.getSeq());
     }
 
+    @DisplayName("시/도, 시군구 정보로 맛집 목록 조회 테스트")
+    @Test
+    @Sql(value = "classpath:test/h2.sql")
+    void regionNameBasedSearchTest() throws IOException {
+        String dosi = "경기";
+        String sgg = "용인시";
+        RegionRequest regionRequest = RegionRequest.builder()
+                .dosi(dosi)
+                .sgg(sgg)
+                .build();
+        List<RestaurantDto> returnedList = restaurantService.regionNameBasedSearch(regionRequest);
+        for (RestaurantDto restaurantDto : returnedList) {
+            String restaurantDtoAsString = objectWriter.writeValueAsString(restaurantDto);
+            System.out.println(restaurantDtoAsString);
+        }
+    }
+
+    @DisplayName("맛집 상세 정보 조회 테스트")
+    @Test
+    @Sql(value = "classpath:test/h2.sql")
+    void searchTest() throws JsonProcessingException {
+        RestaurantDetailDto restaurantDetailDto = restaurantService.getDetailById(1L);
+        String valueAsString = objectWriter.writeValueAsString(restaurantDetailDto);
+        System.out.println(valueAsString);
+    }
+
     @DisplayName("시도 정보를 통한 시군구 리스트 조회 테스트")
     @Test
     void findRegionByDosiTest() throws IOException {
@@ -88,16 +116,5 @@ class RestaurantServiceTest {
             System.out.print(dosi + ' ');
         }
     }
-
-    @DisplayName("맛집 상세 정보 조회 테스트")
-    @Rollback
-    @Test
-    @Sql(value = "classpath:test/h2.sql")
-    void searchTest() throws JsonProcessingException {
-        RestaurantDetailDto restaurantDetailDto = restaurantService.getDetailById(1L);
-        String valueAsString = objectWriter.writeValueAsString(restaurantDetailDto);
-        System.out.println(valueAsString);
-    }
-
 
 }
