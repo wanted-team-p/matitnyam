@@ -1,8 +1,6 @@
 package com.wanted.matitnyam.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
@@ -53,10 +51,6 @@ public class ReviewService {
             throw new UnauthorizedException("해당 리뷰를 수정할 권한이 업습니다.");
         }
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
-
-        ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-        String foundRestaurantAsString = objectWriter.writeValueAsString(foundRestaurant);
-        System.out.println(foundRestaurantAsString);
 
         long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
         long numberOfReviews = foundRestaurant.getNumberOfReviews();
