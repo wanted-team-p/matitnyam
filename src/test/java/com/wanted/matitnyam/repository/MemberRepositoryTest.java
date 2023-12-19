@@ -20,6 +20,7 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
 
     private final String username = "kim-jeonghyun";
+
     private final String password = "1234";
 
     @DisplayName("동일한 유저 이름이 있는 경우에 대한 테스트")

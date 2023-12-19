@@ -25,9 +25,11 @@ class RestaurantRequestTest {
                 .longitude(longitude)
                 .range(range)
                 .build();
+
         Assertions
                 .assertThat(restaurantRequest.getSortType())
                 .isEqualTo(RestaurantSortType.DISTANCE);
+
         String restaurantRequestInJson = objectWriter.writeValueAsString(restaurantRequest);
         System.out.println(restaurantRequestInJson);
     }
@@ -41,9 +43,11 @@ class RestaurantRequestTest {
                 .range(range)
                 .sortType("평점순")
                 .build();
+
         Assertions
                 .assertThat(restaurantRequest.getSortType())
                 .isEqualTo(RestaurantSortType.RATE);
+
         String restaurantRequestInJson = objectWriter.writeValueAsString(restaurantRequest);
         System.out.println(restaurantRequestInJson);
     }

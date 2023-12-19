@@ -15,9 +15,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@Transactional
 @Sql(value = "classpath:test/h2.sql")
 @SpringBootTest
 class ReviewServiceTest {
@@ -25,18 +29,17 @@ class ReviewServiceTest {
     private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Autowired
-    RestaurantRepository restaurantRepository;
+    private RestaurantRepository restaurantRepository;
 
     @Autowired
-    MemberRepository memberRepository;
+    private ReviewRepository reviewRepository;
 
     @Autowired
-    ReviewRepository reviewRepository;
+    private MemberRepository memberRepository;
 
     @Autowired
-    ReviewService reviewService;
+    private ReviewService reviewService;
 
-    @Rollback
     @DisplayName("create 메소드 테스트: 평점 갱신 로직 확인")
     @Test
     void createTest() throws JsonProcessingException {
@@ -60,11 +63,13 @@ class ReviewServiceTest {
                 .build();
         Review createdReview = reviewService.create(reviewRequest, username);
         String createdReviewAsString = objectWriter.writeValueAsString(createdReview);
-        System.out.println(createdReviewAsString);
 
         Optional<Restaurant> mayBeUpdatedRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeUpdatedRestaurant.isPresent();
         Restaurant updatedRestaurant = mayBeUpdatedRestaurant.get();
+        String updatedRestaurantAsString = objectWriter.writeValueAsString(updatedRestaurant);
+        System.out.println("리뷰 생성 후 갱신된 맛집 조회 결과:");
+        System.out.println(updatedRestaurantAsString);
 
         long expectedNumberOfReviews = numberOfReviewsBeforeUpdate + 1;
         long expectedTotalRatings = totalRatingsBeforeUpdate + rating;
@@ -81,7 +86,6 @@ class ReviewServiceTest {
                 .isEqualTo(expectedRating);
     }
 
-    @Rollback
     @DisplayName("update 메소드 테스트: 평점 갱신 로직 확인")
     @Test
     void updateTest() throws JsonProcessingException {
@@ -97,12 +101,13 @@ class ReviewServiceTest {
                 .opinion(originalOpinion)
                 .build();
         Review createdReview = reviewService.create(reviewRequestToCreate, username);
-        String createdReviewAsString = objectWriter.writeValueAsString(createdReview);
-        System.out.println(createdReviewAsString);
 
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurant.isPresent();
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
+        String foundRestaurantAsString = objectWriter.writeValueAsString(foundRestaurant);
+        System.out.println("\n리뷰 작성 후 갱신된 맛집 조회 결과:");
+        System.out.println(foundRestaurantAsString);
 
         long numberOfReviewsBeforeModification = foundRestaurant.getNumberOfReviews();
         long totalRatingsBeforeModification = foundRestaurant.getTotalRatings();
@@ -115,13 +120,14 @@ class ReviewServiceTest {
                 .rating(modifiedRating)
                 .opinion(modifiedOpinion)
                 .build();
-        Review modifiedReview = reviewService.update(reviewRequestToModify, username);
-        String modifiedReviewAsString = objectWriter.writeValueAsString(modifiedReview);
-        System.out.println(modifiedReviewAsString);
+        reviewService.update(reviewRequestToModify, username);
 
         Optional<Restaurant> mayBeModifiedRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeModifiedRestaurant.isPresent();
         Restaurant modifiedRestaurant = mayBeModifiedRestaurant.get();
+        String modifiedRestaurantAsString = objectWriter.writeValueAsString(modifiedRestaurant);
+        System.out.println("\n리뷰 수정 후 갱신된 맛집 조회 결과:");
+        System.out.println(modifiedRestaurantAsString);
 
         long expectedTotalRatings = totalRatingsBeforeModification - originalRating + modifiedRating;
         double expectedRating = (double) expectedTotalRatings / numberOfReviewsBeforeModification;
@@ -137,38 +143,48 @@ class ReviewServiceTest {
                 .isEqualTo(expectedRating);
     }
 
-    @Rollback
     @DisplayName("delete 메소드 테스트: 평점 갱신 로직 및 데이터 변화 확인")
     @Test
     void deleteTest() throws JsonProcessingException {
         Long restaurantId = 1L;
         String username = "neppiness";
-        int originalRating = 5;
-        String originalOpinion = "최고에요!";
+        int rating = 5;
+        String opinion = "최고에요!";
 
         Optional<Restaurant> mayBeFoundRestaurantBeforeCreateAndDelete = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurantBeforeCreateAndDelete.isPresent();
         Restaurant foundRestaurantBeforeCreateAndDelete = mayBeFoundRestaurantBeforeCreateAndDelete.get();
 
-        long numberOfReviewsBeforeModification = foundRestaurantBeforeCreateAndDelete.getNumberOfReviews();
-        long totalRatingsBeforeModification = foundRestaurantBeforeCreateAndDelete.getTotalRatings();
-        double ratingBeforeModification = foundRestaurantBeforeCreateAndDelete.getRating();
-
         ReviewRequest reviewRequestToCreate = ReviewRequest.builder()
                 .reviewId(null)
                 .restaurantId(restaurantId)
-                .rating(originalRating)
-                .opinion(originalOpinion)
+                .rating(rating)
+                .opinion(opinion)
                 .build();
         Review createdReview = reviewService.create(reviewRequestToCreate, username);
-        String createdReviewAsString = objectWriter.writeValueAsString(createdReview);
-        System.out.println(createdReviewAsString);
+
+        Optional<Restaurant> mayBeFoundRestaurantBeforeDelete = restaurantRepository.findById(restaurantId);
+        assert mayBeFoundRestaurantBeforeDelete.isPresent();
+        Restaurant foundRestaurantBeforeDelete = mayBeFoundRestaurantBeforeDelete.get();
+        String foundRestaurantBeforeDeleteAsString = objectWriter.writeValueAsString(
+                foundRestaurantBeforeDelete);
+        System.out.println("\n리뷰 작성 후 맛집 조회 결과:");
+        System.out.println(foundRestaurantBeforeDeleteAsString);
 
         reviewService.delete(createdReview.getSeq(), username);
 
         Optional<Restaurant> mayBeFoundRestaurantAfterCreateAndDelete = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurantAfterCreateAndDelete.isPresent();
         Restaurant foundRestaurantAfterCreateAndDelete = mayBeFoundRestaurantBeforeCreateAndDelete.get();
+
+        String foundRestaurantAfterCreateAndDeleteAsString = objectWriter.writeValueAsString(
+                foundRestaurantAfterCreateAndDelete);
+        System.out.println("\n리뷰 삭제 후 맛집 조회 결과:");
+        System.out.println(foundRestaurantAfterCreateAndDeleteAsString);
+
+        long numberOfReviewsBeforeModification = foundRestaurantBeforeCreateAndDelete.getNumberOfReviews();
+        long totalRatingsBeforeModification = foundRestaurantBeforeCreateAndDelete.getTotalRatings();
+        double ratingBeforeModification = foundRestaurantBeforeCreateAndDelete.getRating();
 
         long numberOfReviewsAfterModification = foundRestaurantAfterCreateAndDelete.getNumberOfReviews();
         long totalRatingsAfterModification = foundRestaurantAfterCreateAndDelete.getTotalRatings();
@@ -184,9 +200,9 @@ class ReviewServiceTest {
                 .assertThat(ratingAfterModification)
                 .isEqualTo(ratingBeforeModification);
 
-        Optional<Review> tryToFindDeletedReview = reviewRepository.findById(createdReview.getSeq());
+        Optional<Review> mayBeFoundDeletedReview = reviewRepository.findById(createdReview.getSeq());
         Assertions
-                .assertThat(tryToFindDeletedReview.isEmpty())
+                .assertThat(mayBeFoundDeletedReview.isEmpty())
                 .isTrue();
     }
 
