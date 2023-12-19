@@ -1,6 +1,9 @@
 package com.wanted.matitnyam.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.wanted.matitnyam.dto.ReviewDto;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -15,6 +18,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Review {
 
+    private static final String ellipsis = "...";
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     Long seq;
@@ -23,7 +28,8 @@ public class Review {
     @JoinColumn(referencedColumnName = "seq")
     Member member;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(referencedColumnName = "seq")
     Restaurant restaurant;
 
@@ -39,6 +45,22 @@ public class Review {
         this.restaurant = restaurant;
         this.rating = rating;
         this.opinion = opinion;
+    }
+
+    public ReviewDto toDto() {
+        String shortOpinion = getShortOpinion();
+        return ReviewDto.builder()
+                .username(this.member.getName())
+                .rating(this.rating)
+                .opinionInShort(shortOpinion)
+                .build();
+    }
+
+    private String getShortOpinion() {
+        if (this.opinion.length() < ReviewDto.lengthLimit) {
+            return opinion;
+        }
+        return this.opinion.substring(0, ReviewDto.lengthLimit) + ellipsis;
     }
 
 }

@@ -2,14 +2,17 @@ package com.wanted.matitnyam.domain;
 
 import com.wanted.matitnyam.dto.RestaurantDetailDto;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,7 +59,11 @@ public class Restaurant {
     private Long totalRatings = 0L;
 
     @XmlTransient
-    private Double rating = 0.0;
+    private Double rating;
+
+    @XmlTransient
+    @OneToMany(mappedBy = "restaurant")
+    private List<Review> reviews;
 
     @Builder
     public Restaurant(final String city, final String name, final String closeOrOpen, final String typeOfFoods,
@@ -70,6 +77,7 @@ public class Restaurant {
         this.addressAsRoadName = addressAsRoadName;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
     }
 
     public Restaurant(final Long seq, final Restaurant restaurant) {
@@ -84,13 +92,13 @@ public class Restaurant {
         this.longitude = restaurant.longitude;
         this.numberOfReviews = restaurant.numberOfReviews;
         this.totalRatings = restaurant.totalRatings;
-        this.rating = restaurant.rating;
+        this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
     }
 
     public void updateRatings(long totalRatings, long numberOfReviews) {
         this.totalRatings = totalRatings;
         this.numberOfReviews = numberOfReviews;
-        this.rating = (double) totalRatings / numberOfReviews;
+        this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
     }
 
     public RestaurantDetailDto toDetailDtoWithDistance() {
@@ -104,6 +112,13 @@ public class Restaurant {
                 .numberOfReviews(this.numberOfReviews)
                 .rating(this.rating)
                 .build();
+    }
+
+    private Double calculateRating(Long numberOfReviews, Long totalRatings) {
+        if (numberOfReviews == 0L) {
+            return 0.0;
+        }
+        return (double) totalRatings / numberOfReviews;
     }
 
 }
