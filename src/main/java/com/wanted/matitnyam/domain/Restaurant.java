@@ -2,7 +2,6 @@ package com.wanted.matitnyam.domain;
 
 import com.wanted.matitnyam.dto.RestaurantDetailDto;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
