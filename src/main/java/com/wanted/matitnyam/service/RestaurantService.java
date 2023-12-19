@@ -2,12 +2,14 @@ package com.wanted.matitnyam.service;
 
 import com.wanted.matitnyam.domain.Coordinates;
 import com.wanted.matitnyam.domain.Restaurant;
+import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.Mobility;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailDto;
 import com.wanted.matitnyam.dto.RestaurantDto;
 import com.wanted.matitnyam.dto.RestaurantRequest;
+import com.wanted.matitnyam.dto.ReviewDto;
 import com.wanted.matitnyam.exception.ResourceNotFoundException;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.util.DosiSggFinder;
@@ -74,10 +76,21 @@ public class RestaurantService {
     public RestaurantDetailDto getDetailById(Long id) {
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(id);
         if (mayBeFoundRestaurant.isEmpty()) {
-            throw new ResourceNotFoundException("레스토랑 상세 정보를 열람할 수 없습니다.");
+            throw new ResourceNotFoundException("맛집 상세 정보를 열람할 수 없습니다.");
         }
         Restaurant restaurant = mayBeFoundRestaurant.get();
         return restaurant.toDetailDtoWithDistance();
+    }
+
+    public List<ReviewDto> getReviewsById(Long id) {
+        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(id);
+        if (mayBeFoundRestaurant.isEmpty()) {
+            throw new ResourceNotFoundException("해당 맛집을 찾을 수 없습니다.");
+        }
+        List<Review> reviewList = mayBeFoundRestaurant.get().getReviews();
+        return reviewList.stream()
+                .map(Review::toDto)
+                .toList();
     }
 
 }
