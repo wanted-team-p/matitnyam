@@ -12,11 +12,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @SpringBootTest
+@DirtiesContext(classMode = ClassMode.BEFORE_CLASS)
 class MemberServiceTest {
 
     @Autowired
@@ -25,7 +27,6 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @Rollback
     @DisplayName("set 중복 요청 테스트")
     @Test
     void duplicatedMemberTest() {
@@ -43,7 +44,6 @@ class MemberServiceTest {
                 .isInstanceOf(IllegalArgumentException.class);
     }
 
-    @Rollback
     @DisplayName("signIn 테스트")
     @Test
     void signInTest() {
@@ -60,7 +60,6 @@ class MemberServiceTest {
         System.out.println(response.token());
     }
 
-    @Rollback
     @DisplayName("update 테스트")
     @Test
     void updateTest() {
@@ -98,7 +97,6 @@ class MemberServiceTest {
                 .isEqualTo(1);
     }
 
-    @Rollback
     @DisplayName("getDetails 테스트")
     @Test
     void getDetailsTest() {

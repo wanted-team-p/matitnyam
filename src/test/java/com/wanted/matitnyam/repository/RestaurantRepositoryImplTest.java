@@ -13,11 +13,16 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.transaction.annotation.Transactional;
 
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@Transactional
 @Sql(value = "classpath:test/h2.sql")
-@DataJpaTest
+@SpringBootTest
 class RestaurantRepositoryImplTest {
 
     private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
@@ -27,7 +32,7 @@ class RestaurantRepositoryImplTest {
 
     @DisplayName("음식점 이름과 도로명 주소로 맛집을 찾는 메소드 테스트")
     @Test
-    void findByNameAndAddressAsRoadNameTest() {
+    void findByNameAndAddressAsRoadNameTest() throws JsonProcessingException {
         String name = "삼국지";
         String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
         Double latitude = 37.2539499121;
@@ -35,11 +40,14 @@ class RestaurantRepositoryImplTest {
 
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(name,
                 addressAsRoadName);
-
         Assertions
                 .assertThat(mayBeFoundRestaurant.isPresent())
                 .isTrue();
+
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
+        String foundRestaurantAsString = objectWriter.writeValueAsString(foundRestaurant);
+        System.out.println(foundRestaurantAsString);
+
         Assertions
                 .assertThat(foundRestaurant.getName())
                 .isEqualTo(name);
