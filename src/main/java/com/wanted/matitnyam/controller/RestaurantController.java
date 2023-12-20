@@ -6,7 +6,7 @@ import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailResponse;
 import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.service.RestaurantService;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class RestaurantController {
     }
 
     @GetMapping("/reviews-of/{id}")
-    ResponseEntity<List<ReviewDto>> getReviews(@PathVariable Long id, @Principal PrincipalDto principal) {
+    ResponseEntity<List<ReviewShortResponse>> getReviews(@PathVariable Long id, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.getReviewsById(id));

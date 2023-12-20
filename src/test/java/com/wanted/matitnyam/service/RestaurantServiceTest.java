@@ -9,7 +9,7 @@ import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailResponse;
 import com.wanted.matitnyam.dto.RestaurantResponse;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.repository.ReviewRepository;
@@ -132,9 +132,9 @@ class RestaurantServiceTest {
                 .build();
         reviewRepository.save(review2);
 
-        List<ReviewDto> reviewDtoList = restaurantService.getReviewsById(restaurantId);
-        for (ReviewDto reviewDto : reviewDtoList) {
-            String reviewDtoAsString = objectWriter.writeValueAsString(reviewDto);
+        List<ReviewShortResponse> reviewShortResponseList = restaurantService.getReviewsById(restaurantId);
+        for (ReviewShortResponse reviewShortResponse : reviewShortResponseList) {
+            String reviewDtoAsString = objectWriter.writeValueAsString(reviewShortResponse);
             System.out.println(reviewDtoAsString);
         }
     }

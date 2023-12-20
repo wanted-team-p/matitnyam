@@ -9,7 +9,7 @@ import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailResponse;
 import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.exception.ResourceNotFoundException;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.util.DosiSggFinder;
@@ -82,14 +82,14 @@ public class RestaurantService {
         return restaurant.toDetailResponse();
     }
 
-    public List<ReviewDto> getReviewsById(Long id) {
+    public List<ReviewShortResponse> getReviewsById(Long id) {
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(id);
         if (mayBeFoundRestaurant.isEmpty()) {
             throw new ResourceNotFoundException("해당 맛집을 찾을 수 없습니다.");
         }
         List<Review> reviewList = mayBeFoundRestaurant.get().getReviews();
         return reviewList.stream()
-                .map(Review::toDto)
+                .map(Review::toShortResponse)
                 .toList();
     }
 

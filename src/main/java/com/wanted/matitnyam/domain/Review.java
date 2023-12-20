@@ -1,7 +1,8 @@
 package com.wanted.matitnyam.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewResponse;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -47,9 +48,19 @@ public class Review {
         this.opinion = opinion;
     }
 
-    public ReviewDto toDto() {
+    public ReviewResponse toResponse() {
+        return ReviewResponse.builder()
+                .seq(this.seq)
+                .memberResponse(this.member.toResponse())
+                .restaurantDetailResponse(this.restaurant.toDetailResponse())
+                .rating(this.rating)
+                .opinion(this.opinion)
+                .build();
+    }
+
+    public ReviewShortResponse toShortResponse() {
         String shortOpinion = getShortOpinion();
-        return ReviewDto.builder()
+        return ReviewShortResponse.builder()
                 .username(this.member.getName())
                 .rating(this.rating)
                 .opinionInShort(shortOpinion)
@@ -57,10 +68,10 @@ public class Review {
     }
 
     private String getShortOpinion() {
-        if (this.opinion.length() < ReviewDto.lengthLimit) {
+        if (this.opinion.length() < ReviewShortResponse.lengthLimit) {
             return opinion;
         }
-        return this.opinion.substring(0, ReviewDto.lengthLimit) + ellipsis;
+        return this.opinion.substring(0, ReviewShortResponse.lengthLimit) + ellipsis;
     }
 
 }

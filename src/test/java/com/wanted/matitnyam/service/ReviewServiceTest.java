@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.ReviewRequest;
+import com.wanted.matitnyam.dto.ReviewResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.repository.ReviewRepository;
@@ -61,8 +62,7 @@ class ReviewServiceTest {
                 .rating(rating)
                 .opinion(opinion)
                 .build();
-        Review createdReview = reviewService.create(reviewRequest, username);
-        String createdReviewAsString = objectWriter.writeValueAsString(createdReview);
+        reviewService.create(reviewRequest, username);
 
         Optional<Restaurant> mayBeUpdatedRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeUpdatedRestaurant.isPresent();
@@ -100,7 +100,7 @@ class ReviewServiceTest {
                 .rating(originalRating)
                 .opinion(originalOpinion)
                 .build();
-        Review createdReview = reviewService.create(reviewRequestToCreate, username);
+        ReviewResponse createdReviewResponse = reviewService.create(reviewRequestToCreate, username);
 
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurant.isPresent();
@@ -115,7 +115,7 @@ class ReviewServiceTest {
         int modifiedRating = 4;
         String modifiedOpinion = "일행들은 엄청 좋아했는데 저는 음식이 조금 잘 안 맞았어요.";
         ReviewRequest reviewRequestToModify = ReviewRequest.builder()
-                .reviewId(createdReview.getSeq())
+                .reviewId(createdReviewResponse.seq())
                 .restaurantId(restaurantId)
                 .rating(modifiedRating)
                 .opinion(modifiedOpinion)
@@ -161,7 +161,7 @@ class ReviewServiceTest {
                 .rating(rating)
                 .opinion(opinion)
                 .build();
-        Review createdReview = reviewService.create(reviewRequestToCreate, username);
+        ReviewResponse createdReviewResponse = reviewService.create(reviewRequestToCreate, username);
 
         Optional<Restaurant> mayBeFoundRestaurantBeforeDelete = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurantBeforeDelete.isPresent();
@@ -171,7 +171,7 @@ class ReviewServiceTest {
         System.out.println("\n리뷰 작성 후 맛집 조회 결과:");
         System.out.println(foundRestaurantBeforeDeleteAsString);
 
-        reviewService.delete(createdReview.getSeq(), username);
+        reviewService.delete(createdReviewResponse.seq(), username);
 
         Optional<Restaurant> mayBeFoundRestaurantAfterCreateAndDelete = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurantAfterCreateAndDelete.isPresent();
@@ -200,7 +200,7 @@ class ReviewServiceTest {
                 .assertThat(ratingAfterModification)
                 .isEqualTo(ratingBeforeModification);
 
-        Optional<Review> mayBeFoundDeletedReview = reviewRepository.findById(createdReview.getSeq());
+        Optional<Review> mayBeFoundDeletedReview = reviewRepository.findById(createdReviewResponse.seq());
         Assertions
                 .assertThat(mayBeFoundDeletedReview.isEmpty())
                 .isTrue();
