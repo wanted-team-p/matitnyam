@@ -3,7 +3,7 @@ package com.wanted.matitnyam.repository;
 import com.wanted.matitnyam.domain.Authority;
 import com.wanted.matitnyam.domain.Coordinates;
 import com.wanted.matitnyam.domain.Member;
-import com.wanted.matitnyam.dto.MemberDetails;
+import com.wanted.matitnyam.dto.MemberDetailResponse;
 import com.wanted.matitnyam.dto.MemberRequest;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import java.util.Optional;
@@ -113,26 +113,26 @@ class MemberRepositoryTest {
         member.setCoordinates(coordinates);
         Member createdMember = memberRepository.save(member);
 
-        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(username);
+        Optional<MemberDetailResponse> mayBeFoundMemberDetails = memberRepository.findDetail(username);
         Assertions
                 .assertThat(mayBeFoundMemberDetails.isPresent())
                 .isTrue();
 
-        MemberDetails foundMemberDetails = mayBeFoundMemberDetails.get();
+        MemberDetailResponse foundMemberDetailResponse = mayBeFoundMemberDetails.get();
         Assertions
-                .assertThat(foundMemberDetails.seq())
+                .assertThat(foundMemberDetailResponse.seq())
                 .isEqualTo(createdMember.getSeq());
         Assertions
-                .assertThat(foundMemberDetails.latitude())
+                .assertThat(foundMemberDetailResponse.latitude())
                 .isEqualTo(latitude);
         Assertions
-                .assertThat(foundMemberDetails.longitude())
+                .assertThat(foundMemberDetailResponse.longitude())
                 .isEqualTo(longitude);
         Assertions
-                .assertThat(foundMemberDetails.name())
+                .assertThat(foundMemberDetailResponse.name())
                 .isEqualTo(username);
         Assertions
-                .assertThat(foundMemberDetails.authority())
+                .assertThat(foundMemberDetailResponse.authority())
                 .isEqualTo(Authority.USER);
     }
 

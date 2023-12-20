@@ -2,7 +2,7 @@ package com.wanted.matitnyam.service;
 
 import com.wanted.matitnyam.domain.Coordinates;
 import com.wanted.matitnyam.domain.Member;
-import com.wanted.matitnyam.dto.MemberDetails;
+import com.wanted.matitnyam.dto.MemberDetailResponse;
 import com.wanted.matitnyam.dto.MemberRequest;
 import com.wanted.matitnyam.dto.MemberResponse;
 import com.wanted.matitnyam.dto.PrincipalDto;
@@ -57,8 +57,8 @@ public class MemberService {
                 .build();
     }
 
-    public MemberDetails getDetails(PrincipalDto principal) {
-        Optional<MemberDetails> mayBeFoundMemberDetails = memberRepository.findDetails(principal.name());
+    public MemberDetailResponse getDetail(PrincipalDto principal) {
+        Optional<MemberDetailResponse> mayBeFoundMemberDetails = memberRepository.findDetail(principal.name());
         if (mayBeFoundMemberDetails.isEmpty()) {
             throw new ResourceNotFoundException("유저 정보를 찾을 수 없습니다.");
         }
