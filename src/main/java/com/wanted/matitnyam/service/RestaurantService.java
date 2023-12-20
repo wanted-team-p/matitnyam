@@ -6,8 +6,8 @@ import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.Mobility;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.RegionRequest;
-import com.wanted.matitnyam.dto.RestaurantDetailDto;
-import com.wanted.matitnyam.dto.RestaurantDto;
+import com.wanted.matitnyam.dto.RestaurantDetailResponse;
+import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
 import com.wanted.matitnyam.dto.ReviewDto;
 import com.wanted.matitnyam.exception.ResourceNotFoundException;
@@ -42,11 +42,11 @@ public class RestaurantService {
         return restaurantRepository.save(restaurantToBeUploaded);
     }
 
-    public List<RestaurantDto> search(RestaurantRequest restaurantRequest) {
+    public List<RestaurantResponse> search(RestaurantRequest restaurantRequest) {
         return restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
     }
 
-    public List<RestaurantDto> myLocationBasedSearch(String mobilityAsString, PrincipalDto principal) {
+    public List<RestaurantResponse> myLocationBasedSearch(String mobilityAsString, PrincipalDto principal) {
         Mobility mobility = Mobility.parseMobility(mobilityAsString);
         System.out.println(principal.latitude());
         System.out.println(principal.longitude());
@@ -61,7 +61,7 @@ public class RestaurantService {
         return restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
     }
 
-    public List<RestaurantDto> regionNameBasedSearch(RegionRequest regionRequest) throws IOException {
+    public List<RestaurantResponse> regionNameBasedSearch(RegionRequest regionRequest) throws IOException {
         Double rangeInKiloMeter = 10.0;
         Coordinates coordinates = dosiSggFinder.findCoordinatesByDosiAndSgg(regionRequest.dosi(),
                 regionRequest.sgg());
@@ -73,13 +73,13 @@ public class RestaurantService {
         return restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
     }
 
-    public RestaurantDetailDto getDetailById(Long id) {
+    public RestaurantDetailResponse getDetailById(Long id) {
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(id);
         if (mayBeFoundRestaurant.isEmpty()) {
             throw new ResourceNotFoundException("맛집 상세 정보를 열람할 수 없습니다.");
         }
         Restaurant restaurant = mayBeFoundRestaurant.get();
-        return restaurant.toDetailDtoWithDistance();
+        return restaurant.toDetailResponse();
     }
 
     public List<ReviewDto> getReviewsById(Long id) {
