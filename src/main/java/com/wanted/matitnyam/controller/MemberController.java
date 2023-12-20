@@ -42,7 +42,7 @@ public class MemberController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<TokenResponse> update(@Valid @ModelAttribute Coordinates coordinates,
-                                                 @Principal PrincipalDto principal) {
+                                                @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(memberService.updateCoordinates(coordinates, principal.name()));
