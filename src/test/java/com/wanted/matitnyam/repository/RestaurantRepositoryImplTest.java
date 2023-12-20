@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.domain.Coordinates;
 import com.wanted.matitnyam.domain.Restaurant;
-import com.wanted.matitnyam.dto.RestaurantDto;
+import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
 import java.util.List;
 import java.util.Optional;
@@ -90,15 +90,15 @@ class RestaurantRepositoryImplTest {
                 .longitude(longitude)
                 .range(range)
                 .build();
-        List<RestaurantDto> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
+        List<RestaurantResponse> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
         double previousDistance = 0;
-        for (RestaurantDto restaurantDto : resultList) {
-            String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantDto);
+        for (RestaurantResponse restaurantResponse : resultList) {
+            String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantResponse);
             System.out.println(restaurantDtoInJsonString);
             Assertions
-                    .assertThat(restaurantDto.distance())
+                    .assertThat(restaurantResponse.distance())
                     .isGreaterThan(previousDistance);
-            previousDistance = restaurantDto.distance();
+            previousDistance = restaurantResponse.distance();
         }
 
         Assertions
@@ -138,15 +138,15 @@ class RestaurantRepositoryImplTest {
                 .range(range)
                 .sortType("평점순")
                 .build();
-        List<RestaurantDto> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
+        List<RestaurantResponse> resultList = restaurantRepository.findAllRestaurantsByRequest(restaurantRequest);
         double previousRating = 5.0;
-        for (RestaurantDto restaurantDto : resultList) {
-            String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantDto);
+        for (RestaurantResponse restaurantResponse : resultList) {
+            String restaurantDtoInJsonString = objectWriter.writeValueAsString(restaurantResponse);
             System.out.println(restaurantDtoInJsonString);
             Assertions
-                    .assertThat(restaurantDto.rating())
+                    .assertThat(restaurantResponse.rating())
                     .isLessThanOrEqualTo(previousRating);
-            previousRating = restaurantDto.rating();
+            previousRating = restaurantResponse.rating();
         }
 
         Assertions

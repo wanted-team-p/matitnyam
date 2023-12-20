@@ -1,7 +1,7 @@
 package com.wanted.matitnyam.repository.impl;
 
 import com.wanted.matitnyam.domain.Restaurant;
-import com.wanted.matitnyam.dto.RestaurantDto;
+import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
 import com.wanted.matitnyam.dto.RestaurantSortType;
 import com.wanted.matitnyam.repository.RestaurantCustomRepository;
@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepository {
 
     private final EntityManager entityManager;
-
-    double radiusOfEarthInKiloMeter = 6371;
 
     @Override
     public Optional<Restaurant> findByNameAndAddressAsRoadName(String name, String addressAsRoadName) {
@@ -40,15 +38,15 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
     }
 
     @Override
-    public List<RestaurantDto> findAllRestaurantsByRequest(RestaurantRequest restaurantRequest) {
+    public List<RestaurantResponse> findAllRestaurantsByRequest(RestaurantRequest restaurantRequest) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<RestaurantDto> query = builder.createQuery(RestaurantDto.class);
+        CriteriaQuery<RestaurantResponse> query = builder.createQuery(RestaurantResponse.class);
         Root<Restaurant> restaurant = query.from(Restaurant.class);
 
         Expression<Double> arcLengthExpression = getArcLengthExpression(builder, restaurant, restaurantRequest);
         Expression<Double> rangeAsExpression = builder.literal(restaurantRequest.getRange());
 
-        query.select(builder.construct(RestaurantDto.class, restaurant.get("name"), restaurant.get("closeOrOpen"),
+        query.select(builder.construct(RestaurantResponse.class, restaurant.get("name"), restaurant.get("closeOrOpen"),
                 restaurant.get("typeOfFoods"), restaurant.get("addressAsRoadName"), restaurant.get("rating"),
                 arcLengthExpression));
         query.where(builder.lessThanOrEqualTo(arcLengthExpression, rangeAsExpression));
@@ -89,6 +87,7 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
         Expression<Double> arcLengthOfUnitSphereExpression = getArcLengthOfUnitSphereExpression(builder,
                 xCoordinateProductExpression, yCoordinateProductExpression, zCoordinateProductExpression);
 
+        double radiusOfEarthInKiloMeter = 6371;
         return builder.prod(arcLengthOfUnitSphereExpression, radiusOfEarthInKiloMeter);
     }
 

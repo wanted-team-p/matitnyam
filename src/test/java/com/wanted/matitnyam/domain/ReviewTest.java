@@ -3,7 +3,7 @@ package com.wanted.matitnyam.domain;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.repository.ReviewRepository;
@@ -52,12 +52,12 @@ class ReviewTest {
                 .rating(rating)
                 .opinion(opinion)
                 .build();
-        ReviewDto reviewDto = review.toDto();
-        String reviewDtoAsString = objectWriter.writeValueAsString(reviewDto);
+        ReviewShortResponse reviewShortResponse = review.toShortResponse();
+        String reviewDtoAsString = objectWriter.writeValueAsString(reviewShortResponse);
         System.out.println(reviewDtoAsString);
 
         Assertions
-                .assertThat(reviewDto.opinionInShort())
+                .assertThat(reviewShortResponse.opinionInShort())
                 .isEqualTo(shortOpinion);
     }
 

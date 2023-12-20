@@ -1,10 +1,10 @@
 package com.wanted.matitnyam.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.Principal;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.ReviewRequest;
+import com.wanted.matitnyam.dto.ReviewResponse;
 import com.wanted.matitnyam.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,14 +25,14 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("")
-    ResponseEntity<Review> create(@ModelAttribute ReviewRequest reviewRequest, @Principal PrincipalDto principal) {
+    ResponseEntity<ReviewResponse> create(@ModelAttribute ReviewRequest reviewRequest, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(reviewService.create(reviewRequest, principal.name()));
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Review> update(@ModelAttribute ReviewRequest reviewRequest,
+    ResponseEntity<ReviewResponse> update(@ModelAttribute ReviewRequest reviewRequest,
                                   @PathVariable(value = "id") Long reviewId, @Principal PrincipalDto principal)
             throws JsonProcessingException {
         ReviewRequest reviewRequestWithReviewId = ReviewRequest.createReviewRequestByReviewIdAndRequest(reviewId,

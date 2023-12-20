@@ -5,6 +5,7 @@ import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.ReviewRequest;
+import com.wanted.matitnyam.dto.ReviewResponse;
 import com.wanted.matitnyam.exception.ResourceNotFoundException;
 import com.wanted.matitnyam.exception.UnauthorizedException;
 import com.wanted.matitnyam.repository.MemberRepository;
@@ -13,9 +14,7 @@ import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
@@ -26,7 +25,7 @@ public class ReviewService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public Review create(ReviewRequest reviewRequest, String username) {
+    public ReviewResponse create(ReviewRequest reviewRequest, String username) {
         Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
@@ -41,10 +40,11 @@ public class ReviewService {
                 .rating(reviewRequest.rating())
                 .opinion(reviewRequest.opinion())
                 .build();
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return savedReview.toResponse();
     }
 
-    public Review update(ReviewRequest reviewRequest, String username) throws JsonProcessingException {
+    public ReviewResponse update(ReviewRequest reviewRequest, String username) throws JsonProcessingException {
         Member foundMember = findMemberByUsername(username);
         Review foundReview = findReviewById(reviewRequest.reviewId());
         if (!foundReview.getMember().getName().equals(username)) {
@@ -63,7 +63,8 @@ public class ReviewService {
                 .rating(reviewRequest.rating())
                 .opinion(reviewRequest.opinion())
                 .build();
-        return reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return savedReview.toResponse();
     }
 
     public void delete(Long reviewId, String username) {

@@ -3,10 +3,10 @@ package com.wanted.matitnyam.controller;
 import com.wanted.matitnyam.dto.Principal;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.RegionRequest;
-import com.wanted.matitnyam.dto.RestaurantDetailDto;
-import com.wanted.matitnyam.dto.RestaurantDto;
+import com.wanted.matitnyam.dto.RestaurantDetailResponse;
+import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.service.RestaurantService;
 import jakarta.validation.Valid;
 import java.io.IOException;
@@ -29,38 +29,38 @@ public class RestaurantController {
     private final RestaurantService restaurantService;
 
     @GetMapping("/search")
-    ResponseEntity<List<RestaurantDto>> search(@ModelAttribute @Valid RestaurantRequest restaurantRequest,
-                                               @Principal PrincipalDto principal) {
+    ResponseEntity<List<RestaurantResponse>> search(@ModelAttribute @Valid RestaurantRequest restaurantRequest,
+                                                    @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.search(restaurantRequest));
     }
 
     @GetMapping("/my-location-based/search")
-    ResponseEntity<List<RestaurantDto>> myLocationBasedSearch(@RequestParam(name = "mobility") String mobilityAsString,
-                                                              @Principal PrincipalDto principal) {
+    ResponseEntity<List<RestaurantResponse>> myLocationBasedSearch(@RequestParam(name = "mobility") String mobilityAsString,
+                                                                   @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.myLocationBasedSearch(mobilityAsString, principal));
     }
 
     @GetMapping("/region-name-based/search")
-    ResponseEntity<List<RestaurantDto>> regionNameBasedSearch(@ModelAttribute RegionRequest regionRequest,
-                                                              @Principal PrincipalDto principal) throws IOException {
+    ResponseEntity<List<RestaurantResponse>> regionNameBasedSearch(@ModelAttribute RegionRequest regionRequest,
+                                                                   @Principal PrincipalDto principal) throws IOException {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.regionNameBasedSearch(regionRequest));
     }
 
     @GetMapping("/detail/{id}")
-    ResponseEntity<RestaurantDetailDto> getDetail(@PathVariable Long id, @Principal PrincipalDto principal) {
+    ResponseEntity<RestaurantDetailResponse> getDetail(@PathVariable Long id, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.getDetailById(id));
     }
 
     @GetMapping("/reviews-of/{id}")
-    ResponseEntity<List<ReviewDto>> getReviews(@PathVariable Long id, @Principal PrincipalDto principal) {
+    ResponseEntity<List<ReviewShortResponse>> getReviews(@PathVariable Long id, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.getReviewsById(id));

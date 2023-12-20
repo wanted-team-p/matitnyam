@@ -1,7 +1,7 @@
 package com.wanted.matitnyam.repository.impl;
 
 import com.wanted.matitnyam.domain.Member;
-import com.wanted.matitnyam.dto.MemberDetails;
+import com.wanted.matitnyam.dto.MemberDetailResponse;
 import com.wanted.matitnyam.dto.MemberRequest;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.repository.MemberCustomRepository;
@@ -70,12 +70,12 @@ public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     }
 
     @Override
-    public Optional<MemberDetails> findDetails(String username) {
+    public Optional<MemberDetailResponse> findDetail(String username) {
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<MemberDetails> query = builder.createQuery(MemberDetails.class);
+        CriteriaQuery<MemberDetailResponse> query = builder.createQuery(MemberDetailResponse.class);
         Root<Member> member = query.from(Member.class);
         query.select(
-                builder.construct(MemberDetails.class, member.get("seq"), member.get("name"), member.get("authority"),
+                builder.construct(MemberDetailResponse.class, member.get("seq"), member.get("name"), member.get("authority"),
                         member.get("latitude"), member.get("longitude")));
 
         Predicate predicateForName = builder.equal(builder.literal(username), member.get("name"));

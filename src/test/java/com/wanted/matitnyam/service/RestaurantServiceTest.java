@@ -7,9 +7,9 @@ import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.RegionRequest;
-import com.wanted.matitnyam.dto.RestaurantDetailDto;
-import com.wanted.matitnyam.dto.RestaurantDto;
-import com.wanted.matitnyam.dto.ReviewDto;
+import com.wanted.matitnyam.dto.RestaurantDetailResponse;
+import com.wanted.matitnyam.dto.RestaurantResponse;
+import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.repository.ReviewRepository;
@@ -84,9 +84,9 @@ class RestaurantServiceTest {
                 .dosi(dosi)
                 .sgg(sgg)
                 .build();
-        List<RestaurantDto> returnedList = restaurantService.regionNameBasedSearch(regionRequest);
-        for (RestaurantDto restaurantDto : returnedList) {
-            String restaurantDtoAsString = objectWriter.writeValueAsString(restaurantDto);
+        List<RestaurantResponse> returnedList = restaurantService.regionNameBasedSearch(regionRequest);
+        for (RestaurantResponse restaurantResponse : returnedList) {
+            String restaurantDtoAsString = objectWriter.writeValueAsString(restaurantResponse);
             System.out.println(restaurantDtoAsString);
         }
     }
@@ -94,8 +94,8 @@ class RestaurantServiceTest {
     @DisplayName("맛집 상세 정보 조회 테스트")
     @Test
     void searchTest() throws JsonProcessingException {
-        RestaurantDetailDto restaurantDetailDto = restaurantService.getDetailById(1L);
-        String valueAsString = objectWriter.writeValueAsString(restaurantDetailDto);
+        RestaurantDetailResponse restaurantDetailResponse = restaurantService.getDetailById(1L);
+        String valueAsString = objectWriter.writeValueAsString(restaurantDetailResponse);
         System.out.println(valueAsString);
     }
 
@@ -132,9 +132,9 @@ class RestaurantServiceTest {
                 .build();
         reviewRepository.save(review2);
 
-        List<ReviewDto> reviewDtoList = restaurantService.getReviewsById(restaurantId);
-        for (ReviewDto reviewDto : reviewDtoList) {
-            String reviewDtoAsString = objectWriter.writeValueAsString(reviewDto);
+        List<ReviewShortResponse> reviewShortResponseList = restaurantService.getReviewsById(restaurantId);
+        for (ReviewShortResponse reviewShortResponse : reviewShortResponseList) {
+            String reviewDtoAsString = objectWriter.writeValueAsString(reviewShortResponse);
             System.out.println(reviewDtoAsString);
         }
     }

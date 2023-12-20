@@ -1,7 +1,7 @@
 package com.wanted.matitnyam.controller;
 
 import com.wanted.matitnyam.domain.Coordinates;
-import com.wanted.matitnyam.dto.MemberDetails;
+import com.wanted.matitnyam.dto.MemberDetailResponse;
 import com.wanted.matitnyam.dto.MemberRequest;
 import com.wanted.matitnyam.dto.MemberResponse;
 import com.wanted.matitnyam.dto.Principal;
@@ -42,17 +42,17 @@ public class MemberController {
 
     @PutMapping(path = "/update")
     public ResponseEntity<TokenResponse> update(@Valid @ModelAttribute Coordinates coordinates,
-                                                 @Principal PrincipalDto principal) {
+                                                @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(memberService.updateCoordinates(coordinates, principal.name()));
     }
 
-    @GetMapping(path = "/details")
-    public ResponseEntity<MemberDetails> getDetails(@Principal PrincipalDto principal) {
+    @GetMapping(path = "/detail")
+    public ResponseEntity<MemberDetailResponse> getDetail(@Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(memberService.getDetails(principal));
+                .body(memberService.getDetail(principal));
     }
 
 }

@@ -1,6 +1,6 @@
 package com.wanted.matitnyam.domain;
 
-import com.wanted.matitnyam.dto.RestaurantDetailDto;
+import com.wanted.matitnyam.dto.RestaurantDetailResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -100,8 +100,8 @@ public class Restaurant {
         this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
     }
 
-    public RestaurantDetailDto toDetailDtoWithDistance() {
-        return RestaurantDetailDto.builder()
+    public RestaurantDetailResponse toDetailResponse() {
+        return RestaurantDetailResponse.builder()
                 .city(this.city)
                 .name(this.name)
                 .closeOrOpen(this.closeOrOpen)
