@@ -14,9 +14,7 @@ import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
