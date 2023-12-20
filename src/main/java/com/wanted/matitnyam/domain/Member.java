@@ -51,6 +51,8 @@ public class Member {
         return MemberResponse.builder()
                 .name(this.name)
                 .authority(this.authority)
+                .latitude(this.latitude)
+                .longitude(this.longitude)
                 .build();
     }
 
