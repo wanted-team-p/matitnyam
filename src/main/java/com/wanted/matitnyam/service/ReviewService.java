@@ -1,6 +1,5 @@
 package com.wanted.matitnyam.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
@@ -29,9 +28,10 @@ public class ReviewService {
         Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
-        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating();
-        long noOfReviews = foundRestaurant.getNumberOfReviews() + 1;
-        Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, noOfReviews);
+        long totalRatings = foundRestaurant.getTotalRatings() + reviewRequest.rating();
+        long numberOfReviews = foundRestaurant.getNumberOfReviews() + 1;
+        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
+        Restaurant updatedRestaurant = restaurantRepository.save(foundRestaurant);
 
         Review review = Review.builder()
                 .seq(reviewRequest.reviewId())
@@ -50,11 +50,13 @@ public class ReviewService {
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 수정할 권한이 업습니다.");
         }
+        Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
-        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
+        long totalRatings = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
         long numberOfReviews = foundRestaurant.getNumberOfReviews();
-        Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, numberOfReviews);
+        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
+        Restaurant updatedRestaurant = restaurantRepository.save(foundRestaurant);
 
         Review review = Review.builder()
                 .seq(reviewRequest.reviewId())
@@ -72,10 +74,11 @@ public class ReviewService {
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 삭제할 권한이 없습니다.");
         }
-        Restaurant restaurant = findRestaurantById(foundReview.getRestaurant().getSeq());
-        long totalRatings = restaurant.getTotalRatings() - foundReview.getRating();
-        long numberOfReviews = restaurant.getNumberOfReviews() - 1;
-        updateRatingsOfRestaurant(restaurant, totalRatings, numberOfReviews);
+        Restaurant foundRestaurant = findRestaurantById(foundReview.getRestaurant().getSeq());
+        long totalRatings = foundRestaurant.getTotalRatings() - foundReview.getRating();
+        long numberOfReviews = foundRestaurant.getNumberOfReviews() - 1;
+        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
+        restaurantRepository.save(foundRestaurant);
 
         reviewRepository.deleteById(reviewId);
     }
@@ -102,11 +105,6 @@ public class ReviewService {
             throw new ResourceNotFoundException("해당 리뷰를 찾을 수 없습니다.");
         }
         return mayBeFoundReview.get();
-    }
-
-    private Restaurant updateRatingsOfRestaurant(Restaurant restaurant, long totalRatings, long numberOfReviews) {
-        restaurant.updateRatings(totalRatings, numberOfReviews);
-        return restaurantRepository.save(restaurant);
     }
 
 }
