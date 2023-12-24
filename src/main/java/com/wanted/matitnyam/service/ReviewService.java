@@ -1,5 +1,6 @@
 package com.wanted.matitnyam.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
@@ -13,7 +14,6 @@ import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,15 +25,13 @@ public class ReviewService {
 
     private final RestaurantRepository restaurantRepository;
 
-    @Transactional
     public ReviewResponse create(ReviewRequest reviewRequest, String username) {
         Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
-        long totalRatings = foundRestaurant.getTotalRatings() + reviewRequest.rating();
-        long numberOfReviews = foundRestaurant.getNumberOfReviews() + 1;
-        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
-        Restaurant updatedRestaurant = restaurantRepository.save(foundRestaurant);
+        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating();
+        long noOfReviews = foundRestaurant.getNumberOfReviews() + 1;
+        Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, noOfReviews);
 
         Review review = Review.builder()
                 .seq(reviewRequest.reviewId())
@@ -46,19 +44,17 @@ public class ReviewService {
         return savedReview.toResponse();
     }
 
-    @Transactional
-    public ReviewResponse update(ReviewRequest reviewRequest, String username) {
+    public ReviewResponse update(ReviewRequest reviewRequest, String username) throws JsonProcessingException {
+        Member foundMember = findMemberByUsername(username);
         Review foundReview = findReviewById(reviewRequest.reviewId());
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 수정할 권한이 업습니다.");
         }
-        Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
 
-        long totalRatings = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
+        long totalRating = foundRestaurant.getTotalRatings() + reviewRequest.rating() - foundReview.getRating();
         long numberOfReviews = foundRestaurant.getNumberOfReviews();
-        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
-        Restaurant updatedRestaurant = restaurantRepository.save(foundRestaurant);
+        Restaurant updatedRestaurant = updateRatingsOfRestaurant(foundRestaurant, totalRating, numberOfReviews);
 
         Review review = Review.builder()
                 .seq(reviewRequest.reviewId())
@@ -71,17 +67,15 @@ public class ReviewService {
         return savedReview.toResponse();
     }
 
-    @Transactional
     public void delete(Long reviewId, String username) {
         Review foundReview = findReviewById(reviewId);
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 삭제할 권한이 없습니다.");
         }
-        Restaurant foundRestaurant = findRestaurantById(foundReview.getRestaurant().getSeq());
-        long totalRatings = foundRestaurant.getTotalRatings() - foundReview.getRating();
-        long numberOfReviews = foundRestaurant.getNumberOfReviews() - 1;
-        foundRestaurant.updateRatings(totalRatings, numberOfReviews);
-        restaurantRepository.save(foundRestaurant);
+        Restaurant restaurant = findRestaurantById(foundReview.getRestaurant().getSeq());
+        long totalRatings = restaurant.getTotalRatings() - foundReview.getRating();
+        long numberOfReviews = restaurant.getNumberOfReviews() - 1;
+        updateRatingsOfRestaurant(restaurant, totalRatings, numberOfReviews);
 
         reviewRepository.deleteById(reviewId);
     }
@@ -108,6 +102,11 @@ public class ReviewService {
             throw new ResourceNotFoundException("해당 리뷰를 찾을 수 없습니다.");
         }
         return mayBeFoundReview.get();
+    }
+
+    private Restaurant updateRatingsOfRestaurant(Restaurant restaurant, long totalRatings, long numberOfReviews) {
+        restaurant.updateRatings(totalRatings, numberOfReviews);
+        return restaurantRepository.save(restaurant);
     }
 
 }
