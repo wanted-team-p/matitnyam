@@ -58,7 +58,7 @@ public class Restaurant {
     private Long totalRatings = 0L;
 
     @XmlTransient
-    private Double rating;
+    private Double rating = 0.0;
 
     @XmlTransient
     @OneToMany(mappedBy = "restaurant")
@@ -67,7 +67,8 @@ public class Restaurant {
     @Builder
     public Restaurant(final String city, final String name, final String closeOrOpen, final String typeOfFoods,
                       final String addressAsLocationName, final String addressAsRoadName, final Double latitude,
-                      final Double longitude) {
+                      final Double longitude, final Long numberOfReviews, final Long totalRatings,
+                      final Double rating) {
         this.city = city;
         this.name = name;
         this.closeOrOpen = closeOrOpen;
@@ -94,10 +95,10 @@ public class Restaurant {
         this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
     }
 
-    public void updateRatings(long totalRatings, long numberOfReviews) {
+    public void updateRatings(Long totalRatings, Long numberOfReviews) {
         this.totalRatings = totalRatings;
         this.numberOfReviews = numberOfReviews;
-        this.rating = calculateRating(this.numberOfReviews, this.totalRatings);
+        this.rating = calculateRating(totalRatings, numberOfReviews);
     }
 
     public RestaurantDetailResponse toDetailResponse() {
@@ -113,7 +114,7 @@ public class Restaurant {
                 .build();
     }
 
-    private Double calculateRating(Long numberOfReviews, Long totalRatings) {
+    private Double calculateRating(Long totalRatings, Long numberOfReviews) {
         if (numberOfReviews == 0L) {
             return 0.0;
         }
