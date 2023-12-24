@@ -33,8 +33,8 @@ public class ReviewController {
 
     @PutMapping("/{id}")
     ResponseEntity<ReviewResponse> update(@ModelAttribute ReviewRequest reviewRequest,
-                                  @PathVariable(value = "id") Long reviewId, @Principal PrincipalDto principal)
-            throws JsonProcessingException {
+                                          @PathVariable(value = "id") Long reviewId,
+                                          @Principal PrincipalDto principal) {
         ReviewRequest reviewRequestWithReviewId = ReviewRequest.createReviewRequestByReviewIdAndRequest(reviewId,
                 reviewRequest);
         return ResponseEntity
