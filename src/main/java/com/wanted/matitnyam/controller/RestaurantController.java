@@ -37,8 +37,8 @@ public class RestaurantController {
     }
 
     @GetMapping("/my-location-based/search")
-    ResponseEntity<List<RestaurantResponse>> myLocationBasedSearch(@RequestParam(name = "mobility") String mobilityAsString,
-                                                                   @Principal PrincipalDto principal) {
+    ResponseEntity<List<RestaurantResponse>> myLocationBasedSearch(
+            @RequestParam(name = "mobility") String mobilityAsString, @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.myLocationBasedSearch(mobilityAsString, principal));
@@ -46,7 +46,8 @@ public class RestaurantController {
 
     @GetMapping("/region-name-based/search")
     ResponseEntity<List<RestaurantResponse>> regionNameBasedSearch(@ModelAttribute RegionRequest regionRequest,
-                                                                   @Principal PrincipalDto principal) throws IOException {
+                                                                   @Principal PrincipalDto principal)
+            throws IOException {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(restaurantService.regionNameBasedSearch(regionRequest));
