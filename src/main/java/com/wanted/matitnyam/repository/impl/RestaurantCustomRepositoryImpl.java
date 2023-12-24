@@ -26,10 +26,11 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
         CriteriaQuery<Restaurant> query = builder.createQuery(Restaurant.class);
         Root<Restaurant> restaurant = query.from(Restaurant.class);
 
-        Predicate hasSameName = builder.equal(restaurant.get("name"), builder.literal(name));
-        Predicate hasSameAddress = builder.equal(restaurant.get("addressAsRoadName"),
+        Predicate hasGivenName = builder.equal(restaurant.get("name"), builder.literal(name));
+        Predicate hasGivenAddress = builder.equal(restaurant.get("addressAsRoadName"),
                 builder.literal(addressAsRoadName));
-        query.where(builder.and(hasSameName, hasSameAddress));
+        query.select(restaurant);
+        query.where(builder.and(hasGivenName, hasGivenAddress));
 
         return entityManager
                 .createQuery(query)
@@ -52,7 +53,8 @@ public class RestaurantCustomRepositoryImpl implements RestaurantCustomRepositor
         query.where(builder.lessThanOrEqualTo(arcLengthExpression, rangeAsExpression));
         if (restaurantRequest.getSortType().equals(RestaurantSortType.RATE)) {
             query.orderBy(builder.desc(restaurant.get("rating")));
-        } else {
+        }
+        if (restaurantRequest.getSortType().equals(RestaurantSortType.DISTANCE)) {
             query.orderBy(builder.asc(arcLengthExpression));
         }
 

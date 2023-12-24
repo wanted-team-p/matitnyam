@@ -1,6 +1,5 @@
 package com.wanted.matitnyam.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wanted.matitnyam.dto.Principal;
 import com.wanted.matitnyam.dto.PrincipalDto;
 import com.wanted.matitnyam.dto.ReviewRequest;
@@ -25,7 +24,8 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("")
-    ResponseEntity<ReviewResponse> create(@ModelAttribute ReviewRequest reviewRequest, @Principal PrincipalDto principal) {
+    ResponseEntity<ReviewResponse> create(@ModelAttribute ReviewRequest reviewRequest,
+                                          @Principal PrincipalDto principal) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(reviewService.create(reviewRequest, principal.name()));
@@ -33,8 +33,8 @@ public class ReviewController {
 
     @PutMapping("/{id}")
     ResponseEntity<ReviewResponse> update(@ModelAttribute ReviewRequest reviewRequest,
-                                  @PathVariable(value = "id") Long reviewId, @Principal PrincipalDto principal)
-            throws JsonProcessingException {
+                                          @PathVariable(value = "id") Long reviewId,
+                                          @Principal PrincipalDto principal) {
         ReviewRequest reviewRequestWithReviewId = ReviewRequest.createReviewRequestByReviewIdAndRequest(reviewId,
                 reviewRequest);
         return ResponseEntity
