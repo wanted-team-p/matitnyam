@@ -35,9 +35,14 @@ public class RestaurantService {
         if (mayBeFoundRestaurant.isEmpty()) {
             return restaurantRepository.save(restaurant);
         }
+        // TODO: 갱신이 필요 없는 맛집 정보는 repo에서 save 메소드를 호출하지 않도록 수정
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
         Long seq = foundRestaurant.getSeq();
         Restaurant restaurantToBeUploaded = new Restaurant(seq, restaurant);
+
+        Long totalRatingsOfFoundRestaurant = foundRestaurant.getTotalRatings();
+        Long numberOfReviewsOfFoundRestaurant = foundRestaurant.getNumberOfReviews();
+        restaurantToBeUploaded.updateRatings(totalRatingsOfFoundRestaurant, numberOfReviewsOfFoundRestaurant);
 
         return restaurantRepository.save(restaurantToBeUploaded);
     }
