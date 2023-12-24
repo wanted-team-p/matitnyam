@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
-@Transactional
 @Service
 public class RestaurantService {
 
@@ -29,6 +28,7 @@ public class RestaurantService {
 
     private final DosiSggFinder dosiSggFinder;
 
+    @Transactional
     public Restaurant upload(Restaurant restaurant) {
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(
                 restaurant.getName(), restaurant.getAddressAsRoadName());
@@ -53,8 +53,6 @@ public class RestaurantService {
 
     public List<RestaurantResponse> myLocationBasedSearch(String mobilityAsString, PrincipalDto principal) {
         Mobility mobility = Mobility.parseMobility(mobilityAsString);
-        System.out.println(principal.latitude());
-        System.out.println(principal.longitude());
         if (mobility == null) {
             throw new IllegalArgumentException("잘못된 이동수단을 입력했습니다.");
         }

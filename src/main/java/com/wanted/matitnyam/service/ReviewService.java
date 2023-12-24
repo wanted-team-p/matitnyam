@@ -13,6 +13,7 @@ import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -24,6 +25,7 @@ public class ReviewService {
 
     private final RestaurantRepository restaurantRepository;
 
+    @Transactional
     public ReviewResponse create(ReviewRequest reviewRequest, String username) {
         Member foundMember = findMemberByUsername(username);
         Restaurant foundRestaurant = findRestaurantById(reviewRequest.restaurantId());
@@ -44,8 +46,8 @@ public class ReviewService {
         return savedReview.toResponse();
     }
 
-    public ReviewResponse update(ReviewRequest reviewRequest, String username) throws JsonProcessingException {
-        Member foundMember = findMemberByUsername(username);
+    @Transactional
+    public ReviewResponse update(ReviewRequest reviewRequest, String username) {
         Review foundReview = findReviewById(reviewRequest.reviewId());
         if (!foundReview.getMember().getName().equals(username)) {
             throw new UnauthorizedException("해당 리뷰를 수정할 권한이 업습니다.");
@@ -69,6 +71,7 @@ public class ReviewService {
         return savedReview.toResponse();
     }
 
+    @Transactional
     public void delete(Long reviewId, String username) {
         Review foundReview = findReviewById(reviewId);
         if (!foundReview.getMember().getName().equals(username)) {

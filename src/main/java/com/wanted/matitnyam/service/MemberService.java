@@ -12,6 +12,7 @@ import com.wanted.matitnyam.repository.MemberRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -21,6 +22,7 @@ public class MemberService {
 
     private final AuthTokenService authTokenService;
 
+    @Transactional
     public MemberResponse set(MemberRequest memberRequest) {
         // TODO: memberRequest의 비밀번호 유효성 검증 로직
         checkDuplicatedName(memberRequest.name());
@@ -43,6 +45,7 @@ public class MemberService {
                 .build();
     }
 
+    @Transactional
     public TokenResponse updateCoordinates(Coordinates coordinates, String username) {
         Optional<Member> mayBeFoundMember  = memberRepository.findByUsername(username);
         if (mayBeFoundMember.isEmpty()) {
