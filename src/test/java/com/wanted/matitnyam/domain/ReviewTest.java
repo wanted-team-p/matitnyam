@@ -21,6 +21,8 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 @DataJpaTest
 class ReviewTest {
 
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     @Autowired
     private ReviewRepository reviewRepository;
 
@@ -29,8 +31,6 @@ class ReviewTest {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
-
-    ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @DisplayName("ReviewDto 변환 메소드 테스트")
     @Test

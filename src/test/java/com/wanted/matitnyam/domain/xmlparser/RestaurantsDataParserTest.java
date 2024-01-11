@@ -16,8 +16,7 @@ class RestaurantsDataParserTest {
     private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Autowired
-    RestaurantsDataParser restaurantsDataParser;
-
+    private RestaurantsDataParser restaurantsDataParser;
 
     @DisplayName("중식 음식점 파싱 테스트")
     @Test
