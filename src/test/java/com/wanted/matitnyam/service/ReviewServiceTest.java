@@ -7,7 +7,6 @@ import com.wanted.matitnyam.domain.Restaurant;
 import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.ReviewRequest;
 import com.wanted.matitnyam.dto.ReviewResponse;
-import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
 import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
@@ -33,9 +32,6 @@ class ReviewServiceTest {
 
     @Autowired
     private ReviewRepository reviewRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
 
     @Autowired
     private ReviewService reviewService;

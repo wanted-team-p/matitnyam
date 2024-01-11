@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
-import com.wanted.matitnyam.repository.ReviewRepository;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,9 +21,6 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 class ReviewTest {
 
     private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
-
-    @Autowired
-    private ReviewRepository reviewRepository;
 
     @Autowired
     private MemberRepository memberRepository;
