@@ -13,11 +13,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
+@Sql(value = "classpath:test/reset.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(value = "classpath:test/init.sql")
 @DataJpaTest
 class ReviewTest {
 
@@ -34,7 +34,6 @@ class ReviewTest {
 
     @DisplayName("ReviewDto 변환 메소드 테스트")
     @Test
-    @Sql(value = "classpath:test/h2.sql")
     void toDtoTest() throws JsonProcessingException {
         Optional<Member> mayBeFoundMember = memberRepository.findById(1L);
         assert mayBeFoundMember.isPresent();

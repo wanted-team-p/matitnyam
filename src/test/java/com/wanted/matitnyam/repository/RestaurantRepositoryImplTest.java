@@ -5,24 +5,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.domain.Coordinates;
 import com.wanted.matitnyam.domain.Restaurant;
-import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.RestaurantRequest;
+import com.wanted.matitnyam.dto.RestaurantResponse;
 import java.util.List;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 
-@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
-@Transactional
-@Sql(value = "classpath:test/h2.sql")
-@SpringBootTest
+@Sql(value = "classpath:test/reset.sql", executionPhase = ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(value = "classpath:test/init.sql")
+@DataJpaTest
 class RestaurantRepositoryImplTest {
 
     private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
