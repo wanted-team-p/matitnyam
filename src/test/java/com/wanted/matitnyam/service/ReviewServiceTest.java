@@ -62,6 +62,7 @@ class ReviewServiceTest {
         Optional<Restaurant> mayBeUpdatedRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeUpdatedRestaurant.isPresent();
         Restaurant updatedRestaurant = mayBeUpdatedRestaurant.get();
+
         String updatedRestaurantAsString = objectWriter.writeValueAsString(updatedRestaurant);
         System.out.println("리뷰 생성 후 갱신된 맛집 조회 결과:");
         System.out.println(updatedRestaurantAsString);
@@ -100,6 +101,7 @@ class ReviewServiceTest {
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurant.isPresent();
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
+
         String foundRestaurantAsString = objectWriter.writeValueAsString(foundRestaurant);
         System.out.println("\n리뷰 작성 후 갱신된 맛집 조회 결과:");
         System.out.println(foundRestaurantAsString);

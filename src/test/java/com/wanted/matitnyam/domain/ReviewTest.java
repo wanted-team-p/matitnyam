@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.wanted.matitnyam.dto.ReviewShortResponse;
 import com.wanted.matitnyam.repository.MemberRepository;
-import com.wanted.matitnyam.repository.RestaurantRepository;
 import java.util.Optional;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,19 +24,12 @@ class ReviewTest {
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private RestaurantRepository restaurantRepository;
-
     @DisplayName("ReviewDto 변환 메소드 테스트")
     @Test
     void toDtoTest() throws JsonProcessingException {
         Optional<Member> mayBeFoundMember = memberRepository.findById(1L);
         assert mayBeFoundMember.isPresent();
         Member foundMember = mayBeFoundMember.get();
-
-        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(1L);
-        assert mayBeFoundRestaurant.isPresent();
-        Restaurant foundRestaurant = mayBeFoundRestaurant.get();
 
         int rating = 5;
         String opinion = "Dto의 문자열 길이는 30으로 제한됩니다. 길이가 30이 넘는 문자열의 경우 문자열 길이 30까지 부분 "
@@ -46,7 +38,7 @@ class ReviewTest {
         //                                                               ^ 30번째 문자
         Review review = Review.builder()
                 .member(foundMember)
-                .restaurant(foundRestaurant)
+                .restaurant(null)
                 .rating(rating)
                 .opinion(opinion)
                 .build();

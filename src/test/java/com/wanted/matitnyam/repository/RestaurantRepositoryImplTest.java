@@ -32,8 +32,8 @@ class RestaurantRepositoryImplTest {
     void findByNameAndAddressAsRoadNameTest() throws JsonProcessingException {
         String name = "삼국지";
         String addressAsRoadName = "경기도 용인시 기흥구 한보라2로14번길 3-7 (보라동)";
-        Double latitude = 37.2539499121;
-        Double longitude = 127.1119282508;
+        double latitude = 37.2539499121;
+        double longitude = 127.1119282508;
 
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findByNameAndAddressAsRoadName(name,
                 addressAsRoadName);

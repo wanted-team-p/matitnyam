@@ -3,16 +3,12 @@ package com.wanted.matitnyam.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import com.wanted.matitnyam.domain.Member;
 import com.wanted.matitnyam.domain.Restaurant;
-import com.wanted.matitnyam.domain.Review;
 import com.wanted.matitnyam.dto.RegionRequest;
 import com.wanted.matitnyam.dto.RestaurantDetailResponse;
 import com.wanted.matitnyam.dto.RestaurantResponse;
 import com.wanted.matitnyam.dto.ReviewShortResponse;
-import com.wanted.matitnyam.repository.MemberRepository;
 import com.wanted.matitnyam.repository.RestaurantRepository;
-import com.wanted.matitnyam.repository.ReviewRepository;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -37,18 +33,12 @@ class RestaurantServiceTest {
     private RestaurantService restaurantService;
 
     @Autowired
-    private ReviewRepository reviewRepository;
-
-    @Autowired
-    private MemberRepository memberRepository;
-
-    @Autowired
     private RestaurantRepository restaurantRepository;
 
     @DisplayName("맛집 정보 업로드 테스트")
     @Test
     void uploadTest() throws JsonProcessingException {
-        Long restaurantId = 1L;
+        long restaurantId = 1L;
         Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(restaurantId);
         assert mayBeFoundRestaurant.isPresent();
         Restaurant foundRestaurant = mayBeFoundRestaurant.get();
@@ -98,39 +88,10 @@ class RestaurantServiceTest {
         System.out.println(valueAsString);
     }
 
-    @DisplayName("리뷰 작성 후 맛집 ID를 통해 작성한 리뷰를 조회하는 기능 테스트")
+    @DisplayName("리뷰 작성 후 맛집 ID를 통한 리뷰 조회 기능 테스트")
     @Test
     void getReviewsRestaurantByIdTest() throws JsonProcessingException {
-        long memberId = 1L;
-        Optional<Member> mayBeFoundMember = memberRepository.findById(memberId);
-        assert mayBeFoundMember.isPresent();
-        Member foundMember = mayBeFoundMember.get();
-
         long restaurantId = 1L;
-        Optional<Restaurant> mayBeFoundRestaurant = restaurantRepository.findById(restaurantId);
-        assert mayBeFoundRestaurant.isPresent();
-        Restaurant foundRestaurant = mayBeFoundRestaurant.get();
-
-        int rating1 = 4;
-        String opinion1 = "첫 번째 방문 후 남깁니다. 별점은 4점.";
-        Review review1 = Review.builder()
-                .member(foundMember)
-                .restaurant(foundRestaurant)
-                .rating(rating1)
-                .opinion(opinion1)
-                .build();
-        reviewRepository.save(review1);
-
-        int rating2 = 5;
-        String opinion2 = "두 번째 방문 후 남깁니다. 별점은 5점.";
-        Review review2 = Review.builder()
-                .member(foundMember)
-                .restaurant(foundRestaurant)
-                .rating(rating2)
-                .opinion(opinion2)
-                .build();
-        reviewRepository.save(review2);
-
         List<ReviewShortResponse> reviewShortResponseList = restaurantService.getReviewsById(restaurantId);
         for (ReviewShortResponse reviewShortResponse : reviewShortResponseList) {
             String reviewDtoAsString = objectWriter.writeValueAsString(reviewShortResponse);
