@@ -31,8 +31,8 @@ class RestaurantsDataTest {
         System.out.println();
 
         restaurantsData = restaurantsData.preprocess();
-        String processedDataInJson = objectWriter.writeValueAsString(restaurantsData);
-        System.out.println(processedDataInJson);
+        String processedDataAsString = objectWriter.writeValueAsString(restaurantsData);
+        System.out.println(processedDataAsString);
 
         Assertions
                 .assertThat(restaurantsData.getRestaurants().size())

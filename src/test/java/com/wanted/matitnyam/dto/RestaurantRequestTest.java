@@ -30,8 +30,8 @@ class RestaurantRequestTest {
                 .assertThat(restaurantRequest.getSortType())
                 .isEqualTo(RestaurantSortType.DISTANCE);
 
-        String restaurantRequestInJson = objectWriter.writeValueAsString(restaurantRequest);
-        System.out.println(restaurantRequestInJson);
+        String restaurantRequestAsString = objectWriter.writeValueAsString(restaurantRequest);
+        System.out.println(restaurantRequestAsString);
     }
 
     @DisplayName("맛집 리스트 조회 시 정렬 기준이 '평점순'인 경우 맛집 리스트 조회 요청 테스트: 정렬 기준은 평점순으로 설정된다.")
@@ -48,8 +48,8 @@ class RestaurantRequestTest {
                 .assertThat(restaurantRequest.getSortType())
                 .isEqualTo(RestaurantSortType.RATE);
 
-        String restaurantRequestInJson = objectWriter.writeValueAsString(restaurantRequest);
-        System.out.println(restaurantRequestInJson);
+        String restaurantRequestAsString = objectWriter.writeValueAsString(restaurantRequest);
+        System.out.println(restaurantRequestAsString);
     }
 
 }

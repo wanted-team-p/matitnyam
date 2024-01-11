@@ -23,8 +23,8 @@ class SggDataParserTest {
     void parseTest() throws IOException {
         List<Region> regionList = sggDataParser.parse();
         for (Region region : regionList) {
-            String regionAsJsonString = objectWriter.writeValueAsString(region);
-            System.out.println(regionAsJsonString);;
+            String regionAsString = objectWriter.writeValueAsString(region);
+            System.out.println(regionAsString);;
         }
     }
 
