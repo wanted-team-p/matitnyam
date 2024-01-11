@@ -24,7 +24,7 @@ class SggDataParserTest {
         List<Region> regionList = sggDataParser.parse();
         for (Region region : regionList) {
             String regionAsString = objectWriter.writeValueAsString(region);
-            System.out.println(regionAsString);;
+            System.out.println(regionAsString);
         }
     }
 
