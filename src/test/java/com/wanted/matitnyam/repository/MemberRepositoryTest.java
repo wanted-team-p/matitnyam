@@ -16,12 +16,12 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 @DataJpaTest
 class MemberRepositoryTest {
 
+    private static final String username = "kim-jeonghyun";
+
+    private static final String password = "1234";
+
     @Autowired
-    MemberRepository memberRepository;
-
-    private final String username = "kim-jeonghyun";
-
-    private final String password = "1234";
+    private MemberRepository memberRepository;
 
     @DisplayName("동일한 유저 이름이 있는 경우에 대한 테스트")
     @Test

@@ -13,9 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class SggDataParserTest {
 
-    private static final ObjectWriter objectWriter = new ObjectMapper()
-            .writer()
-            .withDefaultPrettyPrinter();
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Autowired
     private SggDataParser sggDataParser;

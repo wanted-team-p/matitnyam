@@ -22,7 +22,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 @DataJpaTest
 class RestaurantRepositoryImplTest {
 
-    private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Autowired
     private RestaurantRepository restaurantRepository;

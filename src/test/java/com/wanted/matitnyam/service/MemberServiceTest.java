@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 class MemberServiceTest {
 
     @Autowired
-    MemberService memberService;
+    private MemberService memberService;
 
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     @DisplayName("set 중복 요청 테스트")
     @Test

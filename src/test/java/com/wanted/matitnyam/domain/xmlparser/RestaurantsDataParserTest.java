@@ -13,10 +13,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class RestaurantsDataParserTest {
 
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     @Autowired
     RestaurantsDataParser restaurantsDataParser;
 
-    private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @DisplayName("중식 음식점 파싱 테스트")
     @Test

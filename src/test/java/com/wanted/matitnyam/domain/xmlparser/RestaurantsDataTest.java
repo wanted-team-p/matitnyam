@@ -14,10 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class RestaurantsDataTest {
 
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+
     @Autowired
     RestaurantsDataParser restaurantsDataParser;
-
-    private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @DisplayName("xml 전처리 테스트: 시 정보가 없는 음식점은 제외된다.")
     @Test

@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest
 class ReviewServiceTest {
 
-    private final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private static final ObjectWriter objectWriter = new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     @Autowired
     private RestaurantRepository restaurantRepository;
